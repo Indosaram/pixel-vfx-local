@@ -1,0 +1,274 @@
+{
+	"source": {
+		"asset": "Kenney Particle Pack",
+		"url": "https://kenney.nl/assets/particle-pack",
+		"license": "CC0-1.0",
+		"unitypackage": "Unity samples/particlePack_samples.unitypackage",
+		"prefab": "Assets/Kenney/Particle samples/Prefabs/Hearts.prefab",
+		"unitySerializedVersion": "5.6.5p2",
+		"extractedBy": "scripts/extract-unity-prefab.py",
+		"download": "https://kenney.nl/media/pages/assets/particle-pack/f8fe0f8cb8-1677578741/kenney_particle-pack.zip",
+		"kind": "source-prefab",
+		"spriteFile": "symbol_01.png",
+		"spritePackPath": "Assets/Kenney/Particle samples/Sprites/symbol_01.png",
+		"spriteSha256": "de4be94086f56d84bbaf0748af88ffb28437a7658aeab093f7d0171e0011bc4f",
+		"conversionRecord": "examples/prefabs/Hearts.json",
+		"renderConfig": "examples/hearts.json",
+		"renderer": "scripts/render-unity-asset.mjs (converted renderer; approximate, not Unity)",
+		"notes": "Sample prefab Hearts rendered with its own material texture (Heart.mat mainTexture symbol_01.png)."
+	},
+	"gameObject": "Hearts",
+	"transform": {
+		"position": {
+			"x": 0.0,
+			"y": 0.0,
+			"z": 0.0
+		},
+		"rotation": {
+			"x": -0.7071068286895752,
+			"y": 0.0,
+			"z": 0.0,
+			"w": 0.7071068286895752
+		},
+		"eulerAngles": {
+			"x": -90.0,
+			"y": 0.0,
+			"z": 0.0
+		},
+		"scale": {
+			"x": 1.0,
+			"y": 1.0,
+			"z": 1.0
+		}
+	},
+	"system": {
+		"lengthInSec": 5.0,
+		"simulationSpeed": 1.0,
+		"looping": true,
+		"prewarm": false,
+		"playOnAwake": true,
+		"randomSeed": -2015761106,
+		"autoRandomSeed": true,
+		"moveWithTransform": 0,
+		"scalingMode": 1,
+		"startDelay": {
+			"state": 0,
+			"min": 0.0,
+			"max": 0.0
+		}
+	},
+	"initial": {
+		"startLifetime": {
+			"state": 0,
+			"min": 5.0,
+			"max": 1.0
+		},
+		"startSpeed": {
+			"state": 3,
+			"min": 1.0,
+			"max": 5.0
+		},
+		"startSize": {
+			"state": 3,
+			"min": 0.10000000149011612,
+			"max": 1.2000000476837158
+		},
+		"startRotation": {
+			"state": 3,
+			"min": -0.13962633907794952,
+			"max": 0.13962633907794952
+		},
+		"startColor": {
+			"state": 2,
+			"min": {
+				"r": 1.0,
+				"g": 0.682758629322052,
+				"b": 0.0,
+				"a": 1.0
+			},
+			"max": {
+				"r": 1.0,
+				"g": 0.06617647409439087,
+				"b": 0.7037522792816162,
+				"a": 1.0
+			}
+		},
+		"gravityModifier": {
+			"state": 0,
+			"min": 0.0,
+			"max": 0.0
+		},
+		"maxNumParticles": 1000,
+		"rotation3D": false,
+		"size3D": false
+	},
+	"shape": {
+		"type": 4,
+		"typeMeaning": "Cone",
+		"radius": 0.25,
+		"angle": 10.0,
+		"arc": 360.0,
+		"length": 5.0,
+		"alignToDirection": false,
+		"randomDirectionAmount": 0.0,
+		"sphericalDirectionAmount": 0.0,
+		"placementMode": 0
+	},
+	"emission": {
+		"enabled": true,
+		"rateOverTime": {
+			"state": 0,
+			"min": 10.0,
+			"max": 10.0
+		},
+		"rateOverDistance": {
+			"state": 0,
+			"min": 0.0,
+			"max": 0.0
+		},
+		"bursts": [],
+		"burstCount": 0
+	},
+	"colorOverLifetime": {
+		"enabled": true,
+		"colorKeys": [
+			{
+				"t": 0.0,
+				"rgb": [
+					1.0,
+					1.0,
+					1.0
+				]
+			},
+			{
+				"t": 1.0,
+				"rgb": [
+					1.0,
+					1.0,
+					1.0
+				]
+			}
+		],
+		"alphaKeys": [
+			{
+				"t": 0.5000076295109483,
+				"a": 1.0
+			},
+			{
+				"t": 1.0,
+				"a": 0.0
+			}
+		],
+		"mode": 0
+	},
+	"sizeOverLifetime": {
+		"enabled": false,
+		"curve": [
+			{
+				"t": 0.0,
+				"v": 0.0,
+				"inSlope": 0.0,
+				"outSlope": 1.0
+			},
+			{
+				"t": 1.0,
+				"v": 1.0,
+				"inSlope": 1.0,
+				"outSlope": 0.0
+			}
+		],
+		"state": 1
+	},
+	"rotationOverLifetime": {
+		"enabled": false,
+		"angularVelocityX": {
+			"state": 0,
+			"min": 0.0,
+			"max": 0.0
+		},
+		"angularVelocityY": {
+			"state": 0,
+			"min": 0.0,
+			"max": 0.0
+		}
+	},
+	"noise": {
+		"enabled": true,
+		"strength": 0.5,
+		"frequency": 0.5,
+		"octaves": 1,
+		"octaveScale": 2.0,
+		"octaveMultiplier": 0.5,
+		"damping": true,
+		"scrollSpeed": 0.20000000298023224,
+		"quality": 2,
+		"separateAxes": false
+	},
+	"disabledModules": [
+		"ClampVelocityModule",
+		"CollisionModule",
+		"ColorBySpeedModule",
+		"CustomDataModule",
+		"ExternalForcesModule",
+		"ForceModule",
+		"InheritVelocityModule",
+		"LightsModule",
+		"RotationBySpeedModule",
+		"RotationModule",
+		"SizeBySpeedModule",
+		"SizeModule",
+		"SubModule",
+		"TrailModule",
+		"TriggerModule",
+		"UVModule",
+		"VelocityModule"
+	],
+	"renderer": {
+		"renderMode": 0,
+		"sortMode": 0,
+		"minParticleSize": 0.0,
+		"maxParticleSize": 0.5,
+		"pivot": {
+			"x": 0.0,
+			"y": 0.0,
+			"z": 0.0
+		}
+	},
+	"materials": [
+		{
+			"fileID": 1,
+			"guid": "568cf9212ba41ca4781ab0e8ff5670cf",
+			"path": "Assets/Kenney/Particle samples/Materials/Heart.mat",
+			"materialName": "Heart",
+			"shaderBuiltinFileID": 1,
+			"shaderBuiltinPathID": 200,
+			"mainTexture": {
+				"guid": "eb5244a01ed163b44a4759737aeeef3b",
+				"path": "Assets/Kenney/Particle samples/Sprites/symbol_01.png"
+			},
+			"blend": {
+				"srcBlend": 1.0,
+				"dstBlend": 0.0,
+				"zWrite": 1.0,
+				"mode": 0.0
+			},
+			"tint": {
+				"r": 0.5,
+				"g": 0.5,
+				"b": 0.5,
+				"a": 0.5
+			}
+		}
+	],
+	"texture": {
+		"path": "examples/src-sprites/symbol_01.png",
+		"packPath": "Assets/Kenney/Particle samples/Sprites/symbol_01.png",
+		"sha256": "de4be94086f56d84bbaf0748af88ffb28437a7658aeab093f7d0171e0011bc4f",
+		"sha256Rgba": "2caef376520e91b6bf37d863d4e8376af586ca56817e9d773ea771354c7d2052",
+		"convertedPath": "examples/textures/hearts.png",
+		"size": [
+			512,
+			512
+		]
+	}
+}

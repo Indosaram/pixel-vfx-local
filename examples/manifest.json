@@ -1,0 +1,227 @@
+{
+	"schema": 1,
+	"description": "Ten example assets for the pixel-vfx sprite pipeline. Every entry names ONE distinct Kenney Particle Pack source asset (CC0-1.0) plus the converted motion system it is rendered with. kind=source-prefab: the sample prefab's own material texture. kind=source-texture-variant: a different distinct pack sprite rendered with a converted sample-prefab motion (labelled as a texture variant everywhere it is presented). Seeds are always the motion prefab's own baked randomSeed - never re-rolled.",
+	"pack": {
+		"name": "Kenney Particle Pack",
+		"version": "1.1",
+		"author": "Kenney Vleugels (Kenney.nl)",
+		"url": "https://kenney.nl/assets/particle-pack",
+		"download": "https://kenney.nl/media/pages/assets/particle-pack/f8fe0f8cb8-1677578741/kenney_particle-pack.zip",
+		"license": "CC0-1.0",
+		"licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/",
+		"licenseFile": "examples/LICENSE-Kenney-Particle-Pack.txt",
+		"zipSha256": "b631d4b07f7002549fdcf155f01141ad482f79f3440e4e301eed49ce5f1d8958"
+	},
+	"defaults": {
+		"width": 128,
+		"height": 128,
+		"frames": 25,
+		"fps": 12,
+		"palette": 16,
+		"dither": "bayer4",
+		"alphaThreshold": 0.28
+	},
+	"examples": [
+		{
+			"id": "fire",
+			"title": "Fire",
+			"kind": "source-prefab",
+			"motion": "Fire",
+			"sprite": "smoke_07.png",
+			"spritePackPath": "Assets/Kenney/Particle samples/Sprites/smoke_07.png",
+			"spriteSha256": "86016557bd1de779f1b31871fbcdb82630b913956ad8ac10fbe053a9a5ca5872",
+			"view": {
+				"scale": 10,
+				"originX": 64,
+				"originY": 120
+			},
+			"borderTouch": [
+				"bottom"
+			],
+			"notes": "Sample prefab Fire rendered with its own material texture (Fire.mat mainTexture smoke_07.png). Bottom edge contact is intentional emitter-base framing (origin at cell base), not cropping."
+		},
+		{
+			"id": "smoke",
+			"title": "Smoke",
+			"kind": "source-prefab",
+			"motion": "Smoke",
+			"sprite": "smoke_01.png",
+			"spritePackPath": "Assets/Kenney/Particle samples/Sprites/smoke_01.png",
+			"spriteSha256": "288b7a29b659030fe7da333159c641e2325e41e704c05b8c6db1531b59c09897",
+			"view": {
+				"scale": 10,
+				"originX": 64,
+				"originY": 120
+			},
+			"borderTouch": [
+				"bottom"
+			],
+			"notes": "Sample prefab Smoke rendered with its own material texture (Smoke.mat mainTexture smoke_01.png). Bottom edge contact is intentional emitter-base framing (origin at cell base), not cropping."
+		},
+		{
+			"id": "sparks",
+			"title": "Sparks",
+			"kind": "source-prefab",
+			"motion": "Sparks",
+			"sprite": "trace_02_rotated.png",
+			"spritePackPath": "Assets/Kenney/Particle samples/Sprites/Rotated/trace_02_rotated.png",
+			"spriteSha256": "cc567959227740493c7684eb86157bf71ecdbfe3079662ef4ee35a4d43242ffe",
+			"view": {
+				"scale": 20,
+				"originX": 64,
+				"originY": 64
+			},
+			"borderTouch": [],
+			"notes": "Sample prefab Sparks rendered with its own material texture (Trace.mat mainTexture trace_02_rotated.png)."
+		},
+		{
+			"id": "magic",
+			"title": "Magic",
+			"kind": "source-prefab",
+			"motion": "Magic",
+			"sprite": "star_06.png",
+			"spritePackPath": "Assets/Kenney/Particle samples/Sprites/star_06.png",
+			"spriteSha256": "4b55a5f4e03ab541b3d6b81a1b0f41c1e30f700144e1fcf204e4bec31fa1ae73",
+			"view": {
+				"scale": 16,
+				"originX": 100,
+				"originY": 96,
+				"startSize": {
+					"state": 3,
+					"min": 0.4,
+					"max": 1.6
+				}
+			},
+			"borderTouch": [],
+			"notes": "Sample prefab Magic rendered with its own material texture (Star.mat mainTexture star_06.png). Presentation: 192x192 cell, scale 16, origin (100,96), alphaThreshold 0.12, and view.startSize {state:3,min:0.4,max:1.6} scaled up for gallery legibility; source startSize {state:3,min:0.1,max:0.5} unchanged in examples/magic.json.",
+			"render": {
+				"width": 192,
+				"height": 192,
+				"alphaThreshold": 0.12
+			}
+		},
+		{
+			"id": "hearts",
+			"title": "Hearts",
+			"kind": "source-prefab",
+			"motion": "Hearts",
+			"sprite": "symbol_01.png",
+			"spritePackPath": "Assets/Kenney/Particle samples/Sprites/symbol_01.png",
+			"spriteSha256": "de4be94086f56d84bbaf0748af88ffb28437a7658aeab093f7d0171e0011bc4f",
+			"view": {
+				"scale": 18,
+				"originX": 64,
+				"originY": 112,
+				"startSize": {
+					"state": 3,
+					"min": 0.3,
+					"max": 2.5
+				}
+			},
+			"borderTouch": [],
+			"notes": "Sample prefab Hearts rendered with its own material texture (Heart.mat mainTexture symbol_01.png). Presentation: scale 18, origin (64,112), and view.startSize {state:3,min:0.3,max:2.5} scaled up for gallery legibility; source startSize {state:3,min:0.1,max:1.2} unchanged in examples/hearts.json."
+		},
+		{
+			"id": "electricity",
+			"title": "Electricity",
+			"kind": "source-prefab",
+			"motion": "Electricity",
+			"sprite": "spark_05_rotated.png",
+			"spritePackPath": "Assets/Kenney/Particle samples/Sprites/Rotated/spark_05_rotated.png",
+			"spriteSha256": "73f74c8dc39e06dbe927dbb8e0ed16fa5b7a64f161f60f99148845d2d9363f69",
+			"view": {
+				"scale": 15,
+				"originX": 64,
+				"originY": 64,
+				"startSize": {
+					"state": 0,
+					"min": 1,
+					"max": 1
+				}
+			},
+			"borderTouch": [],
+			"notes": "Sample prefab Electricity rendered with its own material texture (Spark.mat mainTexture spark_05_rotated.png). Presentation override: source constant startSize serializes scalar=0.0 (renders no particles as-is); gallery renders view.startSize=1.0 taken from the serialized minScalar. Source records unchanged."
+		},
+		{
+			"id": "flame_jet",
+			"title": "Flame Jet",
+			"kind": "source-texture-variant",
+			"motion": "Fire",
+			"sprite": "flame_03.png",
+			"spritePackPath": "Assets/Kenney/Particle samples/Sprites/flame_03.png",
+			"spriteSha256": "01a8e9255612068c230f302d9f7f3f70eda50d8f7392da5610e85ddaa0bd3bcc",
+			"view": {
+				"scale": 10,
+				"originX": 64,
+				"originY": 120
+			},
+			"borderTouch": [
+				"bottom"
+			],
+			"notes": "Texture variant: distinct pack sprite flame_03.png rendered with the converted Fire.prefab motion. Bottom edge contact is intentional emitter-base framing (origin at cell base), not cropping."
+		},
+		{
+			"id": "star_burst",
+			"title": "Star Burst",
+			"kind": "source-texture-variant",
+			"motion": "Sparks",
+			"sprite": "star_01.png",
+			"spritePackPath": "Assets/Kenney/Particle samples/Sprites/star_01.png",
+			"spriteSha256": "04c8a84d8c30a990752c34f79431785d157ee76911bd54fb16b7ed2e639def09",
+			"view": {
+				"scale": 20,
+				"originX": 64,
+				"originY": 64
+			},
+			"borderTouch": [],
+			"notes": "Texture variant: distinct pack sprite star_01.png rendered with the converted Sparks.prefab motion."
+		},
+		{
+			"id": "magic_swirl",
+			"title": "Magic Swirl",
+			"kind": "source-texture-variant",
+			"motion": "Magic",
+			"sprite": "twirl_01.png",
+			"spritePackPath": "Assets/Kenney/Particle samples/Sprites/twirl_01.png",
+			"spriteSha256": "18137131f93a9f97dbe9ba6f405a6c89236759875635c97be8c4859617a6a5f7",
+			"view": {
+				"scale": 16,
+				"originX": 100,
+				"originY": 96,
+				"startSize": {
+					"state": 3,
+					"min": 0.4,
+					"max": 1.6
+				}
+			},
+			"borderTouch": [],
+			"notes": "Texture variant: distinct pack sprite twirl_01.png rendered with the converted Magic.prefab motion. Presentation: 192x192 cell, scale 16, origin (100,96), alphaThreshold 0.12, and view.startSize {state:3,min:0.4,max:1.6} scaled up for gallery legibility; source startSize {state:3,min:0.1,max:0.5} unchanged in examples/magic.json.",
+			"render": {
+				"width": 192,
+				"height": 192,
+				"alphaThreshold": 0.12
+			}
+		},
+		{
+			"id": "glow_orb",
+			"title": "Glow Orb",
+			"kind": "source-texture-variant",
+			"motion": "Electricity",
+			"sprite": "light_01.png",
+			"spritePackPath": "Assets/Kenney/Particle samples/Sprites/light_01.png",
+			"spriteSha256": "c9e0e947892b87cb71e110e60d85798810142b11aed154542c50b17dc93033b0",
+			"view": {
+				"scale": 15,
+				"originX": 64,
+				"originY": 64,
+				"startSize": {
+					"state": 0,
+					"min": 1,
+					"max": 1
+				}
+			},
+			"borderTouch": [],
+			"notes": "Texture variant: distinct pack sprite light_01.png rendered with the converted Electricity.prefab motion. Presentation override: source constant startSize serializes scalar=0.0 (renders no particles as-is); gallery renders view.startSize=1.0 taken from the serialized minScalar. Source records unchanged."
+		}
+	]
+}

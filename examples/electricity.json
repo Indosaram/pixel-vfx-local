@@ -1,0 +1,301 @@
+{
+	"source": {
+		"asset": "Kenney Particle Pack",
+		"url": "https://kenney.nl/assets/particle-pack",
+		"license": "CC0-1.0",
+		"unitypackage": "Unity samples/particlePack_samples.unitypackage",
+		"prefab": "Assets/Kenney/Particle samples/Prefabs/Electricity.prefab",
+		"unitySerializedVersion": "5.6.5p2",
+		"extractedBy": "scripts/extract-unity-prefab.py",
+		"download": "https://kenney.nl/media/pages/assets/particle-pack/f8fe0f8cb8-1677578741/kenney_particle-pack.zip",
+		"kind": "source-prefab",
+		"spriteFile": "spark_05_rotated.png",
+		"spritePackPath": "Assets/Kenney/Particle samples/Sprites/Rotated/spark_05_rotated.png",
+		"spriteSha256": "73f74c8dc39e06dbe927dbb8e0ed16fa5b7a64f161f60f99148845d2d9363f69",
+		"conversionRecord": "examples/prefabs/Electricity.json",
+		"renderConfig": "examples/electricity.json",
+		"renderer": "scripts/render-unity-asset.mjs (converted renderer; approximate, not Unity)",
+		"notes": "Sample prefab Electricity rendered with its own material texture (Spark.mat mainTexture spark_05_rotated.png)."
+	},
+	"gameObject": "Electricity",
+	"transform": {
+		"position": {
+			"x": -6.0,
+			"y": 0.0,
+			"z": 0.0
+		},
+		"rotation": {
+			"x": 0.0,
+			"y": 0.0,
+			"z": 0.0,
+			"w": 1.0
+		},
+		"eulerAngles": {
+			"x": 0.0,
+			"y": 0.0,
+			"z": 0.0
+		},
+		"scale": {
+			"x": 1.0,
+			"y": 1.0,
+			"z": 1.0
+		}
+	},
+	"system": {
+		"lengthInSec": 5.0,
+		"simulationSpeed": 3.0,
+		"looping": true,
+		"prewarm": false,
+		"playOnAwake": true,
+		"randomSeed": -1805434820,
+		"autoRandomSeed": true,
+		"moveWithTransform": 0,
+		"scalingMode": 1,
+		"startDelay": {
+			"state": 0,
+			"min": 0.0,
+			"max": 0.0
+		}
+	},
+	"initial": {
+		"startLifetime": {
+			"state": 0,
+			"min": 5.0,
+			"max": 1.0
+		},
+		"startSpeed": {
+			"state": 3,
+			"min": 0.10000000149011612,
+			"max": 3.0
+		},
+		"startSize": {
+			"state": 0,
+			"min": 1.0,
+			"max": 0.0
+		},
+		"startRotation": {
+			"state": 0,
+			"min": 0.0,
+			"max": 0.0
+		},
+		"startColor": {
+			"state": 2,
+			"min": {
+				"r": 0.18382352590560913,
+				"g": 0.729817271232605,
+				"b": 1.0,
+				"a": 1.0
+			},
+			"max": {
+				"r": 0.0,
+				"g": 1.0,
+				"b": 0.6275861263275146,
+				"a": 1.0
+			}
+		},
+		"gravityModifier": {
+			"state": 0,
+			"min": 0.0,
+			"max": 0.0
+		},
+		"maxNumParticles": 1000,
+		"rotation3D": false,
+		"size3D": false
+	},
+	"shape": {
+		"type": 0,
+		"typeMeaning": "Sphere",
+		"radius": 0.10000000149011612,
+		"angle": 25.0,
+		"arc": 360.0,
+		"length": 5.0,
+		"alignToDirection": false,
+		"randomDirectionAmount": 0.0,
+		"sphericalDirectionAmount": 0.0,
+		"placementMode": 0
+	},
+	"emission": {
+		"enabled": true,
+		"rateOverTime": {
+			"state": 0,
+			"min": 10.0,
+			"max": 10.0
+		},
+		"rateOverDistance": {
+			"state": 0,
+			"min": 0.0,
+			"max": 0.0
+		},
+		"bursts": [],
+		"burstCount": 0
+	},
+	"colorOverLifetime": {
+		"enabled": true,
+		"colorKeys": [
+			{
+				"t": 0.0,
+				"rgb": [
+					1.0,
+					1.0,
+					1.0
+				]
+			},
+			{
+				"t": 1.0,
+				"rgb": [
+					1.0,
+					1.0,
+					1.0
+				]
+			}
+		],
+		"alphaKeys": [
+			{
+				"t": 0.0,
+				"a": 0.0
+			},
+			{
+				"t": 0.5000076295109483,
+				"a": 1.0
+			},
+			{
+				"t": 1.0,
+				"a": 0.0
+			}
+		],
+		"mode": 0
+	},
+	"sizeOverLifetime": {
+		"enabled": false,
+		"curve": [
+			{
+				"t": 0.0,
+				"v": 0.0,
+				"inSlope": 0.0,
+				"outSlope": 1.0
+			},
+			{
+				"t": 1.0,
+				"v": 1.0,
+				"inSlope": 1.0,
+				"outSlope": 0.0
+			}
+		],
+		"state": 1
+	},
+	"rotationOverLifetime": {
+		"enabled": false,
+		"angularVelocityX": {
+			"state": 0,
+			"min": 0.0,
+			"max": 0.0
+		},
+		"angularVelocityY": {
+			"state": 0,
+			"min": 0.0,
+			"max": 0.0
+		}
+	},
+	"noise": {
+		"enabled": true,
+		"strength": 2.0,
+		"frequency": 10.0,
+		"octaves": 1,
+		"octaveScale": 2.0,
+		"octaveMultiplier": 0.5,
+		"damping": true,
+		"scrollSpeed": 1.0,
+		"quality": 2,
+		"separateAxes": false
+	},
+	"disabledModules": [
+		"ClampVelocityModule",
+		"CollisionModule",
+		"ColorBySpeedModule",
+		"CustomDataModule",
+		"ExternalForcesModule",
+		"ForceModule",
+		"InheritVelocityModule",
+		"LightsModule",
+		"RotationBySpeedModule",
+		"RotationModule",
+		"SizeBySpeedModule",
+		"SizeModule",
+		"SubModule",
+		"TriggerModule",
+		"UVModule",
+		"VelocityModule"
+	],
+	"renderer": {
+		"renderMode": 1,
+		"sortMode": 0,
+		"minParticleSize": 0.0,
+		"maxParticleSize": 0.5,
+		"pivot": {
+			"x": 0.0,
+			"y": 0.0,
+			"z": 0.0
+		}
+	},
+	"materials": [
+		{
+			"fileID": 1,
+			"guid": "b75482009b9f8ee4cab53300343a1998",
+			"path": "Assets/Kenney/Particle samples/Materials/Spark.mat",
+			"materialName": "Spark",
+			"shaderBuiltinFileID": 1,
+			"shaderBuiltinPathID": 200,
+			"mainTexture": {
+				"guid": "2df072a608d7f414db2726a56d40f726",
+				"path": "Assets/Kenney/Particle samples/Sprites/Rotated/spark_05_rotated.png"
+			},
+			"blend": {
+				"srcBlend": 1.0,
+				"dstBlend": 0.0,
+				"zWrite": 1.0,
+				"mode": 0.0
+			},
+			"tint": {
+				"r": 0.5,
+				"g": 0.5,
+				"b": 0.5,
+				"a": 0.5
+			}
+		},
+		{
+			"fileID": 1,
+			"guid": "b75482009b9f8ee4cab53300343a1998",
+			"path": "Assets/Kenney/Particle samples/Materials/Spark.mat",
+			"materialName": "Spark",
+			"shaderBuiltinFileID": 1,
+			"shaderBuiltinPathID": 200,
+			"mainTexture": {
+				"guid": "2df072a608d7f414db2726a56d40f726",
+				"path": "Assets/Kenney/Particle samples/Sprites/Rotated/spark_05_rotated.png"
+			},
+			"blend": {
+				"srcBlend": 1.0,
+				"dstBlend": 0.0,
+				"zWrite": 1.0,
+				"mode": 0.0
+			},
+			"tint": {
+				"r": 0.5,
+				"g": 0.5,
+				"b": 0.5,
+				"a": 0.5
+			}
+		}
+	],
+	"texture": {
+		"path": "examples/src-sprites/spark_05_rotated.png",
+		"packPath": "Assets/Kenney/Particle samples/Sprites/Rotated/spark_05_rotated.png",
+		"sha256": "73f74c8dc39e06dbe927dbb8e0ed16fa5b7a64f161f60f99148845d2d9363f69",
+		"sha256Rgba": "bf2d5c32c95f06f06b4229cf04d6359b87eccefc383640227b2f30e425033bb8",
+		"convertedPath": "examples/textures/electricity.png",
+		"size": [
+			512,
+			512
+		]
+	}
+}

@@ -1,0 +1,14 @@
+{
+	"name": "pixel-vfx-local",
+	"version": "1.0.0",
+	"private": true,
+	"type": "module",
+	"description": "Original local pixel VFX editor (preview, seeds, palette pipeline, PNG sheet + GIF export)",
+	"scripts": {
+		"start": "python -m http.server 8123 --bind 127.0.0.1",
+		"test": "bun test"
+	},
+	"devDependencies": {
+		"typescript": "5.9.3"
+	}
+}

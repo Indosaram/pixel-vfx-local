@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<title>gif check</title>
+		<style>
+			body {
+				margin: 0;
+				background: #202020;
+				font: 12px monospace;
+				color: #ddd;
+			}
+			#stage {
+				padding: 16px;
+			}
+			img {
+				image-rendering: pixelated;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="gifcheck">
+			<img id="view" alt="gif" />
+			<pre id="log">decoding…</pre>
+		</div>
+		<script>
+			const q = new URLSearchParams(location.search);
+			const gifUrl = q.get("gif");
+			const sheetUrl = q.get("sheet");
+			const THRESH = 0.28;
+
+			const norm = (d, i) =>
+				d[i + 3] / 255 > THRESH ? [d[i], d[i + 1], d[i + 2], 255] : [0, 0, 0, 0];
+
+			function imageDataClose(v) {
+				if (v && typeof v.close === "function") v.close();
+			}
+
+			async function main() {
+				const gifRes = await fetch(gifUrl);
+				const gifBuf = await gifRes.arrayBuffer();
+				const decoder = new ImageDecoder({
+					data: gifBuf,
+					type: "image/gif",
+				});
+				await decoder.tracks.ready;
+				const n = decoder.tracks.selectedTrack.frameCount;
+				const got = [];
+				for (let f = 0; f < n; f++) {
+					const { image } = await decoder.decode({ frameIndex: f });
+					const bmp = await createImageBitmap(image);
+					const c = new OffscreenCanvas(bmp.width, bmp.height);
+					const ctx = c.getContext("2d");
+					ctx.drawImage(bmp, 0, 0);
+					got.push({
+						w: bmp.width,
+						h: bmp.height,
+						data: ctx.getImageData(0, 0, bmp.width, bmp.height).data,
+					});
+					imageDataClose(image);
+					bmp.close();
+				}
+				decoder.close();
+
+				const sheetImg = await createImageBitmap(
+					await (await fetch(sheetUrl)).blob(),
+				);
+				const sc = document.createElement("canvas");
+				sc.width = sheetImg.width;
+				sc.height = sheetImg.height;
+				const sctx = sc.getContext("2d");
+				sctx.drawImage(sheetImg, 0, 0);
+				const sheet = sctx.getImageData(0, 0, sc.width, sc.height).data;
+
+				const w = got[0].w;
+				const h = got[0].h;
+				const cols = Math.ceil(Math.sqrt(n));
+				const frames = [];
+				let total = 0;
+				let maxDiff = 0;
+				for (let f = 0; f < n; f++) {
+					const cx = (f % cols) * w;
+					const cy = Math.floor(f / cols) * h;
+					let diff = 0;
+					let gifLit = 0;
+					let sheetLit = 0;
+					let worst = 0;
+					let sample = null;
+					for (let y = 0; y < h; y++) {
+						for (let x = 0; x < w; x++) {
+							const gi = (y * w + x) * 4;
+							const si = ((cy + y) * sc.width + cx + x) * 4;
+							const g = norm(got[f].data, gi);
+							const s = norm(sheet, si);
+							if (g[3]) gifLit++;
+							if (s[3]) sheetLit++;
+							const d = Math.max(
+								Math.abs(g[0] - s[0]),
+								Math.abs(g[1] - s[1]),
+								Math.abs(g[2] - s[2]),
+								Math.abs(g[3] - s[3]),
+							);
+							if (d) {
+								diff++;
+								if (d > worst) worst = d;
+								if (!sample)
+									sample = { x, y, gif: g, sheet: s };
+							}
+						}
+					}
+					total += diff;
+					if (worst > maxDiff) maxDiff = worst;
+					frames.push({ frame: f, diff, gifLit, sheetLit, worst, sample });
+				}
+				const out = {
+					ok: true,
+					gifUrl,
+					sheetUrl,
+					frames: n,
+					width: w,
+					height: h,
+					cols,
+					totalDiff: total,
+					maxDiff,
+					perFrame: frames,
+					litRange: [
+						Math.min(...frames.map((f) => f.gifLit)),
+						Math.max(...frames.map((f) => f.gifLit)),
+					],
+				};
+				document.getElementById("log").textContent = JSON.stringify(
+					{ totalDiff: out.totalDiff, maxDiff: out.maxDiff, frames: n },
+					null,
+					1,
+				);
+				window.GIFCHECK = out;
+				return out;
+			}
+
+			document.getElementById("view").src = gifUrl;
+			main().catch((e) => {
+				window.GIFCHECK = { ok: false, error: String(e && e.stack ? e.stack : e) };
+				document.getElementById("log").textContent = window.GIFCHECK.error;
+			});
+		</script>
+	</body>
+</html>

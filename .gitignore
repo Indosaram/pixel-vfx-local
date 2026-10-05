@@ -1,0 +1,52 @@
+# --- Dependencies -----------------------------------------------------------
+node_modules/
+
+# --- Python -----------------------------------------------------------------
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+
+# --- Local credentials / config (never publish) -----------------------------
+.env
+.env.*
+*.pem
+*.key
+id_rsa*
+credentials.json
+secrets.json
+*.pfx
+*.p12
+
+# --- Tooling session state (local, not part of the repo) --------------------
+.omo/
+.senpi/
+.codegraph/
+.direnv/
+
+# --- Private handoffs & QA evidence (kept locally, not published) -----------
+/HANDOFF*.md
+/evidence/
+
+# --- Prior/local outputs not part of the published ten examples -------------
+/out/
+golden-out.txt
+test-output.txt
+*.log
+
+# --- Generated intermediate textures (regenerate: python scripts/import-examples.py)
+/examples/textures/
+
+# --- Machine-specific render receipts (gallery GIFs + sheets stay public) -----
+/examples/out/*_render.json
+/examples/out/render-summary.json
+
+# --- Machine-specific scratch -----------------------------------------------
+.DS_Store
+Thumbs.db
+desktop.ini
+*.tmp
+*.swp
+*~

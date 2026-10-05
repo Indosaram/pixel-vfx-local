@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="icon" href="data:," />
+<title>Pixel VFX Local</title>
+<style>
+  :root {
+    --bg: #17171b;
+    --panel: #1e1e24;
+    --panel-2: #24242c;
+    --line: #33333d;
+    --text: #e7e7ee;
+    --muted: #8d8d9c;
+    --accent: #38c8ff;
+    --danger: #ff6a5e;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font: 13px/1.45 ui-sans-serif, system-ui, "Segoe UI", sans-serif;
+    display: grid;
+    grid-template-rows: auto 1fr;
+    grid-template-columns: 300px 1fr;
+    grid-template-areas: "head head" "side main";
+    min-height: 100vh;
+  }
+  header {
+    grid-area: head;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 8px 14px;
+    background: var(--panel);
+    border-bottom: 1px solid var(--line);
+  }
+  header h1 { font-size: 14px; margin: 0; letter-spacing: 0.04em; font-weight: 650; }
+  header .spacer { flex: 1; }
+  #export-bar { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  #export-info { color: var(--muted); font-family: ui-monospace, "Cascadia Mono", monospace; font-size: 12px; }
+  aside {
+    grid-area: side;
+    background: var(--panel);
+    border-right: 1px solid var(--line);
+    overflow-y: auto;
+    padding: 10px 12px 24px;
+  }
+  section { border-bottom: 1px solid var(--line); padding: 10px 0; }
+  section h2 {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.09em;
+    color: var(--muted);
+    margin: 0 0 8px;
+  }
+  .row { display: flex; align-items: center; gap: 8px; margin: 6px 0; }
+  .row label { flex: 1; color: var(--text); }
+  .row .val { width: 44px; text-align: right; color: var(--muted); font-family: ui-monospace, monospace; font-size: 12px; }
+  input, select, button {
+    background: var(--panel-2);
+    color: var(--text);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 5px 8px;
+    font: inherit;
+  }
+  input:focus, select:focus, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+  input[type="number"] { width: 76px; font-family: ui-monospace, monospace; }
+  input[type="range"] { padding: 0; accent-color: var(--accent); }
+  input[type="color"] { padding: 2px; width: 42px; height: 28px; }
+  input[type="checkbox"] { accent-color: var(--accent); width: 16px; height: 16px; }
+  button { cursor: pointer; }
+  button:hover { border-color: var(--accent); }
+  button.primary { background: #10394a; border-color: #1d6f92; }
+  .grow { flex: 1; }
+  main { grid-area: main; display: grid; grid-template-rows: 1fr auto auto; min-width: 0; }
+  #stage {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background:
+      linear-gradient(45deg, #1b1b20 25%, transparent 25% 75%, #1b1b20 75%),
+      linear-gradient(45deg, #1b1b20 25%, #202027 25% 75%, #1b1b20 75%);
+    background-size: 28px 28px;
+    background-position: 0 0, 14px 14px;
+  }
+  #stage.bg-black { background: #000; }
+  #stage.bg-white { background: #f4f4f6; }
+  #stage.bg-checker {
+    background:
+      linear-gradient(45deg, #26262d 25%, transparent 25% 75%, #26262d 75%),
+      linear-gradient(45deg, #26262d 25%, #1a1a20 25% 75%, #26262d 75%);
+    background-size: 28px 28px;
+    background-position: 0 0, 14px 14px;
+  }
+  #preview { image-rendering: pixelated; }
+  #transport {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 14px;
+    background: var(--panel);
+    border-top: 1px solid var(--line);
+    flex-wrap: wrap;
+  }
+  #scrub { flex: 1; min-width: 180px; }
+  #frame-readout, #markers-readout {
+    font-family: ui-monospace, monospace;
+    font-size: 12px;
+    color: var(--muted);
+  }
+  #timing {
+    background: var(--panel);
+    border-top: 1px solid var(--line);
+    padding: 8px 14px 10px;
+    max-height: 168px;
+    overflow-y: auto;
+  }
+  #timing h2 {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.09em;
+    color: var(--muted);
+    margin: 0 0 6px;
+  }
+  #holds-table { border-collapse: collapse; }
+  #holds-table td, #holds-table th {
+    border: 1px solid var(--line);
+    padding: 2px 6px;
+    font-size: 12px;
+    font-family: ui-monospace, monospace;
+    text-align: center;
+  }
+  #holds-table th { color: var(--muted); font-weight: 500; }
+  #holds-table input { width: 52px; padding: 2px 4px; }
+  #markers-list {
+    list-style: none;
+    margin: 6px 0 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .marker-item {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+    background: var(--panel-2);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 2px 6px;
+    font-family: ui-monospace, monospace;
+    font-size: 12px;
+  }
+  .marker-item button { padding: 0 6px; }
+  #status-log {
+    grid-area: main;
+    display: none;
+  }
+  #log {
+    background: #121216;
+    color: #9fe8b0;
+    font-family: ui-monospace, monospace;
+    font-size: 12px;
+    padding: 6px 10px;
+    max-height: 96px;
+    overflow-y: auto;
+  }
+  #log-wrap { padding: 0 14px 12px; background: var(--panel); }
+  #log-wrap h2 {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.09em;
+    color: var(--muted);
+    margin: 8px 0 4px;
+  }
+  .hint { color: var(--muted); font-size: 12px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>PIXEL VFX LOCAL</h1>
+  <span class="hint">original procedural pixel-art VFX editor</span>
+  <span class="spacer"></span>
+  <div id="export-bar">
+    <button type="button" id="export-sheet" class="primary">Export PNG Sheet</button>
+    <button type="button" id="export-gif" class="primary">Export GIF</button>
+    <button type="button" id="export-frame">Export Frame PNG</button>
+    <button type="button" id="export-atlas">Export Atlas JSON</button>
+    <button type="button" id="export-aseprite">Export Aseprite</button>
+    <button type="button" id="export-tres">Export Godot .tres</button>
+    <button type="button" id="export-meta">Export Unity .meta</button>
+    <span id="export-info">no exports yet</span>
+  </div>
+</header>
+
+<aside>
+  <section>
+    <h2>Effect</h2>
+    <div class="row"><label for="preset">Preset</label><select id="preset" class="grow" data-param="effectId"></select></div>
+    <div class="row">
+      <label for="seed">Seed</label>
+      <input id="seed" type="text" value="42" data-param="seed" />
+      <button type="button" id="seed-random" title="Randomize seed">Random</button>
+    </div>
+  </section>
+
+  <section>
+    <h2>Output</h2>
+    <div class="row"><label for="width">Width</label><input id="width" type="number" min="8" max="512" value="128" data-param="width" /></div>
+    <div class="row"><label for="height">Height</label><input id="height" type="number" min="8" max="512" value="128" data-param="height" /></div>
+    <div class="row"><label for="fps">FPS</label><input id="fps" type="number" min="1" max="60" value="12" data-param="fps" /></div>
+    <div class="row"><label for="range-from">Frame from</label><input id="range-from" type="number" min="0" value="0" data-param="from" /></div>
+    <div class="row"><label for="range-to">Frame to</label><input id="range-to" type="number" min="0" value="0" data-param="to" /></div>
+  </section>
+
+  <section>
+    <h2>Pixel pipeline</h2>
+    <div class="row"><label for="pixscale">Pixel scale</label><input id="pixscale" type="number" min="1" max="8" value="2" data-param="pixelScale" /></div>
+    <div class="row"><label for="palette-size">Palette colors</label><input id="palette-size" type="number" min="2" max="256" value="16" data-param="paletteSize" /></div>
+    <div class="row">
+      <label for="dither">Dither</label>
+      <select id="dither" data-param="dither">
+        <option value="none">none</option>
+        <option value="bayer2">bayer 2x2</option>
+        <option value="bayer4">bayer 4x4</option>
+      </select>
+    </div>
+    <div class="row"><label for="recolor">Recolor LUT</label><select id="recolor" class="grow" data-param="recolor"></select></div>
+    <div class="row"><label for="alpha-thresh">Alpha threshold</label><input id="alpha-thresh" type="range" min="0.02" max="0.98" step="0.01" value="0.28" data-param="alphaThreshold" /><span class="val" id="alpha-val">0.28</span></div>
+    <div class="row"><label for="outline">Outline</label><input id="outline" type="checkbox" data-param="outline" /><input id="outline-color" type="color" value="#000000" data-param="outlineColor" /></div>
+  </section>
+
+  <section>
+    <h2>Camera</h2>
+    <div id="camera-2d-rows">
+      <div class="row"><label for="zoom">Zoom</label><input id="zoom" type="range" min="0.25" max="8" step="0.25" value="1" data-param="camera.zoom" /><span class="val" id="zoom-val">1.00</span></div>
+      <div class="row"><label for="pan-x">Pan X</label><input id="pan-x" type="range" min="-0.5" max="0.5" step="0.01" value="0" data-param="camera.panX" /><span class="val" id="panx-val">0.00</span></div>
+      <div class="row"><label for="pan-y">Pan Y</label><input id="pan-y" type="range" min="-0.5" max="0.5" step="0.01" value="0" data-param="camera.panY" /><span class="val" id="pany-val">0.00</span></div>
+    </div>
+    <div class="row">
+      <label for="bg">Preview bg</label>
+      <select id="bg" class="grow">
+        <option value="checker">checker</option>
+        <option value="black">black</option>
+        <option value="white">white</option>
+      </select>
+    </div>
+  </section>
+
+  <section id="camera3d-section" hidden>
+    <h2>Camera 3D (orbit)</h2>
+    <div class="row"><label for="cam-yaw">Yaw</label><input id="cam-yaw" type="range" min="-6.28" max="6.28" step="0.01" value="0.7" data-param="camera3d.yaw" /><span class="val" id="yaw-val">0.70</span></div>
+    <div class="row"><label for="cam-pitch">Pitch</label><input id="cam-pitch" type="range" min="-1.45" max="1.45" step="0.01" value="0.4" data-param="camera3d.pitch" /><span class="val" id="pitch-val">0.40</span></div>
+    <div class="row"><label for="cam-dist">Distance</label><input id="cam-dist" type="range" min="1.5" max="10" step="0.1" value="3.4" data-param="camera3d.dist" /><span class="val" id="dist-val">3.4</span></div>
+    <div class="row"><label for="cam-fov">FOV&#176;</label><input id="cam-fov" type="range" min="30" max="85" step="1" value="55" data-param="camera3d.fov" /><span class="val" id="fov-val">55</span></div>
+    <div class="hint">drag the preview to orbit &#183; wheel to zoom</div>
+  </section>
+
+  <section>
+    <h2>Timing</h2>
+    <div class="row">
+      <button type="button" id="holds-reset">Reset holds</button>
+      <button type="button" id="holds-suggest">Suggest</button>
+    </div>
+    <div class="hint" id="hold-summary">—</div>
+    <div class="row">
+      <label for="marker-frame">Marker frame</label>
+      <input id="marker-frame" type="number" min="0" value="0" />
+    </div>
+    <div class="row">
+      <input id="marker-label" type="text" class="grow" placeholder="label (optional)" />
+      <button type="button" id="marker-add">Add marker</button>
+    </div>
+    <ul id="markers-list"></ul>
+  </section>
+</aside>
+
+<main>
+  <div id="stage" class="bg-checker"><canvas id="preview" width="128" height="128"></canvas></div>
+  <div id="transport">
+    <button type="button" id="play" title="Play/Pause">Pause</button>
+    <button type="button" id="step-back" title="Previous frame">&#9664;</button>
+    <button type="button" id="step-fwd" title="Next frame">&#9654;</button>
+    <label class="row" style="margin:0"><input id="loop" type="checkbox" checked /> loop</label>
+    <input id="scrub" type="range" min="0" max="13" step="1" value="0" />
+    <span id="frame-readout">f 0/0</span>
+    <span id="markers-readout"></span>
+  </div>
+  <div id="timing">
+    <h2>Frame holds (0 = drop frame)</h2>
+    <table id="holds-table"><thead><tr id="holds-head"></tr></thead><tbody id="holds-body"></tbody></table>
+  </div>
+  <div id="log-wrap">
+    <h2>Status</h2>
+    <div id="log"></div>
+  </div>
+</main>
+
+<script type="module" src="./src/app.js"></script>
+</body>
+</html>

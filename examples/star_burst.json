@@ -1,0 +1,278 @@
+{
+	"source": {
+		"asset": "Kenney Particle Pack",
+		"url": "https://kenney.nl/assets/particle-pack",
+		"license": "CC0-1.0",
+		"unitypackage": "Unity samples/particlePack_samples.unitypackage",
+		"prefab": "Assets/Kenney/Particle samples/Prefabs/Sparks.prefab",
+		"unitySerializedVersion": "5.6.5p2",
+		"extractedBy": "scripts/extract-unity-prefab.py",
+		"download": "https://kenney.nl/media/pages/assets/particle-pack/f8fe0f8cb8-1677578741/kenney_particle-pack.zip",
+		"kind": "source-texture-variant",
+		"spriteFile": "star_01.png",
+		"spritePackPath": "Assets/Kenney/Particle samples/Sprites/star_01.png",
+		"spriteSha256": "04c8a84d8c30a990752c34f79431785d157ee76911bd54fb16b7ed2e639def09",
+		"conversionRecord": "examples/prefabs/Sparks.json",
+		"renderConfig": "examples/star_burst.json",
+		"renderer": "scripts/render-unity-asset.mjs (converted renderer; approximate, not Unity)",
+		"notes": "Texture variant: distinct pack sprite star_01.png rendered with the converted Sparks.prefab motion."
+	},
+	"gameObject": "Sparks",
+	"transform": {
+		"position": {
+			"x": 4.0,
+			"y": 0.0,
+			"z": 0.0
+		},
+		"rotation": {
+			"x": 0.0,
+			"y": 0.0,
+			"z": 0.0,
+			"w": 1.0
+		},
+		"eulerAngles": {
+			"x": 0.0,
+			"y": 0.0,
+			"z": 0.0
+		},
+		"scale": {
+			"x": 1.0,
+			"y": 1.0,
+			"z": 1.0
+		}
+	},
+	"system": {
+		"lengthInSec": 5.0,
+		"simulationSpeed": 1.0,
+		"looping": true,
+		"prewarm": false,
+		"playOnAwake": true,
+		"randomSeed": -686784288,
+		"autoRandomSeed": true,
+		"moveWithTransform": 0,
+		"scalingMode": 1,
+		"startDelay": {
+			"state": 0,
+			"min": 0.0,
+			"max": 0.0
+		}
+	},
+	"initial": {
+		"startLifetime": {
+			"state": 0,
+			"min": 5.0,
+			"max": 0.5
+		},
+		"startSpeed": {
+			"state": 3,
+			"min": 1.0,
+			"max": 4.0
+		},
+		"startSize": {
+			"state": 3,
+			"min": 0.5,
+			"max": 2.0
+		},
+		"startRotation": {
+			"state": 0,
+			"min": 0.0,
+			"max": 0.0
+		},
+		"startColor": {
+			"state": 2,
+			"min": {
+				"r": 0.29844292998313904,
+				"g": 0.8823529481887817,
+				"b": 0.7857058644294739,
+				"a": 1.0
+			},
+			"max": {
+				"r": 1.0,
+				"g": 1.0,
+				"b": 1.0,
+				"a": 1.0
+			}
+		},
+		"gravityModifier": {
+			"state": 0,
+			"min": 0.0,
+			"max": 0.0
+		},
+		"maxNumParticles": 1000,
+		"rotation3D": false,
+		"size3D": false
+	},
+	"shape": {
+		"type": 1,
+		"typeMeaning": "SphereShell",
+		"radius": 0.10000000149011612,
+		"angle": 25.0,
+		"arc": 360.0,
+		"length": 5.0,
+		"alignToDirection": false,
+		"randomDirectionAmount": 0.0,
+		"sphericalDirectionAmount": 0.0,
+		"placementMode": 0
+	},
+	"emission": {
+		"enabled": true,
+		"rateOverTime": {
+			"state": 0,
+			"min": 10.0,
+			"max": 100.0
+		},
+		"rateOverDistance": {
+			"state": 0,
+			"min": 0.0,
+			"max": 0.0
+		},
+		"bursts": [],
+		"burstCount": 0
+	},
+	"colorOverLifetime": {
+		"enabled": true,
+		"colorKeys": [
+			{
+				"t": 0.0,
+				"rgb": [
+					1.0,
+					1.0,
+					1.0
+				]
+			},
+			{
+				"t": 1.0,
+				"rgb": [
+					1.0,
+					1.0,
+					1.0
+				]
+			}
+		],
+		"alphaKeys": [
+			{
+				"t": 0.0,
+				"a": 0.0
+			},
+			{
+				"t": 0.2,
+				"a": 1.0
+			},
+			{
+				"t": 1.0,
+				"a": 0.0
+			}
+		],
+		"mode": 0
+	},
+	"sizeOverLifetime": {
+		"enabled": true,
+		"curve": [
+			{
+				"t": 0.0,
+				"v": 0.0,
+				"inSlope": 0.0,
+				"outSlope": 1.0
+			},
+			{
+				"t": 1.0,
+				"v": 1.0,
+				"inSlope": 1.0,
+				"outSlope": 0.0
+			}
+		],
+		"state": 1
+	},
+	"rotationOverLifetime": {
+		"enabled": false,
+		"angularVelocityX": {
+			"state": 0,
+			"min": 0.0,
+			"max": 0.0
+		},
+		"angularVelocityY": {
+			"state": 0,
+			"min": 0.0,
+			"max": 0.0
+		}
+	},
+	"noise": {
+		"enabled": false,
+		"strength": 1.0,
+		"frequency": 0.5,
+		"octaves": 1,
+		"octaveScale": 2.0,
+		"octaveMultiplier": 0.5,
+		"damping": true,
+		"scrollSpeed": 0.0,
+		"quality": 2,
+		"separateAxes": false
+	},
+	"disabledModules": [
+		"ClampVelocityModule",
+		"CollisionModule",
+		"ColorBySpeedModule",
+		"CustomDataModule",
+		"ExternalForcesModule",
+		"ForceModule",
+		"InheritVelocityModule",
+		"LightsModule",
+		"NoiseModule",
+		"RotationBySpeedModule",
+		"RotationModule",
+		"SizeBySpeedModule",
+		"SubModule",
+		"TrailModule",
+		"TriggerModule",
+		"UVModule",
+		"VelocityModule"
+	],
+	"renderer": {
+		"renderMode": 1,
+		"sortMode": 0,
+		"minParticleSize": 0.0,
+		"maxParticleSize": 0.5,
+		"pivot": {
+			"x": 0.0,
+			"y": 1.0,
+			"z": 0.0
+		}
+	},
+	"materials": [
+		{
+			"fileID": 1,
+			"guid": "881ae6506987c40469003041a3e1f6a3",
+			"path": "Assets/Kenney/Particle samples/Materials/Trace.mat",
+			"materialName": "Trace",
+			"shaderBuiltinFileID": 1,
+			"shaderBuiltinPathID": 200,
+			"mainTexture": {
+				"guid": "b1274fe6f8c887e4bb5af8affbc240e0",
+				"path": "Assets/Kenney/Particle samples/Sprites/Rotated/trace_02_rotated.png"
+			},
+			"blend": {
+				"srcBlend": 1.0,
+				"dstBlend": 0.0,
+				"zWrite": 1.0,
+				"mode": 0.0
+			},
+			"tint": {
+				"r": 0.5,
+				"g": 0.5,
+				"b": 0.5,
+				"a": 0.5
+			}
+		}
+	],
+	"texture": {
+		"path": "examples/src-sprites/star_01.png",
+		"packPath": "Assets/Kenney/Particle samples/Sprites/star_01.png",
+		"sha256": "04c8a84d8c30a990752c34f79431785d157ee76911bd54fb16b7ed2e639def09",
+		"sha256Rgba": "bc4b7fb4cacc1be58346ae249f45158077ce5697486030c36a7bb3ac20ef989c",
+		"convertedPath": "examples/textures/star_burst.png",
+		"size": [
+			512,
+			512
+		]
+	}
+}

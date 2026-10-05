@@ -1,0 +1,29 @@
+{
+	"params": {
+		"effectId": "ember_burst",
+		"seed": "777",
+		"width": 64,
+		"height": 64,
+		"fps": 12,
+		"pixelScale": 1,
+		"paletteSize": 16,
+		"dither": "bayer4",
+		"outline": true,
+		"recolor": "ember",
+		"from": 0,
+		"to": 9999,
+		"alphaThreshold": 0.28,
+		"camera": {
+			"zoom": 1,
+			"panX": 0,
+			"panY": 0
+		},
+		"holds": null
+	},
+	"frameCount": 12,
+	"frame0": "2a0bfad5",
+	"allFrames": "dd629e1b",
+	"sheet": "bff42cf8",
+	"gif": "72e64fd5",
+	"generatedBy": "scripts/gen-golden.mjs"
+}

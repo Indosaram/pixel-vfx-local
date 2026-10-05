@@ -1,0 +1,278 @@
+{
+	"source": {
+		"asset": "Kenney Particle Pack",
+		"url": "https://kenney.nl/assets/particle-pack",
+		"license": "CC0-1.0",
+		"unitypackage": "Unity samples/particlePack_samples.unitypackage",
+		"prefab": "Assets/Kenney/Particle samples/Prefabs/Magic.prefab",
+		"unitySerializedVersion": "5.6.5p2",
+		"extractedBy": "scripts/extract-unity-prefab.py",
+		"download": "https://kenney.nl/media/pages/assets/particle-pack/f8fe0f8cb8-1677578741/kenney_particle-pack.zip",
+		"kind": "source-texture-variant",
+		"spriteFile": "twirl_01.png",
+		"spritePackPath": "Assets/Kenney/Particle samples/Sprites/twirl_01.png",
+		"spriteSha256": "18137131f93a9f97dbe9ba6f405a6c89236759875635c97be8c4859617a6a5f7",
+		"conversionRecord": "examples/prefabs/Magic.json",
+		"renderConfig": "examples/magic_swirl.json",
+		"renderer": "scripts/render-unity-asset.mjs (converted renderer; approximate, not Unity)",
+		"notes": "Texture variant: distinct pack sprite twirl_01.png rendered with the converted Magic.prefab motion."
+	},
+	"gameObject": "Magic",
+	"transform": {
+		"position": {
+			"x": 0.0,
+			"y": 0.0,
+			"z": 0.0
+		},
+		"rotation": {
+			"x": -0.7071068286895752,
+			"y": 0.0,
+			"z": 0.0,
+			"w": 0.7071068286895752
+		},
+		"eulerAngles": {
+			"x": 0.0,
+			"y": 0.0,
+			"z": 0.0
+		},
+		"scale": {
+			"x": 1.0,
+			"y": 1.0,
+			"z": 1.0
+		}
+	},
+	"system": {
+		"lengthInSec": 5.0,
+		"simulationSpeed": 1.0,
+		"looping": true,
+		"prewarm": false,
+		"playOnAwake": true,
+		"randomSeed": -789297550,
+		"autoRandomSeed": true,
+		"moveWithTransform": 0,
+		"scalingMode": 1,
+		"startDelay": {
+			"state": 0,
+			"min": 0.0,
+			"max": 0.0
+		}
+	},
+	"initial": {
+		"startLifetime": {
+			"state": 3,
+			"min": 0.10000000149011612,
+			"max": 1.0
+		},
+		"startSpeed": {
+			"state": 3,
+			"min": 2.0,
+			"max": 7.0
+		},
+		"startSize": {
+			"state": 3,
+			"min": 0.10000000149011612,
+			"max": 0.5
+		},
+		"startRotation": {
+			"state": 3,
+			"min": 0.0,
+			"max": 6.283185005187988
+		},
+		"startColor": {
+			"state": 2,
+			"min": {
+				"r": 0.1699826866388321,
+				"g": 0.4052231013774872,
+				"b": 0.9632353186607361,
+				"a": 1.0
+			},
+			"max": {
+				"r": 0.9411764740943909,
+				"g": 0.04152247682213783,
+				"b": 0.841903805732727,
+				"a": 1.0
+			}
+		},
+		"gravityModifier": {
+			"state": 0,
+			"min": 0.0,
+			"max": 1.100000023841858
+		},
+		"maxNumParticles": 1000,
+		"rotation3D": false,
+		"size3D": false
+	},
+	"shape": {
+		"type": 0,
+		"typeMeaning": "Sphere",
+		"radius": 1.0,
+		"angle": 25.0,
+		"arc": 360.0,
+		"length": 5.0,
+		"alignToDirection": false,
+		"randomDirectionAmount": 0.0,
+		"sphericalDirectionAmount": 0.0,
+		"placementMode": 0
+	},
+	"emission": {
+		"enabled": true,
+		"rateOverTime": {
+			"state": 0,
+			"min": 10.0,
+			"max": 30.0
+		},
+		"rateOverDistance": {
+			"state": 0,
+			"min": 0.0,
+			"max": 0.0
+		},
+		"bursts": [],
+		"burstCount": 0
+	},
+	"colorOverLifetime": {
+		"enabled": true,
+		"colorKeys": [
+			{
+				"t": 0.0,
+				"rgb": [
+					1.0,
+					1.0,
+					1.0
+				]
+			},
+			{
+				"t": 1.0,
+				"rgb": [
+					1.0,
+					1.0,
+					1.0
+				]
+			}
+		],
+		"alphaKeys": [
+			{
+				"t": 0.0,
+				"a": 0.0
+			},
+			{
+				"t": 0.2500038147554742,
+				"a": 1.0
+			},
+			{
+				"t": 1.0,
+				"a": 0.0
+			}
+		],
+		"mode": 0
+	},
+	"sizeOverLifetime": {
+		"enabled": false,
+		"curve": [
+			{
+				"t": 0.0,
+				"v": 0.0,
+				"inSlope": 0.0,
+				"outSlope": 1.0
+			},
+			{
+				"t": 1.0,
+				"v": 1.0,
+				"inSlope": 1.0,
+				"outSlope": 0.0
+			}
+		],
+		"state": 1
+	},
+	"rotationOverLifetime": {
+		"enabled": true,
+		"angularVelocityX": {
+			"state": 3,
+			"min": 0.0,
+			"max": 0.0
+		},
+		"angularVelocityY": {
+			"state": 3,
+			"min": 0.0,
+			"max": 0.0
+		}
+	},
+	"noise": {
+		"enabled": false,
+		"strength": 1.0,
+		"frequency": 0.5,
+		"octaves": 1,
+		"octaveScale": 2.0,
+		"octaveMultiplier": 0.5,
+		"damping": true,
+		"scrollSpeed": 0.0,
+		"quality": 2,
+		"separateAxes": false
+	},
+	"disabledModules": [
+		"ClampVelocityModule",
+		"CollisionModule",
+		"ColorBySpeedModule",
+		"CustomDataModule",
+		"ExternalForcesModule",
+		"ForceModule",
+		"InheritVelocityModule",
+		"LightsModule",
+		"NoiseModule",
+		"RotationBySpeedModule",
+		"SizeBySpeedModule",
+		"SizeModule",
+		"SubModule",
+		"TrailModule",
+		"TriggerModule",
+		"UVModule",
+		"VelocityModule"
+	],
+	"renderer": {
+		"renderMode": 0,
+		"sortMode": 0,
+		"minParticleSize": 0.0,
+		"maxParticleSize": 0.5,
+		"pivot": {
+			"x": 0.0,
+			"y": 0.0,
+			"z": 0.0
+		}
+	},
+	"materials": [
+		{
+			"fileID": 1,
+			"guid": "5c4c11a475ac89345ad62c4e07b31bd0",
+			"path": "Assets/Kenney/Particle samples/Materials/Star.mat",
+			"materialName": "Star",
+			"shaderBuiltinFileID": 1,
+			"shaderBuiltinPathID": 200,
+			"mainTexture": {
+				"guid": "776614c195fae784d95e585d1890661f",
+				"path": "Assets/Kenney/Particle samples/Sprites/star_06.png"
+			},
+			"blend": {
+				"srcBlend": 1.0,
+				"dstBlend": 0.0,
+				"zWrite": 1.0,
+				"mode": 0.0
+			},
+			"tint": {
+				"r": 0.5,
+				"g": 0.5,
+				"b": 0.5,
+				"a": 0.746999979019165
+			}
+		}
+	],
+	"texture": {
+		"path": "examples/src-sprites/twirl_01.png",
+		"packPath": "Assets/Kenney/Particle samples/Sprites/twirl_01.png",
+		"sha256": "18137131f93a9f97dbe9ba6f405a6c89236759875635c97be8c4859617a6a5f7",
+		"sha256Rgba": "76c20e8b7aedee8d4717d68442ed5886e1ddae8885db63238f9df6253fb9927a",
+		"convertedPath": "examples/textures/magic_swirl.png",
+		"size": [
+			512,
+			512
+		]
+	}
+}
