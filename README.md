@@ -97,6 +97,53 @@ from the **Kenney Particle Pack** by Kenney Vleugels (kenney.nl), **CC0-1.0** �
 - **Glow orb** — texture-variant — [sheet](examples/out/glow_orb_sheet.png)  
   ![Glow orb](examples/out/glow_orb_preview.gif)
 
+### Resolution comparison (16x16 / 32x32 / 64x64)
+
+**These three columns are derived, not re-renders.** Each cell is an
+area/coverage-preserving box downsample of the matching native gallery render: 16x16
+takes every 8th pixel of a 128x128 cell (every 12th of the 192x192 pair), 32x32 takes
+every 4th (6th) and 64x64 every 2nd (3rd). Colour is averaged alpha-weighted so
+coverage and energy survive the reduction, and GIF binary transparency marks a
+destination pixel visible when its contributing source block has **any** nonzero alpha —
+so a visible native pixel is never dropped. Colour is quantised against a palette built
+from the native frames with the manifest's dither. Nothing is re-simulated: seeds, frame
+count (25 frames @ 12 fps), timing, framing and colours all come from the native render,
+so every column frames exactly the same world region as the gallery GIFs above.
+
+The honest cost of that coverage rule: sparse particles read **thicker at 16x16** than a
+native 16x16 render would, rather than fading out. Low-resolution pixelation and density
+differences between the columns are expected — they are the thing being compared.
+
+Each file really is 16x16, 32x32 or 64x64 on disk
+(`examples/out/<id>_<size>_preview.gif`) — that is conversion from the native render,
+not a re-render at that resolution, and each `examples/out/<id>_<size>_render.json`
+receipt records it under `derivation` with the method, the integer factor and the
+source sheet's sha256.
+
+Each cell is displayed at 64 px so the three sizes line up for comparison. GitHub
+strips inline CSS, so no `image-rendering` hint survives: your browser smooths the two
+smaller columns as it enlarges them. That softness is the browser's scaling — the
+files carry the pixel dimensions named in the column headers.
+
+| Asset | 16x16 | 32x32 | 64x64 |
+|---|---|---|---|
+| Fire | <img src="examples/out/fire_16_preview.gif" width="64" alt="Fire at 16x16"> | <img src="examples/out/fire_32_preview.gif" width="64" alt="Fire at 32x32"> | <img src="examples/out/fire_64_preview.gif" width="64" alt="Fire at 64x64"> |
+| Smoke | <img src="examples/out/smoke_16_preview.gif" width="64" alt="Smoke at 16x16"> | <img src="examples/out/smoke_32_preview.gif" width="64" alt="Smoke at 32x32"> | <img src="examples/out/smoke_64_preview.gif" width="64" alt="Smoke at 64x64"> |
+| Sparks | <img src="examples/out/sparks_16_preview.gif" width="64" alt="Sparks at 16x16"> | <img src="examples/out/sparks_32_preview.gif" width="64" alt="Sparks at 32x32"> | <img src="examples/out/sparks_64_preview.gif" width="64" alt="Sparks at 64x64"> |
+| Magic | <img src="examples/out/magic_16_preview.gif" width="64" alt="Magic at 16x16"> | <img src="examples/out/magic_32_preview.gif" width="64" alt="Magic at 32x32"> | <img src="examples/out/magic_64_preview.gif" width="64" alt="Magic at 64x64"> |
+| Hearts | <img src="examples/out/hearts_16_preview.gif" width="64" alt="Hearts at 16x16"> | <img src="examples/out/hearts_32_preview.gif" width="64" alt="Hearts at 32x32"> | <img src="examples/out/hearts_64_preview.gif" width="64" alt="Hearts at 64x64"> |
+| Electricity | <img src="examples/out/electricity_16_preview.gif" width="64" alt="Electricity at 16x16"> | <img src="examples/out/electricity_32_preview.gif" width="64" alt="Electricity at 32x32"> | <img src="examples/out/electricity_64_preview.gif" width="64" alt="Electricity at 64x64"> |
+| Flame jet | <img src="examples/out/flame_jet_16_preview.gif" width="64" alt="Flame jet at 16x16"> | <img src="examples/out/flame_jet_32_preview.gif" width="64" alt="Flame jet at 32x32"> | <img src="examples/out/flame_jet_64_preview.gif" width="64" alt="Flame jet at 64x64"> |
+| Star burst | <img src="examples/out/star_burst_16_preview.gif" width="64" alt="Star burst at 16x16"> | <img src="examples/out/star_burst_32_preview.gif" width="64" alt="Star burst at 32x32"> | <img src="examples/out/star_burst_64_preview.gif" width="64" alt="Star burst at 64x64"> |
+| Magic swirl | <img src="examples/out/magic_swirl_16_preview.gif" width="64" alt="Magic swirl at 16x16"> | <img src="examples/out/magic_swirl_32_preview.gif" width="64" alt="Magic swirl at 32x32"> | <img src="examples/out/magic_swirl_64_preview.gif" width="64" alt="Magic swirl at 64x64"> |
+| Glow orb | <img src="examples/out/glow_orb_16_preview.gif" width="64" alt="Glow orb at 16x16"> | <img src="examples/out/glow_orb_32_preview.gif" width="64" alt="Glow orb at 32x32"> | <img src="examples/out/glow_orb_64_preview.gif" width="64" alt="Glow orb at 64x64"> |
+
+Matching contact sheets for all 30 cells live beside the GIFs as
+`examples/out/<id>_<size>_sheet.png` (regenerate them with the command below). The
+ten native 128x128 / 192x192 gallery GIFs and their sheet links above are unchanged and
+byte-identical to what this repo already shipped, as is the Kenney Particle Pack
+(CC0-1.0) attribution.
+
 ### Quick start (sprite pipeline)
 
 Prerequisites: [Bun](https://bun.sh) and Python 3 with Pillow
@@ -112,11 +159,23 @@ bun scripts/render-examples.mjs
 
 # subset / unknown ids (unknown ids exit 2):
 bun scripts/render-examples.mjs fire smoke
+
+# 3. Derive the 16x16 / 32x32 / 64x64 comparison cells from the native renders
+#    (Windows; area/coverage-preserving box downsample, no re-simulation):
+bun scripts/render-resolution-gifs.mjs
+
+# subset of ids:
+bun scripts/render-resolution-gifs.mjs fire smoke
 ```
 
 Outputs: `examples/out/<id>_sheet.png`, `examples/out/<id>_preview.gif`,
 `examples/out/<id>_render.json` (receipt incl. a `presentation` block) and
-`examples/out/render-summary.json` (per-id exit codes). To re-derive
+`examples/out/render-summary.json` (per-id exit codes).
+`bun scripts/render-resolution-gifs.mjs` then writes the same three artifacts per size
+as `examples/out/<id>_<size>_sheet.png`, `<id>_<size>_preview.gif` and
+`<id>_<size>_render.json`; each of those receipts carries a `derivation` block naming
+the method, the integer downsample factor, the source sheet and GIF sha256, and the
+inherited timing and palette settings. To re-derive
 `examples/prefabs/*.json` from the original pack instead of the shipped records, run
 `python scripts/extract-unity-prefab.py` on the pack zip (URL + sha256 pinned in the
 manifest) and pass its output directory: `python scripts/import-examples.py
@@ -137,6 +196,11 @@ manifest) and pass its output directory: `python scripts/import-examples.py
 - Prefab root translation is sample-scene placement and is ignored by the renderer; the
   per-example origin carries framing (`presentation.rootTranslationIgnored` in every
   receipt).
+- The 16x16 / 32x32 / 64x64 comparison cells are **derived by
+  area/coverage-preserving downsample** of the native renders, as documented in the
+  resolution comparison section — conversion, not re-simulation. The native 128x128 /
+  192x192 gallery GIFs and sheets are untouched and byte-identical to what this repo
+  already shipped; no renderer code changed for them.
 - Deterministic: baked seeds, fixed frame count/fps/palette — a regeneration from the
   same inputs yields the same bytes.
 - No Unity editor is required for the default flow; no vendor demo data or paid pack
