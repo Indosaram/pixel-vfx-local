@@ -1,0 +1,18 @@
+{
+  "contractVersion": "1.0.0",
+  "language": "JavaScript ES modules with JSDoc",
+  "productionShell": "Electron",
+  "electron": "44.6.0",
+  "three": "0.170.0",
+  "bun": "1.4.0",
+  "target": "physical Windows",
+  "capabilityStatus": "BLOCKED_NOT_RUN",
+  "capabilityCommand": "bun run qa -- --case capabilities --out evidence/capabilities",
+  "capabilityRequirements": ["WebGL instancing", "ImageData", "OffscreenCanvas PNG", "CompressionStream deflate", "crypto.getRandomValues"],
+  "selectionEvidence": {
+    "electron": "https://registry.npmjs.org/electron/latest returned 44.6.0 HTTP 200",
+    "three": "https://registry.npmjs.org/three/0.170.0 HTTP 200; report section 1 revision 170",
+    "bun": "bun --version returned 1.4.0 exit 0"
+  },
+  "note": "Exact version selection is frozen, not capability-certified. The owner's current spec-only U00 scope does not authorize a runtime harness or remote execution. No original Electron version is claimed. U01+ remains gated until outstanding U00 capability and specification gates are closed."
+}

@@ -1,0 +1,13 @@
+{
+  "name": "pixel-sprite-clone",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "packageManager": "bun@1.4.0",
+  "dependencies": {
+    "three": "0.170.0"
+  },
+  "devDependencies": {
+    "electron": "44.6.0"
+  }
+}

@@ -1,0 +1,1402 @@
+{
+  "schema": "clone-u00-oracles/1",
+  "authority": "state/sprite-decomposition-report.md (static technical authority); rules reproduced from state/sprite-clone-plan.md §3-§4 where the plan restates them",
+  "anchorConvention": "Anchors are copied from the report, not re-derived. sim.js = app/runtime/sim.js, formats.js = app/js/formats.js, both under SRC = /Users/indo/.omo/evidence/hun0fx-pixel-studio-demo/app-code/. Numeric ranges are source lines. EVID = the parent directory of SRC.",
+  "kindVocabulary": {
+    "literal": "The report states the rule or value directly at the cited anchor.",
+    "derived": "A value computed arithmetically from a literal rule above. It is an authored expected value, not a report assertion; the derivation is given so it can be independently recomputed."
+  },
+  "rules": [
+    {
+      "id": "O-RNG-01",
+      "kind": "literal",
+      "status": "report-literal",
+      "rule": "makeRng is a Park-Miller recurrence: multiplier 16807, modulus 2147483647, unsigned seed conversion and zero fallback 1.",
+      "reportSection": "§4",
+      "anchors": [
+        "sim.js:71-76"
+      ],
+      "stageIds": [
+        "curves-rng"
+      ]
+    },
+    {
+      "id": "O-RNG-02",
+      "kind": "derived",
+      "status": "derived-example",
+      "rule": "With seed 1 the recurrence's first integer is 16807.",
+      "reportSection": "§4",
+      "anchors": [
+        "sim.js:71-76"
+      ],
+      "stageIds": [
+        "curves-rng"
+      ],
+      "derivation": "1 * 16807 mod 2147483647 = 16807",
+      "derivedFrom": "O-RNG-01"
+    },
+    {
+      "id": "O-RNG-03",
+      "kind": "literal",
+      "status": "report-literal",
+      "rule": "An effect owns one generator shared across emitters; HunFXEffect.play resets that stream and EmitterSim.play does not independently reseed it.",
+      "reportSection": "§4",
+      "anchors": [
+        "sim.js:93-94,107-115",
+        "effect.js:29,45,84-91"
+      ],
+      "stageIds": [
+        "curves-rng",
+        "emission"
+      ]
+    },
+    {
+      "id": "O-RNG-04",
+      "kind": "literal",
+      "status": "report-literal",
+      "rule": "Spawn consumes shape draws, curve draws and per-particle stored random values; particle state later reuses those stored fractions; burst/rate evaluations also consume draws, so emitter traversal order and enabled branches participate in the sequence.",
+      "reportSection": "§4",
+      "anchors": [
+        "sim.js:117-180",
+        "effect.js:130-132"
+      ],
+      "stageIds": [
+        "curves-rng",
+        "emission",
+        "motion"
+      ]
+    },
+    {
+      "id": "O-RNG-05",
+      "kind": "literal",
+      "status": "report-literal",
+      "rule": "The pixel sampler uses Math.random() after its initial 40000 samples; UI dice and unspecified effect seeds also use unseeded randomness.",
+      "reportSection": "§4",
+      "anchors": [
+        "pixel.js:188-201",
+        "app.js:230-232",
+        "effect.js:85-86"
+      ],
+      "stageIds": [
+        "pixel"
+      ]
+    },
+    {
+      "id": "O-CURVE-01",
+      "kind": "literal",
+      "status": "report-literal",
+      "rule": "Scalar curves support constant c, random interval r, scaled Hermite k and blended scaled Hermite rk; missing or unknown scalar curves return 0.",
+      "reportSection": "§4",
+      "anchors": [
+        "sim.js:6-31"
+      ],
+      "stageIds": [
+        "curves-rng"
+      ]
+    },
+    {
+      "id": "O-CURVE-02",
+      "kind": "literal",
+      "status": "report-literal",
+      "rule": "Hermite clamps endpoints and uses the left key's index 3 tangent and the right key's index 2 tangent with segment duration.",
+      "reportSection": "§4",
+      "anchors": [
+        "sim.js:6-31"
+      ],
+      "stageIds": [
+        "curves-rng"
+      ]
+    },
+    {
+      "id": "O-CURVE-03",
+      "kind": "literal",
+      "status": "report-literal",
+      "rule": "Color evaluation supports constant/ranged colors and single/ranged gradients; color and alpha keys are independent; fixed mode chooses interpolation fraction 1 for an interior segment; missing color input gives white.",
+      "reportSection": "§4",
+      "anchors": [
+        "sim.js:33-66"
+      ],
+      "stageIds": [
+        "curves-rng"
+      ]
+    },
+    {
+      "id": "O-CURVE-04",
+      "kind": "literal",
+      "status": "report-literal",
+      "rule": "Color conversion uses the piecewise gamma-to-linear rule at 0.04045 and 1, with exponent 2.2 above 1.",
+      "reportSection": "§4",
+      "anchors": [
+        "sim.js:68",
+        "material.js:5"
+      ],
+      "stageIds": [
+        "curves-rng",
+        "shaders"
+      ],
+      "partial": true,
+      "openGap": "G11",
+      "note": "Breakpoints and the exponent are stated; the full expression for the interior branch is not enumerated by the report."
+    },
+    {
+      "id": "O-CAP-01",
+      "kind": "literal",
+      "status": "report-literal",
+      "rule": "Capacity is min(def.max || 1000, 256).",
+      "reportSection": "§5",
+      "anchors": [
+        "sim.js:93-115"
+      ],
+      "stageIds": [
+        "emission"
+      ]
+    },
+    {
+      "id": "O-CAP-02",
+      "kind": "derived",
+      "status": "derived-example",
+      "rule": "Configured maxima 3, 256 and 300 produce capacities 3, 256 and 256; an absent maximum produces 256.",
+      "reportSection": "§5",
+      "anchors": [
+        "sim.js:93-115"
+      ],
+      "stageIds": [
+        "emission"
+      ],
+      "derivation": "min(max || 1000, 256): min(3,256)=3; min(256,256)=256; min(300,256)=256; min(1000,256)=256",
+      "derivedFrom": "O-CAP-01"
+    },
+    {
+      "id": "O-CAP-03",
+      "kind": "literal",
+      "status": "report-literal",
+      "rule": "Play clears particles and delay/rate/burst/cycle/stopped state.",
+      "reportSection": "§5",
+      "anchors": [
+        "sim.js:93-115"
+      ],
+      "stageIds": [
+        "emission"
+      ]
+    },
+    {
+      "id": "O-CAP-04",
+      "kind": "literal",
+      "status": "report-literal",
+      "rule": "Loop+prewarm repeatedly updates at 1/60 while accumulated time is below duration, then sets preT to duration and shifts delay; it does not use an integer fixed-step count and the report does not claim exact elapsed integration.",
+      "reportSection": "§5",
+      "anchors": [
+        "sim.js:111-115"
+      ],
+      "stageIds": [
+        "effect-clock"
+      ]
+    },
+    {
+      "id": "O-CAP-05",
+      "kind": "literal",
+      "status": "report-literal",
+      "rule": "Life minimum is 0.01.",
+      "reportSection": "§5",
+      "anchors": [
+        "sim.js:144-167"
+      ],
+      "stageIds": [
+        "emission",
+        "motion"
+      ]
+    },
+    {
+      "id": "O-SHAPE-01",
+      "kind": "literal",
+      "status": "report-literal",
+      "rule": "Shape types are sphere/hemisphere 0-3, cones 4/7/8/9, circles 10/11 and box 5; shape position is scaled, rotated Z-X-Y and translated.",
+      "reportSection": "§5",
+      "anchors": [
+        "sim.js:79-87,117-143"
+      ],
+      "stageIds": [
+        "emission"
+      ]
+    },
+    {
+      "id": "O-SHAPE-02",
+      "kind": "literal",
+      "status": "report-literal",
+      "rule": "Unsupported shape codes keep the initial origin/+Z before transforms.",
+      "reportSection": "§5",
+      "anchors": [
+        "sim.js:117-143"
+      ],
+      "stageIds": [
+        "emission"
+      ]
+    },
+    {
+      "id": "O-EMIT-01",
+      "kind": "literal",
+      "status": "report-literal",
+      "rule": "The emission clock applies a delay gate, a duration-inclusive one-shot gate, modulo loop time, per-cycle burst reset, repeat catch-up and a fractional rate accumulator.",
+      "reportSection": "§5",
+      "anchors": [
+        "sim.js:169-181"
+      ],
+      "stageIds": [
+        "emission"
+      ]
+    },
+    {
+      "id": "O-EMIT-02",
+      "kind": "literal",
+      "status": "report-literal",
+      "rule": "Spawn attributes are normalized system time, life minimum 0.01, scalar/3D size and rotation, direction alignment, initial color/flip/randoms; world-space position and velocity are transformed at emission.",
+      "reportSection": "§5",
+      "anchors": [
+        "sim.js:144-167"
+      ],
+      "stageIds": [
+        "emission"
+      ]
+    },
+    {
+      "id": "O-MOTION-01",
+      "kind": "literal",
+      "status": "report-literal",
+      "rule": "Age advances before the death check; particles reaching life are removed before motion.",
+      "reportSection": "§5",
+      "anchors": [
+        "sim.js:183-186"
+      ],
+      "stageIds": [
+        "motion"
+      ]
+    },
+    {
+      "id": "O-MOTION-02",
+      "kind": "literal",
+      "status": "report-literal",
+      "rule": "Gravity is applied then force-over-life; magnitude damping then exponential drag.",
+      "reportSection": "§5",
+      "anchors": [
+        "sim.js:182-201"
+      ],
+      "stageIds": [
+        "motion"
+      ]
+    },
+    {
+      "id": "O-MOTION-03",
+      "kind": "literal",
+      "status": "report-literal",
+      "rule": "Motion multiplies base+velocity-over-life by the speed modifier, then applies orbital rotations/radial motion, then sequential sinusoidal noise.",
+      "reportSection": "§5",
+      "anchors": [
+        "sim.js:202-224"
+      ],
+      "stageIds": [
+        "motion"
+      ]
+    },
+    {
+      "id": "O-MOTION-04",
+      "kind": "literal",
+      "status": "report-literal",
+      "rule": "Total velocity is derived from the final displacement over dt when dt exceeds 1e-6, rather than only base velocity.",
+      "reportSection": "§5",
+      "anchors": [
+        "sim.js:202,225"
+      ],
+      "stageIds": [
+        "motion"
+      ]
+    },
+    {
+      "id": "O-MOTION-05",
+      "kind": "literal",
+      "status": "report-literal",
+      "rule": "Trail history applies spawn probability, local/world conversion, minimum-distance insertion and strict age-greater-than lifetime pruning.",
+      "reportSection": "§5",
+      "anchors": [
+        "sim.js:100-105,165,226-231"
+      ],
+      "stageIds": [
+        "motion"
+      ]
+    },
+    {
+      "id": "O-MOTION-06",
+      "kind": "literal",
+      "status": "report-literal",
+      "rule": "Render state covers size/rotation/color-over-life, RGB linearization, lifetime/FPS sheet addressing, row selection, negative wrapping and custom channels.",
+      "reportSection": "§5",
+      "anchors": [
+        "sim.js:240-273"
+      ],
+      "stageIds": [
+        "motion",
+        "instances"
+      ]
+    },
+    {
+      "id": "O-CLOCK-01",
+      "kind": "literal",
+      "status": "report-literal",
+      "rule": "Effect update caps incoming dt at 0.25 before tempo.",
+      "reportSection": "§5",
+      "anchors": [
+        "effect.js:5-6,98-132"
+      ],
+      "stageIds": [
+        "effect-clock"
+      ]
+    },
+    {
+      "id": "O-CLOCK-02",
+      "kind": "literal",
+      "status": "report-literal",
+      "rule": "_advance steps only while t + 1/120 <= clock + 1e-9; it does not advance until t exceeds clock.",
+      "reportSection": "§5",
+      "anchors": [
+        "effect.js:98-132"
+      ],
+      "stageIds": [
+        "effect-clock"
+      ]
+    },
+    {
+      "id": "O-CLOCK-03",
+      "kind": "literal",
+      "status": "report-literal",
+      "rule": "Backward seek restarts using the stored seed.",
+      "reportSection": "§5",
+      "anchors": [
+        "effect.js:98-132"
+      ],
+      "stageIds": [
+        "effect-clock"
+      ]
+    },
+    {
+      "id": "O-CLOCK-04",
+      "kind": "literal",
+      "status": "report-literal",
+      "rule": "Completion requires every emitter to have no live particles and no remaining emission; stop suppresses new emission but allows existing particles to finish.",
+      "reportSection": "§5",
+      "anchors": [
+        "effect.js:95,111-116,134-137",
+        "sim.js:235-238"
+      ],
+      "stageIds": [
+        "effect-clock"
+      ]
+    },
+    {
+      "id": "O-CLOCK-05",
+      "kind": "literal",
+      "status": "report-literal",
+      "rule": "Existing world particles are converted back through the emitter inverse for GPU output; holder transforms and attribute writes implement the Unity/three handedness boundary; world matrices are refreshed for world particles/trails.",
+      "reportSection": "§5",
+      "anchors": [
+        "effect.js:61-64,118-128,150-158,254-260"
+      ],
+      "stageIds": [
+        "effect-clock",
+        "instances"
+      ]
+    },
+    {
+      "id": "O-INST-01",
+      "kind": "literal",
+      "status": "report-literal",
+      "rule": "Render modes are billboard 0, stretched 1 and mesh/oriented-quad 4; geometry comes from the mesh asset or the shared quad.",
+      "reportSection": "§6",
+      "anchors": [
+        "effect.js:10,38-81"
+      ],
+      "stageIds": [
+        "instances"
+      ]
+    },
+    {
+      "id": "O-INST-02",
+      "kind": "literal",
+      "status": "report-literal",
+      "rule": "Mesh pivot uses geometry bounds; the holder transform flips z and quaternion x/y signs; render order incorporates emitter index and fudge; per-frame writes optionally depth-sort and set instance count/dirty flags.",
+      "reportSection": "§6",
+      "anchors": [
+        "effect.js:51-65,139-164"
+      ],
+      "stageIds": [
+        "instances"
+      ]
+    },
+    {
+      "id": "O-INST-03",
+      "kind": "literal",
+      "status": "report-literal",
+      "rule": "Trail geometry uses at most 1024 stretched segment instances with midpoint/direction/width/arc-length UVs and a separate material, drawn before its particle mesh.",
+      "reportSection": "§6",
+      "anchors": [
+        "effect.js:8,67-77,166-197"
+      ],
+      "stageIds": [
+        "instances"
+      ]
+    },
+    {
+      "id": "O-MAT-01",
+      "kind": "literal",
+      "status": "report-literal",
+      "rule": "Material dispatch distinguishes simple, stencil, builtin-additive and common/legacy shaders.",
+      "reportSection": "§6",
+      "anchors": [
+        "material.js:16-81"
+      ],
+      "stageIds": [
+        "shaders"
+      ]
+    },
+    {
+      "id": "O-MAT-02",
+      "kind": "literal",
+      "status": "report-literal",
+      "rule": "Keywords control gas alpha, color, dissolve color, position scroll, fresnel, depth fade and vertex offset.",
+      "reportSection": "§6",
+      "anchors": [
+        "material.js:16-81"
+      ],
+      "stageIds": [
+        "shaders"
+      ]
+    },
+    {
+      "id": "O-MAT-03",
+      "kind": "literal",
+      "status": "report-literal",
+      "rule": "Missing texture references use white.",
+      "reportSection": "§6",
+      "anchors": [
+        "material.js:16-81"
+      ],
+      "stageIds": [
+        "shaders"
+      ]
+    },
+    {
+      "id": "O-MAT-04",
+      "kind": "literal",
+      "status": "report-literal",
+      "rule": "Blending is additive One/One or straight-alpha SrcAlpha/OneMinusSrcAlpha, with depth writing off.",
+      "reportSection": "§6",
+      "anchors": [
+        "material.js:16-81"
+      ],
+      "stageIds": [
+        "shaders"
+      ]
+    },
+    {
+      "id": "O-MAT-05",
+      "kind": "literal",
+      "status": "report-literal",
+      "rule": "Depth fading uses an analytic floor approximation, not a sampled scene-depth texture.",
+      "reportSection": "§6",
+      "anchors": [
+        "shaders.js:65-123"
+      ],
+      "stageIds": [
+        "shaders"
+      ]
+    },
+    {
+      "id": "O-MAT-06",
+      "kind": "literal",
+      "status": "report-literal",
+      "rule": "Texture wrapping follows clamp; texture colorSpace is NoColorSpace because the shader receives explicit sRGB flags.",
+      "reportSection": "§3",
+      "anchors": [
+        "library.js:121-158"
+      ],
+      "stageIds": [
+        "shaders",
+        "library"
+      ]
+    },
+    {
+      "id": "O-CAPTURE-01",
+      "kind": "literal",
+      "status": "report-literal",
+      "rule": "Capture quantizes requested advancement by round(seconds*60) updates of 1/60, each reaching the effect's 1/120 clock.",
+      "reportSection": "§6",
+      "anchors": [
+        "capture.js:50,57-90"
+      ],
+      "stageIds": [
+        "capture"
+      ]
+    },
+    {
+      "id": "O-CAPTURE-02",
+      "kind": "literal",
+      "status": "report-literal",
+      "rule": "The bounds pass uses 256-square black/white captures and an alpha threshold of 30.",
+      "reportSection": "§6",
+      "anchors": [
+        "capture.js:57-90"
+      ],
+      "stageIds": [
+        "capture"
+      ]
+    },
+    {
+      "id": "O-CAPTURE-03",
+      "kind": "literal",
+      "status": "report-literal",
+      "rule": "Bounds are unioned across frames and a 1:1/2:1/1:2 shape is chosen using ratio 1.7.",
+      "reportSection": "§6",
+      "anchors": [
+        "capture.js:57-90"
+      ],
+      "stageIds": [
+        "capture"
+      ]
+    },
+    {
+      "id": "O-CAPTURE-04",
+      "kind": "literal",
+      "status": "report-literal",
+      "rule": "Final capture uses an integer supersampling factor clamped 2-8, restarts the effect, then renders black, white and half-intensity black per output frame.",
+      "reportSection": "§6",
+      "anchors": [
+        "capture.js:91-113"
+      ],
+      "stageIds": [
+        "capture"
+      ]
+    },
+    {
+      "id": "O-CAPTURE-05",
+      "kind": "literal",
+      "status": "report-literal",
+      "rule": "Alpha is the clamped maximum of channelwise 255-minus-background-difference; RGB is unpremultiplied from the half-intensity image; rows are flipped; the stored representation keeps half-color headroom.",
+      "reportSection": "§6",
+      "anchors": [
+        "capture.js:91-113"
+      ],
+      "stageIds": [
+        "capture"
+      ]
+    },
+    {
+      "id": "O-CAPTURE-06",
+      "kind": "literal",
+      "status": "report-literal",
+      "rule": "The library shader clock advances in HunFX.update; capture restarts effects but does not reset that library clock between passes.",
+      "reportSection": "§6",
+      "anchors": [
+        "library.js:204-207",
+        "capture.js:31-38,50,65,95"
+      ],
+      "stageIds": [
+        "capture"
+      ]
+    },
+    {
+      "id": "O-CAPTURE-07",
+      "kind": "literal",
+      "status": "report-literal",
+      "rule": "Capture loop determination uses absent/nonpositive duration.",
+      "reportSection": "§6",
+      "anchors": [
+        "app.js:390-414"
+      ],
+      "stageIds": [
+        "capture"
+      ]
+    },
+    {
+      "id": "O-CAPTURE-08",
+      "kind": "literal",
+      "status": "report-literal",
+      "rule": "The application limits demo environment width to 160.",
+      "reportSection": "§8",
+      "anchors": [
+        "app.js:404-413"
+      ],
+      "stageIds": [
+        "alternate"
+      ]
+    },
+    {
+      "id": "O-CAPTURE-09",
+      "kind": "literal",
+      "status": "report-literal",
+      "rule": "Capture options apply slash category orientation, side-view roll, catalog-based search size, duration/loop/fps/warmup, layer hiding and demo size restrictions.",
+      "reportSection": "§6",
+      "anchors": [
+        "app.js:390-414",
+        "capture.js:31-45"
+      ],
+      "stageIds": [
+        "capture"
+      ]
+    },
+    {
+      "id": "O-PIXEL-01",
+      "kind": "literal",
+      "status": "report-literal",
+      "rule": "pixelate rejects empty captures and invalid dimensions.",
+      "reportSection": "§7",
+      "anchors": [
+        "pixel.js:136-159"
+      ],
+      "stageIds": [
+        "pixel"
+      ]
+    },
+    {
+      "id": "O-PIXEL-02",
+      "kind": "literal",
+      "status": "report-literal",
+      "rule": "Output dimensions come from shape or explicit outW/outH; source blocks are alpha-weighted; the half-color factor 2 is restored; white-hot brightening is applied.",
+      "reportSection": "§7",
+      "anchors": [
+        "pixel.js:136-159"
+      ],
+      "stageIds": [
+        "pixel"
+      ]
+    },
+    {
+      "id": "O-PIXEL-03",
+      "kind": "literal",
+      "status": "report-literal",
+      "rule": "Optional gradient mapping samples luminance, uses 2nd/98th percentiles with a minimum span, adjusts faint-alpha placement and mixes a LUT.",
+      "reportSection": "§7",
+      "anchors": [
+        "pixel.js:23-51,160-190"
+      ],
+      "stageIds": [
+        "pixel"
+      ]
+    },
+    {
+      "id": "O-PIXEL-04",
+      "kind": "literal",
+      "status": "report-literal",
+      "rule": "Hue/saturation and edge darkening precede alpha quantization.",
+      "reportSection": "§7",
+      "anchors": [
+        "pixel.js:160-190"
+      ],
+      "stageIds": [
+        "pixel"
+      ]
+    },
+    {
+      "id": "O-PIXEL-05",
+      "kind": "literal",
+      "status": "report-literal",
+      "rule": "Alpha at or below threshold becomes 0; one alpha level makes survivors opaque; otherwise ceiling quantization produces steps.",
+      "reportSection": "§7",
+      "anchors": [
+        "pixel.js:53-81,183-203"
+      ],
+      "stageIds": [
+        "pixel"
+      ]
+    },
+    {
+      "id": "O-PIXEL-06",
+      "kind": "literal",
+      "status": "report-literal",
+      "rule": "Auto-bright derives gain from 90th-percentile luminance unless gradient mapping is enabled.",
+      "reportSection": "§7",
+      "anchors": [
+        "pixel.js:53-81,183-203"
+      ],
+      "stageIds": [
+        "pixel"
+      ]
+    },
+    {
+      "id": "O-PIXEL-07",
+      "kind": "literal",
+      "status": "report-literal",
+      "rule": "Custom palettes bypass median cut; otherwise median-cut sampling generates a shared sequence palette.",
+      "reportSection": "§7",
+      "anchors": [
+        "pixel.js:53-81,183-203"
+      ],
+      "stageIds": [
+        "pixel"
+      ]
+    },
+    {
+      "id": "O-PIXEL-08",
+      "kind": "literal",
+      "status": "report-literal",
+      "rule": "Cleanup removes small 8-connected foreground components and optionally fills enclosed 4-connected holes.",
+      "reportSection": "§7",
+      "anchors": [
+        "pixel.js:99-134,204-229"
+      ],
+      "stageIds": [
+        "pixel"
+      ]
+    },
+    {
+      "id": "O-PIXEL-09",
+      "kind": "literal",
+      "status": "report-literal",
+      "rule": "Bayer 2/4 dithering precedes nearest-color selection.",
+      "reportSection": "§7",
+      "anchors": [
+        "pixel.js:99-134,204-229"
+      ],
+      "stageIds": [
+        "pixel"
+      ]
+    },
+    {
+      "id": "O-PIXEL-10",
+      "kind": "literal",
+      "status": "report-literal",
+      "rule": "Inner/outer outlines use 4 or 8 neighbors and can add an outline color not included in the returned palette list.",
+      "reportSection": "§7",
+      "anchors": [
+        "pixel.js:99-134,204-229"
+      ],
+      "stageIds": [
+        "pixel"
+      ]
+    },
+    {
+      "id": "O-PIXEL-11",
+      "kind": "literal",
+      "status": "report-literal",
+      "rule": "Palette imports accept text hex colors or distinct opaque image colors.",
+      "reportSection": "§7",
+      "anchors": [
+        "pixel.js:83-97"
+      ],
+      "stageIds": [
+        "pixel"
+      ]
+    },
+    {
+      "id": "O-PIXEL-12",
+      "kind": "literal",
+      "status": "report-literal",
+      "rule": "The gradient editor supports 2-8 stops, sorted positions and conversion of the legacy reverse flag.",
+      "reportSection": "§7",
+      "anchors": [
+        "app.js:236-260,270-318",
+        "pixel.js:83-97"
+      ],
+      "stageIds": [
+        "pixel",
+        "settings"
+      ]
+    },
+    {
+      "id": "O-TIMING-01",
+      "kind": "literal",
+      "status": "report-literal",
+      "rule": "Holds are integer 0-8, where 0 drops a frame.",
+      "reportSection": "§7",
+      "anchors": [
+        "timing.js:1-71"
+      ],
+      "stageIds": [
+        "timing"
+      ]
+    },
+    {
+      "id": "O-TIMING-02",
+      "kind": "literal",
+      "status": "report-literal",
+      "rule": "Markers express time independently of fps.",
+      "reportSection": "§7",
+      "anchors": [
+        "timing.js:1-71"
+      ],
+      "stageIds": [
+        "timing"
+      ]
+    },
+    {
+      "id": "O-TIMING-03",
+      "kind": "literal",
+      "status": "report-literal",
+      "rule": "applyHolds removes dropped frames, bakeHolds duplicates survivors, totalTime sums holds/fps and stepped holds group frames.",
+      "reportSection": "§7",
+      "anchors": [
+        "timing.js:1-71"
+      ],
+      "stageIds": [
+        "timing"
+      ]
+    },
+    {
+      "id": "O-TIMING-04",
+      "kind": "derived",
+      "status": "derived-example",
+      "rule": "Holds [1,0,3] give two retained frames and four baked frames.",
+      "reportSection": "§7",
+      "anchors": [
+        "timing.js:1-71",
+        "app.js:430-445,530-540"
+      ],
+      "stageIds": [
+        "timing"
+      ],
+      "derivation": "frame1 hold 1 retained -> 1 baked; frame2 hold 0 dropped; frame3 hold 3 retained -> 3 baked; retained = 2, baked = 1 + 3 = 4",
+      "derivedFrom": "O-TIMING-01/O-TIMING-03"
+    },
+    {
+      "id": "O-TIMING-05",
+      "kind": "literal",
+      "status": "report-literal",
+      "rule": "Saved timing is keyed by frame-count and fps; recommendation marks are not automatically applied to default playback, whose holds default to 1; the UI prevents all-zero holds.",
+      "reportSection": "§7",
+      "anchors": [
+        "app.js:430-445,530-540"
+      ],
+      "stageIds": [
+        "timing",
+        "studio"
+      ]
+    },
+    {
+      "id": "O-TIMING-06",
+      "kind": "literal",
+      "status": "report-literal",
+      "rule": "Preview advances displayed frames according to those holds.",
+      "reportSection": "§7",
+      "anchors": [
+        "app.js:530-540"
+      ],
+      "stageIds": [
+        "timing",
+        "studio"
+      ]
+    },
+    {
+      "id": "O-ALT-01",
+      "kind": "literal",
+      "status": "report-literal",
+      "rule": "Ambient presets and parameter specifications are code-defined; a seeded builder constructs layers and drawEnvFrame evaluates their paths as a function of loop phase.",
+      "reportSection": "§8",
+      "anchors": [
+        "env2d.js:12-109,110-257"
+      ],
+      "stageIds": [
+        "alternate"
+      ]
+    },
+    {
+      "id": "O-ALT-02",
+      "kind": "literal",
+      "status": "report-literal",
+      "rule": "Supported ambient drawing includes falling/rising/drifting/twinkling particles, bolts, splash and fog; optional sprite images can be used.",
+      "reportSection": "§8",
+      "anchors": [
+        "env2d.js:12-109,110-257"
+      ],
+      "stageIds": [
+        "alternate"
+      ]
+    },
+    {
+      "id": "O-ALT-03",
+      "kind": "literal",
+      "status": "report-literal",
+      "rule": "envCapture evaluates frames into a supersampled Canvas and returns the common capture representation.",
+      "reportSection": "§8",
+      "anchors": [
+        "env2d.js:259-283"
+      ],
+      "stageIds": [
+        "alternate"
+      ]
+    },
+    {
+      "id": "O-ALT-04",
+      "kind": "literal",
+      "status": "report-literal",
+      "rule": "Sprite capture loads/caches sheet images, selects cells, supports recolor ramps, range/fps/speed and geometric flip/rotation, then returns frames for the same pixel stage.",
+      "reportSection": "§8",
+      "anchors": [
+        "spritefx.js:7-102",
+        "app.js:218-224,411-424"
+      ],
+      "stageIds": [
+        "alternate"
+      ]
+    },
+    {
+      "id": "O-ALT-05",
+      "kind": "literal",
+      "status": "report-literal",
+      "rule": "Ambient RNG is separate from particle RNG: rngFrom uses a different integer generator and combines the user seed with a hash of preset ID; counts scale with canvas area (fog with its square root); depth tiers vary size/alpha; capture stores half-color and returns explicit dimensions and loop=true.",
+      "reportSection": "§8",
+      "anchors": [
+        "env2d.js:56-79,259-273"
+      ],
+      "stageIds": [
+        "alternate"
+      ]
+    },
+    {
+      "id": "O-EXP-01",
+      "kind": "literal",
+      "status": "report-literal",
+      "rule": "Sheet/PNG: layout picks a grid or fixed columns, draws ImageData frames into a sheet and PNG uses Canvas blob encoding.",
+      "reportSection": "§9",
+      "anchors": [
+        "formats.js:5-33"
+      ],
+      "stageIds": [
+        "exports"
+      ]
+    },
+    {
+      "id": "O-EXP-02",
+      "kind": "literal",
+      "status": "report-literal",
+      "rule": "GIF: global indexed palette, optional transparency/background compositing, alpha cutoff 128, integer scaling, own LZW, max 256 colors and cumulative centisecond delay rounding.",
+      "reportSection": "§9",
+      "anchors": [
+        "formats.js:36-91"
+      ],
+      "stageIds": [
+        "exports"
+      ]
+    },
+    {
+      "id": "O-EXP-03",
+      "kind": "literal",
+      "status": "report-literal",
+      "rule": "encodeGif has a loop option, but the application call omits loop:o.loop; its default writes the repeat extension's infinite value.",
+      "reportSection": "§9",
+      "anchors": [
+        "formats.js:76-78",
+        "app.js:590"
+      ],
+      "stageIds": [
+        "exports",
+        "output"
+      ]
+    },
+    {
+      "id": "O-EXP-04",
+      "kind": "literal",
+      "status": "report-literal",
+      "rule": "ZIP uses store-mode entries with CRC32 and directory records.",
+      "reportSection": "§9",
+      "anchors": [
+        "formats.js:94-114"
+      ],
+      "stageIds": [
+        "exports"
+      ]
+    },
+    {
+      "id": "O-EXP-05",
+      "kind": "literal",
+      "status": "report-literal",
+      "rule": "Aseprite: RGBA document, layer/cel chunks, zlib compression and hold-based frame durations.",
+      "reportSection": "§9",
+      "anchors": [
+        "formats.js:117-156"
+      ],
+      "stageIds": [
+        "exports"
+      ]
+    },
+    {
+      "id": "O-EXP-06",
+      "kind": "literal",
+      "status": "report-literal",
+      "rule": "JSON: frame rectangles/durations plus dimensions, fps, loop, origin and caller metadata.",
+      "reportSection": "§9",
+      "anchors": [
+        "formats.js:159-165"
+      ],
+      "stageIds": [
+        "exports"
+      ]
+    },
+    {
+      "id": "O-EXP-07",
+      "kind": "literal",
+      "status": "report-literal",
+      "rule": "Godot: AtlasTexture regions and SpriteFrames animation with hold-derived durations.",
+      "reportSection": "§9",
+      "anchors": [
+        "formats.js:168-175"
+      ],
+      "stageIds": [
+        "exports"
+      ]
+    },
+    {
+      "id": "O-EXP-08",
+      "kind": "literal",
+      "status": "report-literal",
+      "rule": "Unity: TextureImporter sprite-sheet metadata with ppu/pivot and per-sprite rectangles.",
+      "reportSection": "§9",
+      "anchors": [
+        "formats.js:178-301"
+      ],
+      "stageIds": [
+        "exports"
+      ]
+    },
+    {
+      "id": "O-EXP-09",
+      "kind": "literal",
+      "status": "report-literal",
+      "rule": "Unity metadata generates identifiers with crypto.getRandomValues; repeated metadata generation is not specified as byte-identical by a particle seed.",
+      "reportSection": "§9",
+      "anchors": [
+        "formats.js:177-180"
+      ],
+      "stageIds": [
+        "exports"
+      ]
+    },
+    {
+      "id": "O-EXP-10",
+      "kind": "literal",
+      "status": "report-literal",
+      "rule": "Export ranges are 1-based inclusive in the UI and become zero-based slices; range selection precedes hold removal/baking.",
+      "reportSection": "§9",
+      "anchors": [
+        "app.js:324-345,570-597"
+      ],
+      "stageIds": [
+        "exports",
+        "output"
+      ]
+    },
+    {
+      "id": "O-EXP-11",
+      "kind": "literal",
+      "status": "report-literal",
+      "rule": "File paths group by format, optionally effect/view; JSON/Godot/Unity each receive their own sheet copy.",
+      "reportSection": "§9",
+      "anchors": [
+        "app.js:324-345,570-597"
+      ],
+      "stageIds": [
+        "exports",
+        "output"
+      ]
+    },
+    {
+      "id": "O-EXP-12",
+      "kind": "literal",
+      "status": "report-literal",
+      "rule": "Batch jobs expand effects by views and seed variations, but sprites use one view/variation; each job is handled independently and errors are logged rather than terminating the whole loop.",
+      "reportSection": "§9",
+      "anchors": [
+        "app.js:653-679"
+      ],
+      "stageIds": [
+        "output"
+      ]
+    },
+    {
+      "id": "O-EXP-13",
+      "kind": "literal",
+      "status": "report-literal",
+      "rule": "Demo exports are restricted twice: the settings/UI clamp and the filesFor format selection allow sheet/frames/GIF only.",
+      "reportSection": "§9",
+      "anchors": [
+        "app.js:53,72,167-170,575"
+      ],
+      "stageIds": [
+        "exports",
+        "output",
+        "settings"
+      ]
+    },
+    {
+      "id": "O-EXP-14",
+      "kind": "literal",
+      "status": "report-literal",
+      "rule": "Desktop output calls preload IPC and writes files directly; browser output uses a directory handle when available or accumulates a ZIP download; Electron write paths are resolved under the chosen root and can fall back to Documents for specified permission errors at the default destination.",
+      "reportSection": "§9",
+      "anchors": [
+        "app.js:600-642",
+        "preload.js:3-8",
+        "main.js:42-67"
+      ],
+      "stageIds": [
+        "output"
+      ]
+    },
+    {
+      "id": "O-SHELL-01",
+      "kind": "literal",
+      "status": "report-literal",
+      "rule": "Settings bindings classify changes as recapture (cap), pixel-only reprocess (px) or export-only; recapture is debounced 350ms and gradient pixel changes 60ms.",
+      "reportSection": "§10",
+      "anchors": [
+        "app.js:136-191,316-318,415-426"
+      ],
+      "stageIds": [
+        "studio"
+      ]
+    },
+    {
+      "id": "O-SHELL-02",
+      "kind": "literal",
+      "status": "report-literal",
+      "rule": "The capture cache keys effect ID plus serialized capture options, retains up to 12 entries and is memory-only.",
+      "reportSection": "§10",
+      "anchors": [
+        "app.js:136-191,316-318,415-426"
+      ],
+      "stageIds": [
+        "studio"
+      ]
+    },
+    {
+      "id": "O-SHELL-03",
+      "kind": "literal",
+      "status": "report-literal",
+      "rule": "open guards asynchronous results with a token; locked effects clear preview; errors surface file/line-derived context; this is stale-result suppression, not a general cancellation mechanism.",
+      "reportSection": "§10",
+      "anchors": [
+        "app.js:480-510,561-567,687-694"
+      ],
+      "stageIds": [
+        "studio"
+      ]
+    },
+    {
+      "id": "O-SHELL-04",
+      "kind": "literal",
+      "status": "report-literal",
+      "rule": "Persistent JSON state includes settings, selected IDs, presets, current effect, language, creator flag and creator recommendations; settings include seeds, timing, hidden layers, environment overrides, sprite tints and output directory; presets deliberately omit per-effect fields and preserve them on application.",
+      "reportSection": "§10",
+      "anchors": [
+        "app.js:24-46,76,117-125,374-386,460-465,722-734"
+      ],
+      "stageIds": [
+        "studio",
+        "settings"
+      ]
+    },
+    {
+      "id": "O-SHELL-05",
+      "kind": "literal",
+      "status": "report-literal",
+      "rule": "UI-size preference is separately stored as hun0fx.pixel.ui; DPR-aware sizing rounds to integral physical pixels.",
+      "reportSection": "§10",
+      "anchors": [
+        "ui.js:4-25"
+      ],
+      "stageIds": [
+        "studio"
+      ]
+    },
+    {
+      "id": "O-SHELL-06",
+      "kind": "literal",
+      "status": "report-literal",
+      "rule": "Language selection normalizes locale codes and falls back to English or key text; DOM translation supports text/title/placeholder attributes.",
+      "reportSection": "§10",
+      "anchors": [
+        "i18n.js:643-669"
+      ],
+      "stageIds": [
+        "studio"
+      ]
+    },
+    {
+      "id": "O-SHELL-07",
+      "kind": "literal",
+      "status": "report-literal",
+      "rule": "The HTTP server binds 127.0.0.1, prefers port 47621 for a full-pack installation or 47622 otherwise, falls back to an ephemeral port on server error, requires a random URL prefix and performs a normalized-path prefix check.",
+      "reportSection": "§3",
+      "anchors": [
+        "main.js:6-34"
+      ],
+      "stageIds": [
+        "studio"
+      ]
+    },
+    {
+      "id": "O-SHELL-08",
+      "kind": "literal",
+      "status": "report-literal",
+      "rule": "Main-process full-edition detection is file existence of data/hun0fx.pak; renderer demo detection is manifest.edition === 'demo'; they are separate decisions.",
+      "reportSection": "§3",
+      "anchors": [
+        "main.js:8-9",
+        "app.js:50-53"
+      ],
+      "stageIds": [
+        "studio",
+        "library"
+      ]
+    },
+    {
+      "id": "O-SHELL-09",
+      "kind": "literal",
+      "status": "report-literal",
+      "rule": "window.__studio exposes orchestration functions and installs the bridge; bridge methods list/filter effects, read/update settings, preview, modify timing/seed/palette/gradient/env/sprite, manage presets and plan/encode exports.",
+      "reportSection": "§10",
+      "anchors": [
+        "app.js:737-746",
+        "bridge.js:6-7,33-138"
+      ],
+      "stageIds": [
+        "studio"
+      ]
+    },
+    {
+      "id": "O-SHELL-10",
+      "kind": "literal",
+      "status": "report-literal",
+      "rule": "The full-only control server requires POST plus a random key, limits request body size, invokes the renderer bridge and records connection metadata in userData; the preload always exists and mcp-config returns empty for demo.",
+      "reportSection": "§10",
+      "anchors": [
+        "main.js:36-40,85-111,121-130",
+        "preload.js:1-9"
+      ],
+      "stageIds": [
+        "studio"
+      ]
+    },
+    {
+      "id": "O-SHELL-11",
+      "kind": "literal",
+      "status": "report-literal",
+      "rule": "External links are opened through the Electron shell rather than a new in-app window; old runtime directory cleanup is delayed 20 seconds and guarded by launcher environment and parent directory name runtime; window close removes MCP metadata and quits.",
+      "reportSection": "§10",
+      "anchors": [
+        "main.js:118,133-148",
+        "links.js:3-15"
+      ],
+      "stageIds": [
+        "studio"
+      ]
+    },
+    {
+      "id": "O-SHELL-12",
+      "kind": "literal",
+      "status": "report-literal",
+      "rule": "The manifest identifies hun0fx-pixel-studio-demo, product hun0fx Pixel Studio Demo, version 1.2.0 and main entry electron/main.js; the renderer separately declares display version 1.2.",
+      "reportSection": "§1",
+      "anchors": [
+        "package.json:1-8",
+        "app.js:12"
+      ],
+      "stageIds": [
+        "studio"
+      ]
+    },
+    {
+      "id": "O-SHELL-13",
+      "kind": "literal",
+      "status": "report-literal",
+      "rule": "HunFXPost defines half-float HDR targets, multilevel bright-pass/downsample/separable blur, bloom composition, Neutral-style tonemapping and vignette, but it is not invoked by the inspected studio Capture path, which imports HunFX and calls renderer.render directly.",
+      "reportSection": "§6",
+      "anchors": [
+        "post.js:14-83",
+        "capture.js:4-5,9-18,46-49"
+      ],
+      "stageIds": [
+        "capture",
+        "shaders"
+      ]
+    },
+    {
+      "id": "O-LIB-01",
+      "kind": "literal",
+      "status": "report-literal",
+      "rule": "HunFX caches definitions, pending loads, textures and meshes; definition loading supports variant patches and mixes that copy selected emitter layers, shift delays, transform scale/position and merge required assets.",
+      "reportSection": "§3",
+      "anchors": [
+        "library.js:18-54,63-119"
+      ],
+      "stageIds": [
+        "library"
+      ]
+    },
+    {
+      "id": "O-LIB-02",
+      "kind": "literal",
+      "status": "report-literal",
+      "rule": "create requires a loaded definition; play places an effect, adds lift, applies tuning and seed, attaches it to the chosen parent and tracks it; library updates advance shared shader time and dispose completed live effects when configured.",
+      "reportSection": "§3",
+      "anchors": [
+        "library.js:164-211"
+      ],
+      "stageIds": [
+        "library"
+      ]
+    },
+    {
+      "id": "O-LIB-03",
+      "kind": "literal",
+      "status": "report-literal",
+      "rule": "Placement helpers derive category presets and actor axes, support direction/quaternion/position and distinguish attachment from world placement.",
+      "reportSection": "§3",
+      "anchors": [
+        "library.js:229-285",
+        "capture.js:31-38"
+      ],
+      "stageIds": [
+        "library"
+      ]
+    },
+    {
+      "id": "O-LIB-04",
+      "kind": "literal",
+      "status": "report-literal",
+      "rule": "Mesh buffers use supplied positions/UVs/indices/normals, computing normals if absent; the loader does not itself apply a blanket z inversion to mesh positions.",
+      "reportSection": "§3",
+      "anchors": [
+        "library.js:121-158"
+      ],
+      "stageIds": [
+        "library"
+      ]
+    },
+    {
+      "id": "O-LIB-05",
+      "kind": "literal",
+      "status": "report-literal",
+      "rule": "mountPak reads H0PK magic and index length, decodes the index, maps paths to offset/length/flags, caches reads, intercepts fetch only for known data-root paths and supplies texture blob URLs through three's loading manager; compressed entries use deflate and the texture URL path only handles uncompressed entries synchronously.",
+      "reportSection": "§3",
+      "anchors": [
+        "vfs.js:8-27,29-64"
+      ],
+      "stageIds": [
+        "library"
+      ],
+      "openGap": "G01",
+      "note": "The H0PK wire schema itself is not in the report; this rule describes the reader's behaviour only."
+    },
+    {
+      "id": "O-PKG-01",
+      "kind": "literal",
+      "status": "report-literal",
+      "rule": "Inventory assertions: ASAR size 4,868,787 bytes, SHA256 453331f2629c97b1a1dabfe9c10bec82590a02c5ecc510461d37b53b52deeea1, payload base 1812, app/data/demo.pak at offset 3589 with size 2,074,216; 138 pack entries (104 textures, 14 meshes, 16 effect definitions, 2 sprite files, 2 root documents); the manifest schema records 312 catalogued effects.",
+      "reportSection": "§1",
+      "anchors": [
+        "EVID/pack-inventory.json:2-19,21-52,2231-2279"
+      ],
+      "stageIds": [
+        "library"
+      ],
+      "note": "Inventory assertions, not a new archive extraction. These are reference-installation facts and are NOT clone fixture hashes."
+    }
+  ]
+}

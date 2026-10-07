@@ -1,0 +1,224 @@
+{
+  "schema": "clone-u00-fixtures/1",
+  "authority": [
+    "state/sprite-clone-plan.md §5",
+    "state/sprite-decomposition-report.md"
+  ],
+  "status": "SKELETON. Every unresolved value is null with an explicit blocked status. No hash, path, expected value or oracle origin is fabricated.",
+  "manifestRequirement": "The fixture manifest must list branch coverage, seeds, cameras, settings, oracle origin and SHA256 before downstream work (plan §5). Only fixedInputs from the accepted plan are populated; unresolved fields remain null.",
+  "unresolvedConvention": "null means NOT YET AUTHORED, never 'not applicable'. A fixture is not usable while any field it needs is null.",
+  "statusVocabulary": {
+    "blocked-unresolved": "Inputs are selected but the remaining numeric fields, expected oracle values and hashes have not been authored; the fixture may not be used.",
+    "blocked-held-out": "Same as blocked-unresolved, and additionally withheld from implementation workers until U15."
+  },
+  "policies": {
+    "fixtureRole": "Named fixtures are test data, never production conditions (plan §1).",
+    "historicalMatrix": "The historical effect-name fixture matrix is NOT used; the accepted report does not establish those effects' supported content (plan §5).",
+    "authoring": "U00 creates only independently authored data and expected values.",
+    "oracleOrigin": "Expected values come from independently written report-rule oracles (clone/spec/oracles.json), not from calling the production algorithm twice (plan §4).",
+    "neverTune": "Never tune expected results to produced art (plan §5).",
+    "heldOut": "H01 and H02 are frozen and withheld from implementation workers until U15; a final executor uses them unchanged and a failure leads to a general rule fix and reruns of both sets (plan §5).",
+    "independence": "Held-out sets exist for cross-module generalization rather than fixture tuning (plan §5)."
+  },
+  "sharedUnresolvedFields": {
+    "expectedOracles": "Array of expected values, each referencing a rule id in oracles.json.",
+    "settings": "Full normalized settings object used by the fixture.",
+    "assetPaths": "Clone-relative authored asset paths and their SHA256.",
+    "sha256": "SHA256 of every authored input file and of the expected output set.",
+    "oracleOrigin": "Which independently written oracle produced each expected value.",
+    "branchCoverage": "Explicit list of covered branches."
+  },
+  "fixtures": [
+    {
+      "id": "F01",
+      "set": "Representative",
+      "purpose": "Shared RNG, timing, capacity and billboard pipeline",
+      "fixedInputs": {
+        "emitters": "two ordered emitters",
+        "curves": "constant and ranged curves",
+        "seeds": [
+          1,
+          42
+        ],
+        "emission": "burst plus rate",
+        "maxParticles": 3,
+        "cameras": [
+          0,
+          45,
+          90
+        ],
+        "fps": [
+          15,
+          20,
+          24,
+          30
+        ]
+      },
+      "unresolved": {
+        "emitterFieldValues": null,
+        "curveKeyValues": null,
+        "placement": null,
+        "assets": null,
+        "settings": null,
+        "expectedOracles": null,
+        "branchCoverage": null,
+        "oracleOrigin": null,
+        "sha256": null
+      },
+      "withheldUntil": null,
+      "status": "blocked-unresolved"
+    },
+    {
+      "id": "F02",
+      "set": "Representative",
+      "purpose": "Handedness, mode 1/4, UV, trails, blending",
+      "fixedInputs": {
+        "mesh": "user-authored asymmetric mesh",
+        "textures": [
+          "white",
+          "checker"
+        ],
+        "emitter": "stretched/trail emitter",
+        "transforms": [
+          "local",
+          "world"
+        ],
+        "seeds": [
+          17
+        ]
+      },
+      "unresolved": {
+        "meshVertexData": null,
+        "texturePixels": null,
+        "emitterFieldValues": null,
+        "curveKeyValues": null,
+        "settings": null,
+        "expectedOracles": null,
+        "branchCoverage": null,
+        "oracleOrigin": null,
+        "sha256": null
+      },
+      "withheldUntil": null,
+      "status": "blocked-unresolved"
+    },
+    {
+      "id": "F03",
+      "set": "Representative",
+      "purpose": "Alternate route contract without reference assets",
+      "fixedInputs": {
+        "flipbook": "authored 2x2 four-cell flipbook",
+        "ambient": "minimal layers of each ambient family",
+        "seeds": [
+          42
+        ]
+      },
+      "unresolved": {
+        "flipbookCells": null,
+        "ambientLayerParameters": null,
+        "settings": null,
+        "expectedOracles": null,
+        "branchCoverage": null,
+        "oracleOrigin": null,
+        "sha256": null
+      },
+      "withheldUntil": null,
+      "status": "blocked-unresolved"
+    },
+    {
+      "id": "P01",
+      "set": "Pixel/export",
+      "purpose": "Exact pixel arithmetic, connectivity, layout, timing and encoders",
+      "fixedInputs": {
+        "image": "2x2 alpha-boundary image",
+        "masks": [
+          "diagonal island",
+          "enclosed hole"
+        ],
+        "sequence": "asymmetric four-frame RGBA sequence",
+        "holds": [
+          1,
+          0,
+          3,
+          2
+        ]
+      },
+      "unresolved": {
+        "imagePixels": null,
+        "maskPixels": null,
+        "sequenceFrames": null,
+        "pixelOptions": null,
+        "exportLayout": null,
+        "expectedOracles": null,
+        "expectedDecodedOutputs": null,
+        "branchCoverage": null,
+        "oracleOrigin": null,
+        "sha256": null
+      },
+      "withheldUntil": null,
+      "status": "blocked-unresolved"
+    },
+    {
+      "id": "H01",
+      "set": "Held-out",
+      "purpose": "Cross-module generalization rather than fixture tuning",
+      "fixedInputs": {
+        "emitters": "three emitters combining Hermite and ranged Hermite",
+        "forces": "force plus drag",
+        "trail": "world-space trail",
+        "seeds": [
+          2147483646
+        ],
+        "cameras": [
+          30,
+          75
+        ],
+        "fps": [
+          24
+        ]
+      },
+      "unresolved": {
+        "emitterFieldValues": null,
+        "curveKeyValues": null,
+        "placement": null,
+        "assets": null,
+        "settings": null,
+        "expectedOracles": null,
+        "branchCoverage": null,
+        "oracleOrigin": null,
+        "sha256": null
+      },
+      "withheldUntil": "U15",
+      "status": "blocked-held-out"
+    },
+    {
+      "id": "H02",
+      "set": "Held-out",
+      "purpose": "Large-sample nondeterminism, bounds and batch/export integration",
+      "fixedInputs": {
+        "material": "combined shader keyword/material branches",
+        "seeds": [
+          99
+        ],
+        "paletteSamples": "40001+ qualifying samples",
+        "capture": "non-square capture",
+        "frameRange": [
+          2,
+          4
+        ]
+      },
+      "unresolved": {
+        "materialSpec": null,
+        "paletteSource": null,
+        "captureDimensions": null,
+        "settings": null,
+        "expectedOracles": null,
+        "nondeterministicSamplingNote": null,
+        "branchCoverage": null,
+        "oracleOrigin": null,
+        "sha256": null
+      },
+      "withheldUntil": "U15",
+      "status": "blocked-held-out"
+    }
+  ]
+}

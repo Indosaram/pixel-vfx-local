@@ -1,0 +1,586 @@
+{
+  "schema": "clone-u00-stages/1",
+  "authority": [
+    "state/sprite-clone-plan.md",
+    "state/sprite-decomposition-report.md"
+  ],
+  "status": "FUTURE acceptance commands only. No test run is claimed by this spec, and no command here was executed.",
+  "anchorConvention": "Source anchors are reproduced from state/sprite-decomposition-report.md, not re-derived. sim.js = app/runtime/sim.js, formats.js = app/js/formats.js, both under SRC = /Users/indo/.omo/evidence/hun0fx-pixel-studio-demo/app-code/. Numeric ranges are source lines.",
+  "runContext": {
+    "cwd": "clone/",
+    "host": "physical Windows",
+    "bunTestPass": "zero failures and exit 0",
+    "qaPass": "every required assertion true, actual artifacts present, exit 0",
+    "noMacRenderEncode": "No render/encode test runs on Mac (plan §4, §8 R12).",
+    "qaHarness": "qa is a future clone-owned Windows Electron harness (qa/run.mjs, U00-owned), not a reference-app controller. Native desktop interaction must exercise the visible tool for studio/output criteria; calling the internal bridge alone is not UI proof.",
+    "mutationRule": "Tests must fail under a deliberate local mutation of the behavior they assert, then restore only the test author's mutation (plan §4)."
+  },
+  "fidelityStatusVocabulary": {
+    "specified": "Every asserted rule is stated by the report.",
+    "specified-partial": "Core rules stated; a named sub-part is OPEN and cannot pass fidelity (gapRefs).",
+    "gap-gated": "The stage can run and is useful, but fidelity/parity approval is withheld while the named gap is open."
+  },
+  "stages": [
+    {
+      "id": "library",
+      "unit": "U01",
+      "title": "Definitions/assets",
+      "modules": [
+        "src/library.js"
+      ],
+      "interfaces": [
+        "loadDefinition",
+        "resolveVariant",
+        "resolveMix",
+        "loadAssets"
+      ],
+      "reportAnchors": [
+        "§§2-3",
+        "library.js:18-158,164-211",
+        "vfs.js:8-64"
+      ],
+      "commands": [
+        {
+          "cmd": "bun test test/library.test.js",
+          "cwd": "clone/"
+        }
+      ],
+      "testFiles": [
+        "test/library.test.js"
+      ],
+      "observable": "Ordered layers, delay/scale/position patches and merged asset references match fixture literals; missing catalog entry differs from missing definition; concurrent load resolves once.",
+      "exclusions": [
+        "Plain JSON/files are the shipping input; H0PK import is excluded until its omitted binary schema is supplied (G01)."
+      ],
+      "fidelityStatus": "specified-partial",
+      "gapRefs": [
+        "G01",
+        "G02"
+      ]
+    },
+    {
+      "id": "settings",
+      "unit": "U01",
+      "title": "Normalization",
+      "modules": [
+        "src/settings.js"
+      ],
+      "interfaces": [
+        "normalizeSettings(input, policy)",
+        "normalizeRange"
+      ],
+      "reportAnchors": [
+        "§4",
+        "app.js:24-40,72,228-232,252-260,324-345,440-445",
+        "bridge.js:49-64"
+      ],
+      "commands": [
+        {
+          "cmd": "bun test test/settings.test.js",
+          "cwd": "clone/"
+        }
+      ],
+      "testFiles": [
+        "test/settings.test.js"
+      ],
+      "observable": "Partial nested merge preserves siblings, seed becomes integer, gradient stops sort, reversed legacy state migrates, out-of-range frame selection clamps and all-zero holds are repaired.",
+      "exclusions": [
+        "Unspecified defaults remain explicit U00 gaps (G12)."
+      ],
+      "fidelityStatus": "specified-partial",
+      "gapRefs": [
+        "G12"
+      ]
+    },
+    {
+      "id": "curves-rng",
+      "unit": "U02",
+      "title": "Curves/RNG",
+      "modules": [
+        "src/curves.js"
+      ],
+      "interfaces": [
+        "scalar(curve, t, r)",
+        "color(curve, t, r)",
+        "makeRng(seed)"
+      ],
+      "reportAnchors": [
+        "§4",
+        "sim.js:6-76",
+        "effect.js:29,45,84-91"
+      ],
+      "commands": [
+        {
+          "cmd": "bun test test/curves-rng.test.js",
+          "cwd": "clone/"
+        }
+      ],
+      "testFiles": [
+        "test/curves-rng.test.js"
+      ],
+      "observable": "Seed 1 recurrence's first integer is 16807; zero fallback and unsigned conversion checked; asymmetric Hermite tangents distinguish left[3]/right[2]; fixed gradient selects fraction 1; missing scalar/color gives 0/white. Two-emitter stream test fails if each emitter is independently reseeded.",
+      "exclusions": [
+        "Complete draw-order parity remains gap-gated (G03)."
+      ],
+      "fidelityStatus": "specified-partial",
+      "gapRefs": [
+        "G03",
+        "G11"
+      ]
+    },
+    {
+      "id": "emission",
+      "unit": "U03",
+      "title": "Spawn/scheduler",
+      "modules": [
+        "src/emitter.js"
+      ],
+      "interfaces": [
+        "play",
+        "emit",
+        "advanceEmission"
+      ],
+      "reportAnchors": [
+        "§5",
+        "sim.js:93-181",
+        "§4 draw ordering"
+      ],
+      "commands": [
+        {
+          "cmd": "bun test test/emission.test.js",
+          "cwd": "clone/"
+        }
+      ],
+      "testFiles": [
+        "test/emission.test.js"
+      ],
+      "observable": "Configured maxima 3/256/300 produce capacities 3/256/256; full capacity consumes no spawn draws only if specified in the accepted contract; delay, duration boundary, fractional rates, repeated bursts and loop reset checked with authored expected schedules. Cover every documented shape code and unsupported-code origin/+Z behavior.",
+      "exclusions": [
+        "Unspecified distribution formulas cannot pass fidelity (G04)."
+      ],
+      "fidelityStatus": "gap-gated",
+      "gapRefs": [
+        "G03",
+        "G04"
+      ]
+    },
+    {
+      "id": "motion",
+      "unit": "U04",
+      "title": "Update/state",
+      "modules": [
+        "src/motion.js"
+      ],
+      "interfaces": [
+        "stepParticle",
+        "particleState",
+        "advanceTrail"
+      ],
+      "reportAnchors": [
+        "§5",
+        "sim.js:182-273,100-105,165"
+      ],
+      "commands": [
+        {
+          "cmd": "bun test test/motion.test.js",
+          "cwd": "clone/"
+        }
+      ],
+      "testFiles": [
+        "test/motion.test.js"
+      ],
+      "observable": "Age-at-life removes before motion; gravity/force/damping/drag order differs from reversed order; total velocity uses displacement; threshold dt case, world/local transforms, UV wrapping and trail exact-age retention tested.",
+      "exclusions": [
+        "Orbit/noise and UV equations absent from the report are explicit gaps (G05, G06)."
+      ],
+      "fidelityStatus": "gap-gated",
+      "gapRefs": [
+        "G05",
+        "G06"
+      ]
+    },
+    {
+      "id": "effect-clock",
+      "unit": "U05",
+      "title": "Effect clock",
+      "modules": [
+        "src/effect.js"
+      ],
+      "interfaces": [
+        "Simulation"
+      ],
+      "reportAnchors": [
+        "§5",
+        "effect.js:5-6,95-137,254-260"
+      ],
+      "commands": [
+        {
+          "cmd": "bun test test/effect-clock.test.js",
+          "cwd": "clone/"
+        }
+      ],
+      "testFiles": [
+        "test/effect-clock.test.js"
+      ],
+      "observable": "1/120 boundary with 1e-9 epsilon, dt cap before tempo, backward seek reset, stop-then-expiry and emitter completion AND-condition pass. Prewarm follows floating repeated 1/60 additions rather than replacing with an integer count; expected step count is independently enumerated.",
+      "exclusions": [],
+      "fidelityStatus": "specified",
+      "gapRefs": []
+    },
+    {
+      "id": "instances",
+      "unit": "U06",
+      "title": "Instances/trails",
+      "modules": [
+        "src/render/instances.js"
+      ],
+      "interfaces": [
+        "updateInstances(snapshot, camera)"
+      ],
+      "reportAnchors": [
+        "§6",
+        "effect.js:10,38-81,139-197",
+        "§5 transforms"
+      ],
+      "commands": [
+        {
+          "cmd": "bun test test/instances.test.js",
+          "cwd": "clone/"
+        },
+        {
+          "cmd": "bun run qa -- --case instances --out evidence/instances",
+          "cwd": "clone/"
+        }
+      ],
+      "testFiles": [
+        "test/instances.test.js",
+        "qa/cases/instances.mjs"
+      ],
+      "observable": "Mode 0/1/4 buffers, handedness, pivot, depth order, dirty count and maximum 1024 trail segments checked from literal geometry; Windows clone screenshots from cameras 0/45/90 degrees with no clipped/absent required geometry.",
+      "exclusions": [],
+      "fidelityStatus": "specified-partial",
+      "gapRefs": [
+        "G06"
+      ]
+    },
+    {
+      "id": "shaders",
+      "unit": "U07",
+      "title": "Materials/shaders",
+      "modules": [
+        "src/render/materials.js"
+      ],
+      "interfaces": [
+        "createMaterial(spec)"
+      ],
+      "reportAnchors": [
+        "§6",
+        "material.js:16-81",
+        "shaders.js:6-169"
+      ],
+      "commands": [
+        {
+          "cmd": "bun run qa -- --case shaders --out evidence/shaders",
+          "cwd": "clone/"
+        }
+      ],
+      "testFiles": [
+        "qa/cases/shaders.mjs"
+      ],
+      "observable": "Independently authored textures and quads exercise four material branches, each named keyword, NoColorSpace+sRGB flags, white fallback, analytic floor fade, additive and straight-alpha blend with depthWrite off. Readback patches must meet predeclared analytic expectations within 2 byte levels/channel.",
+      "exclusions": [
+        "Omitted equations block exact shader parity; no golden generated by the same unverified implementation counts as an oracle (G07)."
+      ],
+      "fidelityStatus": "gap-gated",
+      "gapRefs": [
+        "G07"
+      ]
+    },
+    {
+      "id": "capture",
+      "unit": "U08",
+      "title": "Capture",
+      "modules": [
+        "src/capture.js"
+      ],
+      "interfaces": [
+        "capture(effect, options)"
+      ],
+      "reportAnchors": [
+        "§6",
+        "capture.js:31-113",
+        "app.js:390-414",
+        "library.js:204-207"
+      ],
+      "commands": [
+        {
+          "cmd": "bun test test/capture-contract.test.js",
+          "cwd": "clone/"
+        },
+        {
+          "cmd": "bun run qa -- --case capture --out evidence/capture",
+          "cwd": "clone/"
+        }
+      ],
+      "testFiles": [
+        "test/capture-contract.test.js",
+        "qa/cases/capture.mjs"
+      ],
+      "observable": "round(seconds*60), ratio 1.7, alpha threshold 30, k bounds 2-8; 256-square bounds pass, black/white/half-black reconstruction, vertical orientation and origin with an authored asymmetric primitive. Preserve shared shader clock across passes. No HunFXPost inserted.",
+      "exclusions": [],
+      "fidelityStatus": "specified",
+      "gapRefs": []
+    },
+    {
+      "id": "pixel",
+      "unit": "U09",
+      "title": "Pixel stages",
+      "modules": [
+        "src/pixel.js",
+        "src/palette.js"
+      ],
+      "interfaces": [
+        "pixelate(capture, size, options)",
+        "palette import/selection"
+      ],
+      "reportAnchors": [
+        "§7",
+        "pixel.js:23-97,99-229",
+        "§4 sampling"
+      ],
+      "commands": [
+        {
+          "cmd": "bun test test/pixel.test.js test/palette.test.js",
+          "cwd": "clone/"
+        }
+      ],
+      "testFiles": [
+        "test/pixel.test.js",
+        "test/palette.test.js"
+      ],
+      "observable": "Empty rejection, alpha-weighted half-color reconstruction, threshold equality, ceiling levels, percentile/ramp ordering, custom palette bypass, 8-connected island and 4-connected hole cases, Bayer phases and inner/outer 4/8-neighbor outlines. A 40001+ sample fixture records random sampling separately; never promises seed-only byte equality.",
+      "exclusions": [
+        "Exact grading/distance/dither coefficients are U00 gaps where the report omits them (G08)."
+      ],
+      "fidelityStatus": "gap-gated",
+      "gapRefs": [
+        "G08"
+      ]
+    },
+    {
+      "id": "timing",
+      "unit": "U10",
+      "title": "Timing",
+      "modules": [
+        "src/timing.js"
+      ],
+      "interfaces": [
+        "holds",
+        "markers",
+        "apply",
+        "bake",
+        "total"
+      ],
+      "reportAnchors": [
+        "§7",
+        "timing.js:1-71",
+        "app.js:430-445,530-540"
+      ],
+      "commands": [
+        {
+          "cmd": "bun test test/timing.test.js",
+          "cwd": "clone/"
+        }
+      ],
+      "testFiles": [
+        "test/timing.test.js"
+      ],
+      "observable": "[1,0,3] gives two retained/four baked frames; holds clamp 0-8; marker fps change, all-zero fallback, inclusive range before baking and default unrecommended holds checked.",
+      "exclusions": [
+        "Recommendation heuristics beyond reported coverage basis are gap-gated (G13)."
+      ],
+      "fidelityStatus": "specified-partial",
+      "gapRefs": [
+        "G13"
+      ]
+    },
+    {
+      "id": "alternate",
+      "unit": "U12",
+      "title": "Alternate captures",
+      "modules": [
+        "src/sprite.js",
+        "src/ambient.js"
+      ],
+      "interfaces": [
+        "captureSprite",
+        "captureAmbient"
+      ],
+      "reportAnchors": [
+        "§8",
+        "spritefx.js:7-102",
+        "env2d.js:12-283",
+        "app.js:218-224,404-424"
+      ],
+      "commands": [
+        {
+          "cmd": "bun run qa -- --case alternate --out evidence/alternate",
+          "cwd": "clone/"
+        }
+      ],
+      "testFiles": [
+        "qa/cases/alternate.mjs"
+      ],
+      "observable": "Authored asymmetric 2x2 flipbook validates cells/ramp/rotation/flip/fps route; authored ambient layers validate each listed family and half-color contract. Compare phase t and t+L in the clone for loop seam claims, not first and last sampled frame.",
+      "exclusions": [
+        "Ambient generator/formula details absent from the report remain gaps, not invented reference presets (G09)."
+      ],
+      "fidelityStatus": "gap-gated",
+      "gapRefs": [
+        "G09"
+      ]
+    },
+    {
+      "id": "exports",
+      "unit": "U11",
+      "title": "Export encoders",
+      "modules": [
+        "src/export/sheet.js",
+        "src/export/gif.js",
+        "src/export/zip.js",
+        "src/export/aseprite.js",
+        "src/export/metadata.js"
+      ],
+      "interfaces": [
+        "encode(request)"
+      ],
+      "reportAnchors": [
+        "§9",
+        "formats.js:5-301"
+      ],
+      "commands": [
+        {
+          "cmd": "bun test test/export-layout.test.js test/export-metadata.test.js",
+          "cwd": "clone/"
+        },
+        {
+          "cmd": "bun run qa -- --case exports --out evidence/exports",
+          "cwd": "clone/"
+        }
+      ],
+      "testFiles": [
+        "test/export-layout.test.js",
+        "test/export-metadata.test.js",
+        "qa/cases/exports.mjs"
+      ],
+      "observable": "Independently decode PNG, GIF, ZIP and Aseprite; compare dimensions, RGBA, holds/delays, CRC, frame count and selected chunks to hand-authored fixtures. Parse JSON/Godot/Unity; sheet rectangles/origin/ppu correct. Unity IDs excluded from byte-equality comparisons; validate uniqueness/shape.",
+      "exclusions": [
+        "Binary field details are gap-gated, not inferred from labels (G10)."
+      ],
+      "fidelityStatus": "gap-gated",
+      "gapRefs": [
+        "G10"
+      ]
+    },
+    {
+      "id": "output",
+      "unit": "U14",
+      "title": "Export orchestration/sinks",
+      "modules": [
+        "src/export/jobs.js",
+        "electron/output.js"
+      ],
+      "interfaces": [
+        "planJobs",
+        "filesFor",
+        "writeFiles"
+      ],
+      "reportAnchors": [
+        "§9",
+        "app.js:324-345,570-642,653-679",
+        "main.js:42-67"
+      ],
+      "commands": [
+        {
+          "cmd": "bun run qa -- --case output --out evidence/output",
+          "cwd": "clone/"
+        }
+      ],
+      "testFiles": [
+        "qa/cases/output.mjs"
+      ],
+      "observable": "Clone UI exports selected range to task-owned folder; decoded files reflect dropped/baked holds; effect/view/seed jobs expand, sprite only once; one bad job does not stop following jobs. GIF default remains repeat independently of effect loop; verify encoded extension. Desktop sink denies path escape and reports actual write failures.",
+      "exclusions": [],
+      "fidelityStatus": "specified-partial",
+      "gapRefs": []
+    },
+    {
+      "id": "studio",
+      "unit": "U13",
+      "title": "UI/settings",
+      "modules": [
+        "src/app.js",
+        "electron/main.js",
+        "electron/preload.js"
+      ],
+      "interfaces": [
+        "store",
+        "cache",
+        "bridge",
+        "native action adapters"
+      ],
+      "reportAnchors": [
+        "§§2,10",
+        "app.js:136-191,316-318,415-426,480-567,687-746",
+        "ui.js:4-25",
+        "i18n.js:643-669",
+        "main.js:6,28-32,116-118"
+      ],
+      "commands": [
+        {
+          "cmd": "bun run qa -- --case studio --out evidence/studio",
+          "cwd": "clone/"
+        }
+      ],
+      "testFiles": [
+        "qa/cases/studio.mjs"
+      ],
+      "observable": "Native desktop actions import F01, set seed 42, camera 45, palette/alpha/outline, holds [1,0,3], export and reload clone. Persisted values and decoded output agree; stale capture cannot replace newer selection; 13 cache entries evict to 12; pixel/export-only changes do not recapture. Event subscriptions precede actions, no sleep-based tests.",
+      "exclusions": [
+        "U13 owns native-action adapters and their accessible control identifiers; the accepted action log must include exact resolved controls and inputs, not only internal function calls."
+      ],
+      "fidelityStatus": "specified",
+      "gapRefs": []
+    },
+    {
+      "id": "capabilities",
+      "unit": "U00",
+      "title": "Harness capability gate (U00-owned prerequisite)",
+      "modules": [
+        "qa/run.mjs"
+      ],
+      "interfaces": [
+        "qa package script launcher"
+      ],
+      "reportAnchors": [],
+      "commands": [
+        {
+          "cmd": "bun run qa -- --case capabilities --out evidence/capabilities",
+          "cwd": "clone/"
+        }
+      ],
+      "testFiles": [
+        "qa/run.mjs",
+        "qa/cases/capabilities.mjs"
+      ],
+      "observable": "PASS requires WebGL instancing, ImageData, OffscreenCanvas PNG encoding, CompressionStream deflate and crypto.getRandomValues to succeed in the selected Electron runtime.",
+      "exclusions": [
+        "Clone infrastructure, not product behavior or reference observation. U06-U14 add disjoint qa/cases/<case>.mjs files; no worker edits the shared launcher after U00 without coordinator integration."
+      ],
+      "fidelityStatus": "specified",
+      "gapRefs": [
+        "G14"
+      ]
+    }
+  ]
+}
