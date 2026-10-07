@@ -11,7 +11,21 @@ all encoders are bundled original implementations).
 
 This is an original implementation built from a feature checklist (see `PARITY.md`).
 No vendor source, shaders, textures, meshes, or effect data from the inspected demo are
-included. All 16 presets (10 2D + 6 3D) are original procedural content.
+included. All 21 presets — 16 original procedural effects (10 2D + 6 3D) plus 5
+quality presets (slash / flame / impact / smoke / magic-ring) — are original content.
+
+## Export fps limits (per format)
+
+- **Playback, PNG sheet, frame, atlas, Aseprite, .tres, .meta exports:** fps **1–60** as
+  entered.
+- **GIF export:** every encoded frame delay must be **≥ 2 centiseconds** (the encoder
+  floor). Legacy scalar-delay presets clamp the delay up to 2 cs (so fps > 50 plays
+  slightly slower than nominal). Boundary-scheduled **quality presets do not clamp**: GIF
+  at fps **51–60 is unsupported and fails explicitly** with `delaySchedule=boundary:
+  fps=… yields a sub-2cs delay at the encoder floor; unsupported candidate fps` (MCP
+  returns JSON-RPC error `-32000`; the editor shows the message and this guidance in the
+  export log). Use **fps ≤ 50** for quality-preset GIFs; sheet/frame exports stay valid
+  at fps ≤ 60.
 
 ## Launch (Windows)
 
@@ -221,6 +235,23 @@ Golden determinism fixture: `bun run scripts/gen-golden.mjs` regenerates
 `tests/golden.json`; `bun test` verifies every run against it. Windows end-to-end UI
 validation: `node scripts\win-verify.mjs` (109 checks, headless Chrome CDP, evidence under
 `evidence/`).
+
+### Verification scope and known deviations
+
+- The final gate for the quality-preset / conversion workstream was **tool-only
+  (engineering)**: preset counts, export and fps contracts, MCP stdio behavior,
+  conversion receipts and the test suite. **No art-parity or art-acceptance claim is
+  made** for the five quality presets; their art review is a separate, still-open
+  workstream.
+- The converted renderer is an **approximate conversion and never runs native Unity**
+  (see Constraints above and the `limitations` block in every `*_render.json` receipt);
+  no pixel equivalence with native Unity or vendor rendering is claimed.
+- Test-host history (disclosed): the suites of record ran on **physical Windows** (266
+  pass / 0 fail on both the staging tree and a clean deliverables-only copy; the
+  five-preset fixture validated there at 19 pass / 0 fail). One earlier
+  fixture-verification run executed on the local macOS host in violation of that
+  Windows-only rule; it is disclosed here, and no further off-host render runs were
+  performed.
 
 ## Layout
 

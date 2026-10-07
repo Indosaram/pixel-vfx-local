@@ -14,8 +14,8 @@ declared · [O] omitted = deliberately not built, declared
 
 **Numbering correction (wave-2 review):** the "312 effects" figure is the datapack
 CATALOG listing (312 catalog entries with 104 textures / 14 meshes). The demo itself
-exercises only **16 actual effects**. This tool ships **16 original presets** (10 2D +
-6 3D) — a coincidentally equal count, entirely original content.
+exercises only **16 actual effects**. This tool ships **21 presets** (16 original:
+10 2D + 6 3D, plus 5 quality presets) — original content throughout.
 
 ---
 
@@ -44,7 +44,7 @@ They are listed here so that "unavailable" is never conflated with "not implemen
 | 4 | Reproducible seeds: same seed ⇒ byte-identical output | report §5 sim.js makeRng(seed) | [C] | [C] golden hashes + repeat-export SHA equality |
 | 5 | Camera/view (2D): zoom, pan, background | report §7 bridge.js group `view` | [C] | [C] "camera zoom+pan changes pixels" |
 | 6 | Output resolution: width × height control | report §6 formats | [C] | [C] canvas 192px + sheet/GIF dims track resolution |
-| 7 | Output fps: 1–60, drives playback + GIF delay | report §6 GIF `fps` | [C] | [C] fps8→frameCount 8; GIF delay 13cs @ fps8 |
+| 7 | Output fps: 1–60, drives playback + GIF delay | report §6 GIF `fps` | [C] | [C] fps8→frameCount 8; GIF delay 13cs @ fps8; fps1–60 valid for playback/sheet/frame; GIF floor 2cs: boundary (quality) GIF supports fps ≤50 nominal (fps51–60 → explicit -32000 error), legacy scalar clamps delay ≥2cs |
 | 8 | Frame range: from/to included in export | report §6 export_one(frame_from, frame_to) | [C] | [C] range 0..9 → 10 cells; reversed input repaired 2..9 |
 | 9 | Palette quantization: median-cut, N colors (default 16) | report §5 pixel.js medianCut | [C] | [C] UI applied 8/16; 3D sheet ≤ palette colors (checks) |
 | 10 | Dither: ordered bayer 2×2 / 4×4, off | report §5 pixel.js dither | [C] | [C] unit test (boundary inputs) + UI bayer2/bayer4 applied |
@@ -55,7 +55,7 @@ They are listed here so that "unavailable" is never conflated with "not implemen
 | 15 | GIF export: own LZW encoder, fps, holds, transparency, loop | report §6 formats.js GIF | [C] | [C] 128x128, 10 frames, 8cs (800ms), NETSCAPE loop=0; System.Drawing decodes identically |
 | 16 | Timing holds: per-frame count, 0 = drop frame | report §5 timing.js holds | [C] | [C] "output frames: 11 / source 10 · 0.917s @ 12fps" |
 | 17 | Timing markers: suggestion + **editable markers** (add/label/remove, sorted, exported) | report §5 timing.js suggestMarkers | [C] | [C] UI edits + atlas `meta.userMarkers` (109/109 checks, shot 15) |
-| 18 | Reusable effect presets: named preset list | report §5 library.js preset() | [P] 16 original presets (10 2D + 6 3D) | [P] verified: select switch, "(3D)" labels, frameCount per preset |
+| 18 | Reusable effect presets: named preset list | report §5 library.js preset() | [P] 21 presets (16 original: 10 2D + 6 3D + 5 quality) | [P] verified: select switch, "(3D)" labels, frameCount per preset |
 | 19 | Ambient looping environment presets | report §5 env2d.js (blizzard/rain/embers) | [P] original loop presets inside the preset list | [P] verified: loop respawn unit tests |
 | 20 | Camera-independent vs camera-bound export parity | report §6 export_one(id, view, ...) | [C] camera applies to export | [C] 2D camera + 3D camera in sanitized export params |
 | 21 | JSON texture-atlas export (frames/meta) | report §6 formats.js JSON atlas | [C] | [C] "atlas JSON parses with all frames 10" + userMarkers |
@@ -64,7 +64,7 @@ They are listed here so that "unavailable" is never conflated with "not implemen
 | 24 | Godot .tres / Unity .meta export | report §6 formats.js | [C] | [C] SpriteFrames .tres (10 Rect2 regions, loop, speed) + TextureImporter .meta (32-hex deterministic guid, y-flipped rects) |
 | 25 | Hand-drawn sprite flipbook recolor (spritefx.js) | report §5 | [O] | [O] requires vendor hand-drawn sprites → section A |
 | 26 | 3D pipeline: real orbit camera + geometry, **3-pass alpha matting, HDR bloom post** | report §4/§5 capture.js/post.js | [C] | [C] original software renderer (column-major mat4, box/sphere/torus/cone/plane, z-buffer, flat shading); bloom bright-pass + box blur, coverage→dilate→edge-composite 3-pass matte; unit-tested (render3d/post3d) + UI orbit/wheel checks, shots 11–14 |
-| 27 | Effect library (vendor catalog: 312 entries / 104 textures / 14 meshes) | report-v3 §5-§7 | [O] | [O] vendor CONTENT unavailable (section A); catalog≠demo: the demo exercises 16 actual effects. Original equivalents: 16 original presets incl. 6 3D presets wired into preview/sheet/GIF |
+| 27 | Effect library (vendor catalog: 312 entries / 104 textures / 14 meshes) | report-v3 §5-§7 | [O] | [O] vendor CONTENT unavailable (section A); catalog≠demo: the demo exercises 16 actual effects. Original equivalents: 21 presets (16 original incl. 6 3D presets + 5 quality) wired into preview/sheet/GIF |
 | 28 | MCP control server / scripting bridge | report §7 | [C] | [C] `scripts/mcp-server.mjs`: JSON-RPC stdio, initialize/tools/list/tools/call; live handshake on Windows (initialize, tools/list=4, render_sheet non-blank PNG, golden_hashes == fixture); `window.PixelVFX` surface retained |
 | 29 | H0PK data pack loader | report §8 | [O] | [O] loads vendor pack → section A |
 | 30 | Desktop shell (token-gated local server + app-window launcher) | report §3 Electron shell | [C] | [C] ORIGINAL: `scripts/serve.py` token gate (403 w/o token, 200 + HttpOnly cookie, dir-listing off) + `launch-desktop.cmd/.ps1` (server + `--app=` window); verified live on Windows through the real launcher (`-NoWindow` mode), checks 109/109 |
@@ -98,10 +98,17 @@ They are listed here so that "unavailable" is never conflated with "not implemen
 
 ## Declared limitations (fixed text for the final report)
 
+- Verification scope: the final gate for the quality-preset workstream was **tool-only
+  (engineering)** — counts, export/fps contracts, MCP stdio, conversion receipts and
+  tests. **No art parity or art acceptance is claimed** for the five quality presets;
+  their art review remains open. Conversion is approximate and does not run native
+  Unity. The suites of record ran on physical Windows; one earlier
+  fixture-verification run on the local macOS host is disclosed as a historical
+  test-host deviation.
 - This is an ORIGINAL implementation. No vendor source, shaders, textures, meshes, or effect
   definitions were copied. The demo's vendor catalog (312 catalog entries; the demo itself
-  exercises 16 actual effects) is NOT available here as content; this tool ships 16 original
-  presets (10 2D + 6 3D) built from original procedural code.
+  exercises 16 actual effects) is NOT available here as content; this tool ships 21 presets
+  (16 original: 10 2D + 6 3D, plus 5 quality presets) built from original procedural code.
 - No pixel-exact equivalence with the demo is claimed; no side-by-side outputs exist.
 - Visual pipeline now mirrors the demo's SHAPE (software 3D scene → 3-pass alpha matting +
   HDR bloom → quantize/outline → sheet/GIF), but all math, geometry, particles and post
