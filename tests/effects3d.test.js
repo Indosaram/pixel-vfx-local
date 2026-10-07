@@ -1,6 +1,7 @@
 import { expect, test } from "bun:test";
 import { ALL_PRESETS, PRESETS } from "../src/effects.js";
 import { PRESETS3D } from "../src/effects3d.js";
+import { QUALITY_PRESETS } from "../src/quality-effects.js";
 
 test("exactly six original 3D presets with unique ids", () => {
 	expect(PRESETS3D.length).toBe(6);
@@ -16,7 +17,9 @@ test("exactly six original 3D presets with unique ids", () => {
 });
 
 test("3D presets merge into ALL_PRESETS behind the 2D ones", () => {
-	expect(ALL_PRESETS.length).toBe(PRESETS.length + PRESETS3D.length);
+	expect(ALL_PRESETS.length).toBe(
+		PRESETS.length + PRESETS3D.length + QUALITY_PRESETS.length,
+	);
 	expect(ALL_PRESETS[PRESETS.length].id).toBe(PRESETS3D[0].id);
 	const two = new Set(PRESETS.map((p) => p.id));
 	for (const p of PRESETS3D) expect(two.has(p.id)).toBe(false);

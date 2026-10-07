@@ -6,6 +6,20 @@ import { alphaThreshold, medianCutPalette, quantizeFrame } from "../src/pixel.js
 import { decodePNG, encodePNG } from "../src/pngenc.js";
 import { makeRng } from "../src/rng.js";
 import { buildSheet } from "../src/sheet.js";
+import {
+	colorOverLifetimeRgba,
+	pivotOffsetPx,
+	sampleTimeSeconds,
+	sourceLoopSeconds,
+	startColorRgba,
+	velocityAngleRad,
+} from "../src/converted-effect.js";
+import {
+	QUALITY_ALPHA_THRESHOLD,
+	linearToSrgb,
+	renderQualityFrame,
+	srgbToLinear,
+} from "../src/quality-render.js";
 
 function parseArgs(argv) {
 	const out = {};
@@ -167,11 +181,13 @@ function buildParticles(cfg, rng) {
 		const mix = rng();
 		const c0 = cfg.initial.startColor.min;
 		const c1 = cfg.initial.startColor.max;
-		const color = [
-			Number(c0.r) + (Number(c1.r) - Number(c0.r)) * mix,
-			Number(c0.g) + (Number(c1.g) - Number(c0.g)) * mix,
-			Number(c0.b) + (Number(c1.b) - Number(c0.b)) * mix,
-		];
+		const color = cfg.q1
+			? startColorRgba(c0, c1, mix)
+			: [
+					Number(c0.r) + (Number(c1.r) - Number(c0.r)) * mix,
+					Number(c0.g) + (Number(c1.g) - Number(c0.g)) * mix,
+					Number(c0.b) + (Number(c1.b) - Number(c0.b)) * mix,
+				];
 		const shape = sampleShape(cfg.shape, rng);
 		const p = quatRotate(rot, shape.pos);
 		const v = quatRotate(rot, shape.dir.map((d) => d * speed));
@@ -299,6 +315,162 @@ function drawSprite(dst, W, H, tex, tw, th, cx, cy, sizePx, angle, cr, cg, cb, a
 	}
 }
 
+// Candidate GIF delays from rounded cumulative centisecond frame boundaries.
+// The encoder floor is 2cs (src/gifenc.js writes Math.max(2, round(dc)) on
+// both the scalar and delay-list paths), so any schedule entry below 2cs
+// would NOT be the encoded schedule: those fps are rejected instead of
+// reporting a loopMs the encoder silently enlarges. Legacy (non-quality-v1)
+// encoding is untouched.
+function gifDelaySchedule(fps, frameCount) {
+	const out = [];
+	let prev = 0;
+	for (let i = 0; i < frameCount; i++) {
+		const boundary = Math.round(((i + 1) * 100) / fps);
+		out.push(boundary - prev);
+		prev = boundary;
+	}
+	const bad = out.findIndex((d) => d < 2);
+	if (bad !== -1) {
+		throw new Error(
+			`gif delay schedule: fps=${fps} frame=${bad} delay=${out[bad]}cs; delays below the encoder 2cs floor (Math.max(2,round(dc)) in src/gifenc.js) are unsupported at this candidate fps`,
+		);
+	}
+	return out;
+}
+
+// ---- quality-v1 adapter: converted particle state -> accepted M1 raster ----
+// Legacy drawSprite above stays the reproduction path; quality-v1 frames are
+// rendered by src/quality-render.js (4x supersample, linear-float source-over,
+// texture-mask semantics, M1 policy-before-palette ordering in main()).
+
+function q1ShapeMask(tex) {
+	// Shipped Kenney textures are fully opaque with the shape carried in RGB on
+	// black; the M1 texture layer takes a LINEAR scalar mask, so bake one from
+	// linear luminance once per texture.
+	const n = tex.width * tex.height;
+	const mask = new Uint8ClampedArray(n);
+	for (let k = 0, j = 0; k < n; k++, j += 4) {
+		const l =
+			0.299 * srgbToLinear(tex.rgba[j] / 255) +
+			0.587 * srgbToLinear(tex.rgba[j + 1] / 255) +
+			0.114 * srgbToLinear(tex.rgba[j + 2] / 255);
+		mask[k] = Math.round(Math.min(1, l) * 255);
+	}
+	return mask;
+}
+
+function q1Frame(states, tex, mask, W, H) {
+	const fit = Math.min(W, H) / 64;
+	const tw = tex.width;
+	const th = tex.height;
+	const layers = states.map((s, i) => {
+		// Tint is baked linearly into the tile (M1 texture layers carry no
+		// per-layer tint); masked texels stay zero so no transcoding is spent.
+		const baked = new Uint8ClampedArray(tw * th * 4);
+		for (let k = 0, j = 0; k < tw * th; k++, j += 4) {
+			if (mask[k] === 0) continue;
+			baked[j] = Math.round(
+				255 * linearToSrgb(srgbToLinear(tex.rgba[j] / 255) * s.cr),
+			);
+			baked[j + 1] = Math.round(
+				255 * linearToSrgb(srgbToLinear(tex.rgba[j + 1] / 255) * s.cg),
+			);
+			baked[j + 2] = Math.round(
+				255 * linearToSrgb(srgbToLinear(tex.rgba[j + 2] / 255) * s.cb),
+			);
+			baked[j + 3] = mask[k];
+		}
+		return {
+			id: `p${i}`,
+			kind: "texture",
+			t0: 0,
+			t1: 1,
+			cx: (s.cx - W / 2) / fit + 32,
+			cy: (s.cy - H / 2) / fit + 32,
+			w: s.sizePx / fit,
+			h: s.sizePx / fit,
+			rot: -s.angle,
+			tex: baked,
+			texW: tw,
+			texH: th,
+			maskChannel: "a",
+			alpha: s.alpha,
+		};
+	});
+	return renderQualityFrame(
+		{ id: "quality-v1-frame", kind: "quality", duration: 1, layers },
+		0,
+		"quality-v1",
+		undefined,
+		W,
+		H,
+	);
+}
+
+// The per-particle conversion step shared by the batch CLI and the R2
+// production fixtures: one time -> drawable sprite states (culling applied).
+function particleStatesAt(cfg, particles, trajectories, t, o) {
+	const states = [];
+	for (let i = 0; i < particles.length; i++) {
+		const p = particles[i];
+		const cycle = o.cycle;
+		const u0 = (t - p.phase) % cycle;
+		let age = u0 < 0 ? u0 + cycle : u0;
+		// quality-v1 runs the simulation clock tau = t*simulationSpeed:
+		// lifetime, trajectory sampling and u all advance in tau; legacy
+		// (q1 false) keeps the source-time behavior unchanged.
+		if (o.q1) age *= o.simSpeed;
+		if (age >= p.life) continue;
+		const u = age / p.life;
+		let alpha = ramp(o.alphaKeys, u, "a", 1);
+		let cr = p.color[0];
+		let cg = p.color[1];
+		let cb = p.color[2];
+		let angle = p.rot;
+		if (o.q1) {
+			const life = colorOverLifetimeRgba(
+				cfg.colorOverLifetime,
+				u,
+				[p.color[0], p.color[1], p.color[2], p.color[3] ?? 1],
+			);
+			cr = life[0];
+			cg = life[1];
+			cb = life[2];
+			alpha = life[3];
+			if (Number(cfg.renderer.renderMode) === 1) {
+				const lo = Math.max(0, age - 0.01);
+				const hi = Math.min(p.life, age + 0.01);
+				const v0 = sampleTrajectory(trajectories[i], lo);
+				const v1 = sampleTrajectory(trajectories[i], hi);
+				const dt = Math.max(1e-9, hi - lo);
+				angle = velocityAngleRad([(v1[0] - v0[0]) / dt, (v1[1] - v0[1]) / dt]);
+			}
+		}
+		if (alpha <= 0.004) continue;
+		const sizeW = p.size * hermite(o.sizeKeys, u);
+		if (sizeW <= 0) continue;
+		const world = sampleTrajectory(trajectories[i], age);
+		const cx = o.originX + world[0] * o.scale;
+		const cy = o.originY - world[1] * o.scale;
+		const sizePx = Math.min(sizeW * o.scale, o.maxParticleSize * o.W);
+		if (cx < -sizePx || cx > o.W + sizePx || cy < -sizePx || cy > o.H + sizePx) continue;
+		const pivotOff = o.q1
+			? pivotOffsetPx(cfg.renderer.pivot, angle, sizePx)
+			: [0, 0];
+		states.push({
+			cx: cx + pivotOff[0],
+			cy: cy + pivotOff[1],
+			sizePx,
+			angle,
+			cr,
+			cg,
+			cb,
+			alpha,
+		});
+	}
+	return states;
+}
+
 function nearestInPalette(palette, r, g, b) {
 	let best = 0;
 	let bestD = Infinity;
@@ -315,6 +487,21 @@ function nearestInPalette(palette, r, g, b) {
 	return best;
 }
 
+// quality-v1 replaces the legacy additive/exact-loop claims with the M1
+// contract and honest excerpt declarations; legacy LIMITS stay byte-exact.
+function q1LimitText(line) {
+	if (line.startsWith("renderer renderMode=1")) {
+		return "quality-v1: mode 1 sprites are ORIENTED along simulated velocity only; m_VelocityScale/m_LengthScale absent from records (raw unverified); no stretch or Unity parity claimed";
+	}
+	if (line.startsWith("loop is made exact")) {
+		return "quality-v1: output is a non-seamless excerpt of the source period (see conversion.sampleWindowMs/loopDeclaration); simulation time is f/fps and independent of GIF delay rounding";
+	}
+	if (line.startsWith("builtin particle shader")) {
+		return "quality-v1: rendered by the accepted M1 quality-render contract — normal source-over in linear float, 4x supersample, linear-luminance texture mask, tint baked linearly, alpha policy before the sequence palette; export approximation, not Unity parity";
+	}
+	return line;
+}
+
 const LIMITS = [
 	"no Unity Editor on this machine, so the prefab is drawn by scripts/render-unity-asset.mjs instead of the Unity particle renderer; output is an approximation, NOT pixel parity with Unity",
 	"shape emitters are re-sampled procedurally (Cone, Sphere, SphereShell); Unity's exact shape randomisation is not reproduced, and the Sphere/SphereShell direction here is radial-outward",
@@ -325,6 +512,70 @@ const LIMITS = [
 	"orthographic front view, pixel scale and emitter origin are view parameters chosen for a 128px cell; the prefab ships no camera",
 	"renderer sortMode=None, so particles are drawn in spawn order with no depth sort",
 ];
+
+// Shared preparation/frame entry used by the CLI and tests. Particle set,
+// phase/lifetime/color construction and state options come from record fields
+// only — no GIF delay or export length enters here.
+function prepareParticles(cfg, cycle, q1, view) {
+	const rate = Number(cfg.emission.rateOverTime.max);
+	const simSpeed = Number(cfg.system.simulationSpeed);
+	const gravity = Number((cfg.initial.gravityModifier && cfg.initial.gravityModifier.max) || 0);
+	if (q1 && gravity !== 0 && simSpeed !== 1) {
+		throw new Error(
+			`quality-v1: gravityModifier=${gravity} with simulationSpeed=${simSpeed}; gravity/speed scaling for this combination is unverified and rejected instead of claiming fidelity`,
+		);
+	}
+	const count = Math.max(1, Math.round(rate * cycle * simSpeed));
+	const rng = makeRng(`${cfg.system.randomSeed}`).next;
+	const quat = [
+		Number(cfg.transform.rotation.x),
+		Number(cfg.transform.rotation.y),
+		Number(cfg.transform.rotation.z),
+		Number(cfg.transform.rotation.w),
+	];
+	const particleCfg = {
+		initial: cfg.initial,
+		shape: cfg.shape,
+		transform: cfg.transform,
+		quat,
+		count,
+		cycle,
+		rate,
+		simulationSpeed: simSpeed,
+		lifeCap: cycle,
+		q1,
+		gravity,
+		noise: {
+			enabled: Boolean(cfg.noise.enabled),
+			strength: Number(cfg.noise.strength || 0),
+			frequency: Number(cfg.noise.frequency || 1),
+		},
+		noiseSeed: Number(cfg.system.randomSeed) >>> 0,
+	};
+	const particles = buildParticles(particleCfg, rng);
+	const trajectories = particles.map((p) => trajectory(p, particleCfg, 0.01));
+	const sizeKeys = q1 && cfg.sizeOverLifetime.enabled !== true ? [] : cfg.sizeOverLifetime.curve;
+	const stateOpts = {
+		q1,
+		cycle,
+		simSpeed,
+		originX: view.originX,
+		originY: view.originY,
+		scale: view.scale,
+		W: view.W,
+		H: view.H,
+		sizeKeys,
+		alphaKeys: cfg.colorOverLifetime.alphaKeys,
+		maxParticleSize: Number(cfg.renderer.maxParticleSize ?? 1),
+	};
+	return { particles, trajectories, stateOpts, count, rate, simSpeed, cycle, gravity };
+}
+
+// Frame entry: simulation time is frameIndex/fps (sample clock), so frame
+// dispatch never reads the GIF delay schedule or export length.
+function frameStates(prep, cfg, frameIndex, fps) {
+	return particleStatesAt(cfg, prep.particles, prep.trajectories, sampleTimeSeconds(frameIndex, fps), prep.stateOpts);
+}
 
 function main() {
 	const args = parseArgs(process.argv.slice(2));
@@ -367,71 +618,68 @@ function main() {
 	}
 
 	const delayCs = Math.max(2, Math.round(100 / fps));
-	const cycle = (frameCount * delayCs) / 100;
-	const rate = Number(cfg.emission.rateOverTime.max);
-	const simSpeed = Number(cfg.system.simulationSpeed);
-	const count = Math.max(1, Math.round(rate * cycle * simSpeed));
-	const rng = makeRng(`${cfg.system.randomSeed}`).next;
-	const quat = [
-		Number(cfg.transform.rotation.x),
-		Number(cfg.transform.rotation.y),
-		Number(cfg.transform.rotation.z),
-		Number(cfg.transform.rotation.w),
-	];
-	const particleCfg = {
-		initial: cfg.initial,
-		shape: cfg.shape,
-		transform: cfg.transform,
-		quat,
-		count,
-		cycle,
-		rate,
-		simulationSpeed: simSpeed,
-		lifeCap: cycle,
-		gravity: Number((cfg.initial.gravityModifier && cfg.initial.gravityModifier.max) || 0),
-		noise: {
-			enabled: Boolean(cfg.noise.enabled),
-			strength: Number(cfg.noise.strength || 0),
-			frequency: Number(cfg.noise.frequency || 1),
-		},
-		noiseSeed: Number(cfg.system.randomSeed) >>> 0,
-	};
-	const particles = buildParticles(particleCfg, rng);
-	const trajectories = particles.map((p) => trajectory(p, particleCfg, 0.01));
-	const sizeKeys = cfg.sizeOverLifetime.curve;
-	const alphaKeys = cfg.colorOverLifetime.alphaKeys;
-	const maxParticleSize = Number(cfg.renderer.maxParticleSize ?? 1);
-
+	const profile = args.profile ?? "";
+	if (profile !== "" && profile !== "quality-v1") {
+		throw new Error(`unknown --profile "${profile}"; supported: quality-v1`);
+	}
+	const q1 = profile === "quality-v1";
+	const q1warnings = [];
+	const exportCycle = (frameCount * delayCs) / 100;
+	const cycle = q1 ? sourceLoopSeconds(cfg.system) : exportCycle;
+	// Candidate GIF timing: simulation time is f/fps and never derived from
+	// delays; per-frame delays are differences of rounded cumulative
+	// centisecond boundaries, so the encoded total equals
+	// round(frameCount*100/fps) at any representable fps.
+	const q1DelayList = q1 ? gifDelaySchedule(fps, frameCount) : null;
+	if (q1) {
+		if (cfg.emission?.enabled !== true) {
+			throw new Error(
+				`quality-v1: emission.enabled=${cfg.emission?.enabled}; disabled-emission source records are unsupported and rejected instead of claiming fidelity`,
+			);
+		}
+		if (Number(cfg.renderer.renderMode) === 1) {
+			q1warnings.push(
+				"renderer.renderMode=1: m_VelocityScale/m_LengthScale are absent from the shipped normalized record (raw asset value not verified); sprites are ORIENTED along simulated velocity, no stretch length or Unity parity claimed",
+			);
+		}
+		if (cfg.rotationOverLifetime?.enabled) {
+			q1warnings.push(
+				`rotationOverLifetime.enabled=true not simulated in quality-v1; record angularVelocityX=${JSON.stringify(cfg.rotationOverLifetime.angularVelocityX)} angularVelocityY=${JSON.stringify(cfg.rotationOverLifetime.angularVelocityY)}`,
+			);
+		}
+		if (cfg.sizeOverLifetime?.enabled !== true && (cfg.sizeOverLifetime?.curve?.length ?? 0) > 0) {
+			q1warnings.push("sizeOverLifetime.enabled=false: record curve keys are NOT applied (legacy profile applied them unconditionally)");
+		}
+		for (const w of q1warnings) console.error(`WARN quality-v1: ${w}`);
+	}
+	const prep = prepareParticles(cfg, cycle, q1, { originX, originY, scale, W, H });
+	const { particles, trajectories, stateOpts, count, simSpeed } = prep;
+	const q1Mask = q1 ? q1ShapeMask(tex) : null;
 	const frames = [];
 	let aliveMin = Infinity;
 	let aliveMax = 0;
 	for (let f = 0; f < frameCount; f++) {
-		const t = (f * delayCs) / 100;
-		const dst = new Uint8Array(W * H * 4);
-		let alive = 0;
-		for (let i = 0; i < particles.length; i++) {
-			const p = particles[i];
-			let age = (t - p.phase) % cycle;
-			if (age < 0) age += cycle;
-			if (age >= p.life) continue;
-			const u = age / p.life;
-			const alpha = ramp(alphaKeys, u, "a", 1);
-			if (alpha <= 0.004) continue;
-			const sizeW = p.size * hermite(sizeKeys, u);
-			if (sizeW <= 0) continue;
-			const world = sampleTrajectory(trajectories[i], age);
-			const cx = originX + world[0] * scale;
-			const cy = originY - world[1] * scale;
-			const sizePx = Math.min(sizeW * scale, maxParticleSize * W);
-			if (cx < -sizePx || cx > W + sizePx || cy < -sizePx || cy > H + sizePx) continue;
-			drawSprite(dst, W, H, tex.rgba, tex.width, tex.height, cx, cy, sizePx, p.rot, p.color[0], p.color[1], p.color[2], alpha);
-			alive++;
+		const states = q1
+			? frameStates(prep, cfg, f, fps)
+			: particleStatesAt(cfg, particles, trajectories, (f * delayCs) / 100, stateOpts);
+		const alive = states.length;
+		let dst;
+		if (q1) {
+			dst = q1Frame(states, tex, q1Mask, W, H);
+		} else {
+			dst = new Uint8Array(W * H * 4);
+			for (const s of states) {
+				drawSprite(dst, W, H, tex.rgba, tex.width, tex.height, s.cx, s.cy, s.sizePx, s.angle, s.cr, s.cg, s.cb, s.alpha);
+			}
 		}
 		aliveMin = Math.min(aliveMin, alive);
 		aliveMax = Math.max(aliveMax, alive);
 		frames.push(dst);
 	}
 
+	// M1 contract: alpha policy runs BEFORE palette creation for quality-v1;
+	// the legacy reproduction order below is intentionally untouched.
+	if (q1) for (const f of frames) alphaThreshold(f, QUALITY_ALPHA_THRESHOLD);
 	const seqPalette = medianCutPalette(frames, paletteSize);
 	const actualColors = seqPalette.length / 3;
 	const gifColors = Math.min(255, actualColors);
@@ -445,7 +693,7 @@ function main() {
 	}
 	const indices = [];
 	for (const f of frames) {
-		alphaThreshold(f, alphaT);
+		if (!q1) alphaThreshold(f, alphaT);
 		quantizeFrame(f, seqPalette, dither, W);
 		const idxBuf = new Uint8Array(W * H);
 		for (let i = 0, j = 0; i < f.length; i += 4, j++) {
@@ -474,6 +722,7 @@ function main() {
 		palette: gifPalette,
 		transparentIndex: transIdx,
 		delayCs,
+		delayCsList: q1 ? q1DelayList : undefined,
 		loop: 0,
 	});
 	writeFileSync(pngPath, pngBytes);
@@ -505,15 +754,30 @@ function main() {
 			frames: frameCount,
 			fps,
 			delayCs,
-			loopMs: cycle * 1000,
+			loopMs: q1 ? q1DelayList.reduce((a, b) => a + b, 0) * 10 : cycle * 1000,
+			...(q1
+				? {
+					sourcePeriodMs: cycle * 1000,
+					sampleWindowMs: [0, ((frameCount - 1) / fps) * 1000],
+					sampling: "simulation time t=f/fps; independent of GIF delay rounding",
+					loopDeclaration: "non-seamless excerpt: frameCount samples of the source period; encoded loop is the delay-schedule total, not the source period",
+					encodedDelaySchedule: `boundary-rounded ${fps}fps schedule: delays[i]=round((i+1)*100/fps)-round(i*100/fps); total ${q1DelayList.reduce((a, b) => a + b, 0)}cs`,
+					sourcePeriodSimulationSec: cycle,
+					sourcePeriodWallSec: cycle / simSpeed,
+					manufacturedWallRepeatSec: cycle,
+					durationUnits: `source period ${cycle}s is simulation time; at simulationSpeed ${simSpeed} it spans ${cycle / simSpeed}s wall; this excerpt repeats the manufactured emit window of ${cycle}s wall and is not a native Unity wall-clock cycle`,
+				}
+				: {}),
 			particlesPerLoop: count,
 			alivePerFrame: [aliveMin, aliveMax],
 			pxPerUnit: scale,
 			emitterOriginPx: [originX, originY],
 			paletteSize,
 			dither,
-			alphaThreshold: alphaT,
-			compositing: "additive (SrcAlpha One) with luminance-weighted coverage alpha",
+			alphaThreshold: q1 ? QUALITY_ALPHA_THRESHOLD : alphaT,
+			compositing: q1
+				? "quality-v1: accepted M1 quality-render normal source-over in linear float (4x supersample); texture mask = linear luminance baked from the opaque RGB shape, tint baked linearly; alpha policy before the sequence palette; export approximation, not Unity parity"
+				: "additive (SrcAlpha One) with luminance-weighted coverage alpha",
 			seed: `${cfg.system.randomSeed}`,
 		},
 		outputs: {
@@ -526,7 +790,7 @@ function main() {
 				? { source: sourceStartSize, applied: cfg.initial.startSize }
 				: null,
 		},
-		limitations: LIMITS.concat([
+			limitations: (q1 ? LIMITS.map(q1LimitText) : LIMITS).concat([
 			"prefab root translation is treated as sample-scene placement and ignored; the per-example origin view parameter carries framing",
 		]).concat(
 			startSizeOverride
@@ -537,6 +801,38 @@ function main() {
 		),
 	};
 	const reportPath = resolve(outDir, `${name}_render.json`);
+	if (q1) {
+		report.qualityV1 = {
+			profile: "quality-v1",
+			provenance: {
+				loopCycleSeconds: { path: "system.lengthInSec", value: cycle, legacyExportCycleSeconds: exportCycle },
+				sampleTimeSeconds: { formula: "frameIndex / fps", gifDelayCsUsedForEncodingOnly: delayCs },
+				lifeCapSeconds: { path: "system.lengthInSec", value: cycle },
+				startColor: { path: "initial.startColor.min/max", min: cfg.initial.startColor.min, max: cfg.initial.startColor.max },
+				colorOverLifetime: {
+					path: "colorOverLifetime",
+					enabled: cfg.colorOverLifetime.enabled,
+					mode: cfg.colorOverLifetime.mode ?? 0,
+					colorKeys: cfg.colorOverLifetime.colorKeys?.length ?? 0,
+					alphaKeys: cfg.colorOverLifetime.alphaKeys?.length ?? 0,
+				},
+				flags: {
+					emission: cfg.emission.enabled,
+					sizeOverLifetime: cfg.sizeOverLifetime.enabled,
+					rotationOverLifetime: cfg.rotationOverLifetime.enabled,
+					noise: cfg.noise.enabled,
+					disabledModules: cfg.disabledModules,
+				},
+				pivot: { path: "renderer.pivot", value: cfg.renderer.pivot },
+				velocity: {
+					path: "renderer.renderMode",
+					value: cfg.renderer.renderMode,
+					stretchScalar: "absent from shipped normalized record; raw asset value not verified — orientation only",
+				},
+			},
+			warnings: q1warnings,
+		};
+	}
 	writeFileSync(reportPath, JSON.stringify(report, null, 1) + "\n");
 	console.log(
 		JSON.stringify(
@@ -559,4 +855,15 @@ function main() {
 	);
 }
 
-main();
+export {
+	buildParticles,
+	trajectory,
+	sampleTrajectory,
+	particleStatesAt,
+	q1ShapeMask,
+	q1Frame,
+	gifDelaySchedule,
+	prepareParticles,
+	frameStates,
+};
+if (import.meta.main) main();

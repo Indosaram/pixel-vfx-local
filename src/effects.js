@@ -1,4 +1,5 @@
 import { PRESETS3D } from "./effects3d.js";
+import { QUALITY_PRESETS } from "./quality-effects.js";
 
 export const PRESETS = [
 	{
@@ -308,7 +309,7 @@ export const PRESETS = [
 	},
 ];
 
-export const ALL_PRESETS = [...PRESETS, ...PRESETS3D];
+export const ALL_PRESETS = [...PRESETS, ...PRESETS3D, ...QUALITY_PRESETS];
 
 export function getPreset(id) {
 	return ALL_PRESETS.find((p) => p.id === id) || PRESETS[0];

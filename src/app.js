@@ -401,35 +401,50 @@ function download(bytes, name, mime) {
 }
 
 function doExport(kind) {
-	let r;
-	if (kind === "sheet") r = exportSheet(state);
-	else if (kind === "gif") r = exportGif(state);
-	else if (kind === "frame") r = exportFrame(state, currentFrame);
-	else if (kind === "aseprite") r = exportAseprite(state);
-	else if (kind === "tres") r = exportTres(state);
-	else if (kind === "meta") r = exportMeta(state);
-	else r = exportAtlas(state);
-	const m = meta(r);
-	lastExport = m;
-	const mime =
-		kind === "gif"
-			? "image/gif"
-			: kind === "atlas"
-				? "application/json"
-				: kind === "aseprite"
-					? "application/octet-stream"
-					: kind === "tres" || kind === "meta"
-						? "text/plain"
-						: "image/png";
-	download(r.bytes, r.name, mime);
-	let info = `${r.name} · ${r.width}x${r.height}`;
-	if (r.cellCount !== undefined) info += ` · frames ${r.cellCount}`;
-	if (r.totalSeconds !== undefined) info += ` · ${r.totalSeconds.toFixed(3)}s`;
-	if (r.totalMs !== undefined)
-		info += ` · ${r.totalMs}ms (delay ${r.delayCs}cs)`;
-	$("export-info").textContent = info;
-	log(`exported ${info} (${r.bytes.length} bytes)`);
-	return m;
+	try {
+		let r;
+		if (kind === "sheet") r = exportSheet(state);
+		else if (kind === "gif") r = exportGif(state);
+		else if (kind === "frame") r = exportFrame(state, currentFrame);
+		else if (kind === "aseprite") r = exportAseprite(state);
+		else if (kind === "tres") r = exportTres(state);
+		else if (kind === "meta") r = exportMeta(state);
+		else r = exportAtlas(state);
+		const m = meta(r);
+		lastExport = m;
+		const mime =
+			kind === "gif"
+				? "image/gif"
+				: kind === "atlas"
+					? "application/json"
+					: kind === "aseprite"
+						? "application/octet-stream"
+						: kind === "tres" || kind === "meta"
+							? "text/plain"
+							: "image/png";
+		download(r.bytes, r.name, mime);
+		let info = `${r.name} · ${r.width}x${r.height}`;
+		if (r.cellCount !== undefined) info += ` · frames ${r.cellCount}`;
+		if (r.totalSeconds !== undefined) info += ` · ${r.totalSeconds.toFixed(3)}s`;
+		if (r.totalMs !== undefined)
+			info += ` · ${r.totalMs}ms (delay ${r.delayCs}cs)`;
+		$("export-info").textContent = info;
+		log(`exported ${info} (${r.bytes.length} bytes)`);
+		return m;
+	} catch (e) {
+		// Format-specific guidance instead of a silent uncaught throw: the GIF
+		// encoder floor is 2cs per frame (boundary-scheduled quality presets do
+		// not clamp), while sheet/frame exports accept fps up to 60.
+		const msg = e && e.message ? e.message : String(e);
+		const hint =
+			kind === "gif"
+				? " — GIF needs ≥2cs per frame: quality presets export GIF only at fps ≤ 50 (fps 51–60 is rejected at the encoder floor); sheet/frame/atlas exports accept fps up to 60"
+				: "";
+		const text = `export ${kind} failed: ${msg}${hint}`;
+		$("export-info").textContent = text;
+		log(text);
+		return null;
+	}
 }
 
 let last = performance.now();

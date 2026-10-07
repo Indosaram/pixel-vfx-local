@@ -12,6 +12,10 @@ import {
 } from "./pixel.js";
 import { encodePNG, zlibStored } from "./pngenc.js";
 import { rasterFrame } from "./raster.js";
+import {
+	renderQualityFrame,
+	validatePeriodicTongue,
+} from "./quality-render.js";
 import { buildSheet, sheetLayout } from "./sheet.js";
 import { Sim } from "./sim.js";
 import { clampRange, expandFrames, markers, totalTime } from "./timing.js";
@@ -84,7 +88,14 @@ export function sanitizeParams(p) {
 		camera: { ...d.camera, ...(p.camera || {}) },
 		camera3d: { ...d.camera3d, ...(p.camera3d || {}) },
 	};
-	const effect = ALL_PRESETS.find((x) => x.id === p.effectId);
+	// Explicit effect override (M3): sanitize an authored/diagnostic variant
+	// whose id matches the requested effectId (e.g. primary-only layer subsets
+	// for the quality packets). No caller change when p.effect is absent —
+	// resolution falls back to the registered preset exactly as before.
+	const effect =
+		p.effect && p.effect.id === p.effectId
+			? p.effect
+			: ALL_PRESETS.find((x) => x.id === p.effectId);
 	if (!effect) {
 		messages.push(`unknown effect "${p.effectId}" → ${d.effectId}`);
 		s.effectId = d.effectId;
@@ -259,6 +270,17 @@ function downsample(src, sw, sh, scale) {
 export function buildSequence(p) {
 	const { params, messages } = sanitizeParams(p);
 	const fx = params.effect;
+	if (fx.kind === "quality") {
+		const st = renderQualityStages(fx, params);
+		return {
+			frames: st.final,
+			palette: st.palette,
+			params,
+			messages,
+			frameCount: params.frameCount,
+			geometryVariant: st.geometryVariant,
+		};
+	}
 	const is3d = fx.kind === "3d";
 	const sim = is3d ? null : new Sim(fx, params.seed);
 	const IW = params.width * params.pixelScale;
@@ -285,9 +307,9 @@ export function buildSequence(p) {
 				: downsample(raw, IW, IH, params.pixelScale),
 		);
 	}
-	const palette = medianCutPalette(frames, params.paletteSize);
 	const lut = params.recolor !== "none" ? buildLut(LUTS[params.recolor]) : null;
 	const outlineRgb = hexToRgb(params.outlineColor) || [0, 0, 0];
+	const palette = medianCutPalette(frames, params.paletteSize);
 	for (const f of frames) {
 		alphaThreshold(f, params.alphaThreshold);
 		recolor(f, lut);
@@ -296,6 +318,199 @@ export function buildSequence(p) {
 			outlineFrame(f, params.width, params.height, [...outlineRgb, 255]);
 	}
 	return { frames, palette, params, messages, frameCount: params.frameCount };
+}
+
+// Runs the ACTUAL quality-path stages and returns them separately, so
+// diagnostic exports and boards observe exactly the bytes the export uses.
+// Stages are the real code order — nothing invented:
+//   unthresholded — renderQualityFrame output (straight RGBA, SOFT alpha)
+//   policyApplied — after shared alphaThreshold + recolor (binary alpha)
+//   final         — after the one sequence palette quantize (+outline)
+// Pass { keepStages: true } to retain the two pre-final copies; the default
+// keeps only `final` so ordinary builds allocate no extra frame buffers.
+const FLAME16_REVISION = "flame16-v1";
+const FLAME16_IDS = new Set([
+	"perimeter",
+	"tongue_tall_outer",
+	"tongue_short_outer",
+	"tongue_tall_inner",
+	"tongue_short_inner",
+	"base",
+	"core",
+]);
+const FLAME16_KIND_BY_ID = {
+	perimeter: "puff",
+	base: "puff",
+	tongue_tall_outer: "arc",
+	tongue_short_outer: "arc",
+	tongue_tall_inner: "arc",
+	tongue_short_inner: "arc",
+	core: "radial",
+};
+const FLAME16_FIELDS_BY_KIND = {
+	puff: new Set(["cx", "cy", "r", "lobes", "amp", "phase", "feather"]),
+	arc: new Set([
+		"cx",
+		"cy",
+		"radius",
+		"ang0",
+		"ang1",
+		"thick0",
+		"thick1",
+		"rot",
+		"feather",
+		"periodicTongue",
+	]),
+	radial: new Set(["cx", "cy", "r0", "r1", "feather"]),
+};
+const FLAME16_PT_KEYS = new Set([
+	"periodSeconds",
+	"phaseRadians",
+	"swayPixels",
+	"widthFraction",
+	"heightFraction",
+]);
+
+export function validateFlame16Definition(fx) {
+	const def = fx.flame16Geometry;
+	if (!def || typeof def !== "object" || Array.isArray(def)) {
+		throw new Error("flame16Geometry: definition must be an object");
+	}
+	for (const key of Object.keys(def)) {
+		if (key !== "revision" && key !== "overrides") {
+			throw new Error(`flame16Geometry: unknown top-level field '${key}'`);
+		}
+	}
+	if (def.revision !== FLAME16_REVISION) {
+		throw new Error(
+			`flame16Geometry: revision must be exactly '${FLAME16_REVISION}', got ${JSON.stringify(def.revision)}`,
+		);
+	}
+	const ov = def.overrides;
+	if (!ov || typeof ov !== "object" || Array.isArray(ov)) {
+		throw new Error("flame16Geometry: overrides must be an object");
+	}
+	for (const id of Object.keys(ov)) {
+		if (!FLAME16_IDS.has(id)) {
+			throw new Error(
+				`flame16Geometry: unknown override ID '${id}' (must be one of the seven approved IDs)`,
+			);
+		}
+		const o = ov[id];
+		if (!o || typeof o !== "object" || Array.isArray(o)) {
+			throw new Error(`flame16Geometry: override '${id}' must be an object`);
+		}
+		const allowed = FLAME16_FIELDS_BY_KIND[FLAME16_KIND_BY_ID[id]];
+		for (const key of Object.keys(o)) {
+			if (!allowed.has(key)) {
+				throw new Error(`flame16Geometry: override '${id}' has disallowed field '${key}'`);
+			}
+		}
+		for (const key of Object.keys(o)) {
+			if (key === "periodicTongue") continue;
+			const v = o[key];
+			if (typeof v !== "number" || !Number.isFinite(v)) {
+				throw new Error(
+					`flame16Geometry: override '${id}.${key}' must be a finite number, got ${JSON.stringify(v)}`,
+				);
+			}
+		}
+		if (o.periodicTongue !== undefined) {
+			const pt = o.periodicTongue;
+			if (!pt || typeof pt !== "object" || Array.isArray(pt)) {
+				throw new Error(`flame16Geometry: override '${id}.periodicTongue' must be an object`);
+			}
+			for (const key of Object.keys(pt)) {
+				if (!FLAME16_PT_KEYS.has(key)) {
+					throw new Error(
+						`flame16Geometry: override '${id}.periodicTongue' has unknown field '${key}'`,
+					);
+				}
+			}
+			for (const key of FLAME16_PT_KEYS) {
+				if (!Object.prototype.hasOwnProperty.call(pt, key)) {
+					throw new Error(
+						`flame16Geometry: override '${id}.periodicTongue' missing '${key}'`,
+					);
+				}
+				const v = pt[key];
+				if (typeof v !== "number" || !Number.isFinite(v)) {
+					throw new Error(
+						`flame16Geometry: override '${id}.periodicTongue.${key}' must be a finite number`,
+					);
+				}
+			}
+			if (pt.periodSeconds !== 2) {
+				throw new Error(
+					`flame16Geometry: override '${id}.periodicTongue.periodSeconds' must be exactly 2, got ${JSON.stringify(pt.periodSeconds)}`,
+				);
+			}
+		}
+	}
+}
+
+export function renderQualityStages(fx, p, opts = {}) {
+	const keep = opts.keepStages === true;
+	if (fx.flame16Geometry) {
+		validateFlame16Definition(fx);
+	}
+	// flame16-v1: shared exact-16x16 selection, additive provenance only.
+	let renderFx = fx;
+	let geometryVariant = fx.id === "quality_flame" ? "quality_flame:r2" : null;
+	if (
+		fx.id === "quality_flame" &&
+		fx.flame16Geometry &&
+		p.width === 16 &&
+		p.height === 16
+	) {
+		geometryVariant = `quality_flame:${fx.flame16Geometry.revision}`;
+		const overrides = fx.flame16Geometry.overrides;
+		renderFx = {
+			...fx,
+			layers: fx.layers.map((layer) => {
+				const ov = Object.hasOwn(overrides, layer.id) ? overrides[layer.id] : undefined;
+				if (!ov) return layer;
+				const merged = { ...layer, ...ov };
+				if (ov.periodicTongue) {
+					merged.periodicTongue = { ...ov.periodicTongue };
+				}
+				return merged;
+			}),
+		};
+		// Contract-validate merged overridden layers once per invocation,
+		// outside every pixel/frame loop; misuse throws, no silent fallback.
+		for (const layer of renderFx.layers) {
+			if (Object.hasOwn(overrides, layer.id) && overrides[layer.id].periodicTongue) {
+				validatePeriodicTongue(renderFx, layer);
+			}
+		}
+	}
+	const lut = p.recolor !== "none" ? buildLut(LUTS[p.recolor]) : null;
+	const outlineRgb = hexToRgb(p.outlineColor) || [0, 0, 0];
+	const unthresholded = [];
+	const policyApplied = [];
+	const final = [];
+	for (let i = 0; i < p.frameCount; i++) {
+		const raw = renderQualityFrame(
+			renderFx,
+			i / p.fps,
+			p.seed,
+			p.camera,
+			p.width,
+			p.height,
+		);
+		if (keep) unthresholded.push(raw.slice());
+		alphaThreshold(raw, p.alphaThreshold);
+		recolor(raw, lut);
+		if (keep) policyApplied.push(raw.slice());
+		final.push(raw);
+	}
+	const palette = medianCutPalette(final, p.paletteSize);
+	for (const f of final) {
+		quantizeFrame(f, palette, p.dither, p.width);
+		if (p.outline) outlineFrame(f, p.width, p.height, [...outlineRgb, 255]);
+	}
+	return { unthresholded, policyApplied, final, palette, geometryVariant };
 }
 
 function outputFrames(seq) {
@@ -387,13 +602,31 @@ export function exportGif(p) {
 		return idxBuf;
 	});
 	const delayCs = Math.max(2, Math.round(100 / params.fps));
+	// Opt-in boundary-rounded delay schedule (M3 quality one-shots declare
+	// `delaySchedule: "boundary"`): per-frame centiseconds from rounded
+	// cumulative boundaries, so the ENCODED length is exactly frameCount/fps
+	// (750ms for 9 frames at 12fps) instead of frameCount*round(100/fps).
+	// The default (no declaration) keeps the historical scalar delay and is
+	// byte-identical to prior exports; gifenc's delayCsList handles the list.
+	let delaysCs = null;
+	if (String(params.effect?.delaySchedule) === "boundary") {
+		delaysCs = Array.from({ length: frames.length }, (_, i) =>
+			Math.round(((i + 1) * 100) / params.fps) -
+			Math.round((i * 100) / params.fps),
+		);
+		if (delaysCs.some((d) => d < 2)) {
+			throw new Error(
+				`delaySchedule=boundary: fps=${params.fps} yields a sub-2cs delay at the encoder floor; unsupported candidate fps`,
+			);
+		}
+	}
 	const bytes = encodeGIF({
 		width: params.width,
 		height: params.height,
 		frames: indices,
 		palette,
 		transparentIndex: transIdx,
-		delayCs,
+		...(delaysCs ? { delayCsList: delaysCs } : { delayCs }),
 		loop: 0,
 	});
 	return {
@@ -403,7 +636,10 @@ export function exportGif(p) {
 		height: params.height,
 		cellCount: frames.length,
 		delayCs,
-		totalMs: frames.length * delayCs * 10,
+		delaysCs,
+		totalMs: delaysCs
+			? delaysCs.reduce((a, b) => a + b, 0) * 10
+			: frames.length * delayCs * 10,
 		nominalMs: (frames.length / params.fps) * 1000,
 		sourceFrames: idx,
 		params,

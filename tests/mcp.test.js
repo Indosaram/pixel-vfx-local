@@ -1,6 +1,7 @@
 import { expect, test } from "bun:test";
 import { callTool, handleRpc, TOOLS } from "../scripts/mcp-server.mjs";
 import { decodePNG } from "../src/pngenc.js";
+import { ALL_PRESETS } from "../src/effects.js";
 
 const golden = await Bun.file(new URL("./golden.json", import.meta.url)).json();
 
@@ -36,7 +37,7 @@ test("tools/list exposes the four tools", () => {
 test("list_presets includes the 3D presets", () => {
 	const res = callTool("list_presets", {});
 	const presets = JSON.parse(res.content[0].text).presets;
-	expect(presets.length).toBe(16);
+	expect(presets.length).toBe(ALL_PRESETS.length);
 	expect(presets.filter((p) => p.kind === "3d").length).toBe(6);
 });
 

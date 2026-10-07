@@ -54,7 +54,7 @@ function subBlocks(bytes) {
 }
 
 export function encodeGIF(opts) {
-	const { width, height, frames, palette, transparentIndex, delayCs, loop } =
+	const { width, height, frames, palette, transparentIndex, delayCs, delayCsList, loop } =
 		opts;
 	const bytes = [];
 	const push = (arr) => {
@@ -91,9 +91,12 @@ export function encodeGIF(opts) {
 		: 0;
 	push([0x03, 0x01, loopCount & 0xff, (loopCount >> 8) & 0xff, 0x00]);
 	const hasTrans = transparentIndex !== undefined && transparentIndex !== null;
+	let frameIndex = 0;
 	for (const frame of frames) {
 		push([0x21, 0xf9, 0x04, (2 << 2) | (hasTrans ? 1 : 0)]);
-		pushLE16(Math.max(2, Math.round(delayCs)));
+		const dc = delayCsList ? delayCsList[frameIndex] : delayCs;
+		pushLE16(Math.max(2, Math.round(dc)));
+		frameIndex++;
 		bytes.push(hasTrans ? transparentIndex : 0);
 		bytes.push(0);
 		push([0x2c]);
