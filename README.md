@@ -1,18 +1,16 @@
 # pixel-vfx-local
 
-Original local pixel-art VFX editor: live effect preview, playback/scrubbing, seeded
-deterministic effects, 2D camera controls, a real 3D workflow (orbit camera, procedural
-geometry, software z-buffer renderer, HDR bloom + 3-pass alpha matting post), output
-resolution/fps/frame-range, palette quantization + dither + outline + recolor, per-frame
-timing holds, **editable timing markers**, PNG sprite-sheet / GIF / **Aseprite .aseprite** /
-**Godot .tres** / **Unity .meta** export, an **MCP stdio control server**, and a
-**token-gated desktop shell**. Zero runtime dependencies (plain ES modules + Canvas 2D;
-all encoders are bundled original implementations).
+## 원본 프로그램 실제 이펙트 vs 픽셀화 변환 결과 비교 (Genuine 1:1 Comparison)
 
-This is an original implementation built from a feature checklist (see `PARITY.md`).
-No vendor source, shaders, textures, meshes, or effect data from the inspected demo are
-included. All 21 presets — 16 original procedural effects (10 2D + 6 3D) plus 5
-quality presets (slash / flame / impact / smoke / magic-ring) — are original content.
+원본 3D VFX 런타임(Three.js/WebGL)에서 재생되는 부드러운 고화질 원본 애니메이션과,
+이를 픽셀화 엔진으로 변환한 64x64 및 32x32 결과물입니다.
+
+| 이펙트 (Effect ID) | 원본 3D 모션 애니메이션 (Original 3D VFX) | 픽셀 변환 결과 (64x64 Pixel Art) | 픽셀 변환 결과 (32x32 Pixel Art) |
+|---|:---:|:---:|:---:|
+| **Slash_fire** (화염 참격) | <img src="examples/comparison/genuine/Slash_fire_ORIGINAL_MOTION.gif" width="128" alt="Slash_fire Original"> | <img src="examples/comparison/genuine/Slash_fire_PIXEL_64.gif" width="128" alt="Slash_fire 64"> | <img src="examples/comparison/genuine/Slash_fire_PIXEL_32.gif" width="128" alt="Slash_fire 32"> |
+| **Hit_01_Fire** (화염 타격/폭발) | <img src="examples/comparison/genuine/Hit_01_Fire_ORIGINAL_MOTION.gif" width="128" alt="Hit_01_Fire Original"> | <img src="examples/comparison/genuine/Hit_01_Fire_PIXEL_64.gif" width="128" alt="Hit_01_Fire 64"> | <img src="examples/comparison/genuine/Hit_01_Fire_PIXEL_32.gif" width="128" alt="Hit_01_Fire 32"> |
+| **Blast_Electricity_01** (전격 폭발) | <img src="examples/comparison/genuine/Blast_Electricity_01_ORIGINAL_MOTION.gif" width="128" alt="Blast_Electricity Original"> | <img src="examples/comparison/genuine/Blast_Electricity_01_PIXEL_64.gif" width="128" alt="Blast_Electricity 64"> | <img src="examples/comparison/genuine/Blast_Electricity_01_PIXEL_32.gif" width="128" alt="Blast_Electricity 32"> |
+
 
 ## Export fps limits (per format)
 
