@@ -6,10 +6,10 @@
 <body>
   <canvas id="c"></canvas>
   <script type="module">
-    import * as THREE from 'file:///Users/indo/code/project/pixel-vfx-local/clone/node_modules/three/build/three.module.js';
-    import { renderEffectClone } from 'file:///Users/indo/code/project/pixel-vfx-local/clone/dist/standalone-bundle.js';
+    import * as THREE from './node_modules/three/build/three.module.js';
+    import { renderEffectClone } from './standalone-bundle.js';
 
-    window.run = async (effectId, size) => {
+    window.run = async (effectId, size, pakPath) => {
       const canvas = document.getElementById('c');
       const renderer = new THREE.WebGLRenderer({
         canvas,
@@ -19,7 +19,7 @@
       });
 
       const res = await renderEffectClone({
-        pakPath: '/Users/indo/.omo/evidence/hun0fx-pixel-studio-demo/app-code/app/data/hun0fx.pak',
+        pakPath: pakPath || './hun0fx.pak',
         effectId,
         size,
         renderer

@@ -8,10 +8,12 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const effectId = process.argv[2] || 'Hit_01_Fire';
 const size = parseInt(process.argv[3] || '64', 10);
 const outPath = process.argv[4] || resolve(__dirname, `out/${effectId}_${size}_pure_clone.gif`);
+const pakPath = process.env.HUN0FX_PAK || resolve(__dirname, 'hun0fx.pak');
 
 mkdirSync(resolve(__dirname, 'out'), { recursive: true });
 
 console.log(`[Pure Clone Standalone] Rendering ${effectId} (${size}x${size})...`);
+console.log(`[Pure Clone Standalone] PAK Path: ${pakPath}`);
 
 const htmlPath = resolve(__dirname, 'dist/runner.html');
 
@@ -36,13 +38,14 @@ app.whenReady().then(async () => {
 
   win.webContents.on('console-message', (e, lvl, msg) => console.log('[PAGE]', msg));
 
-  await win.loadFile('${htmlPath}');
+  await win.loadFile(\`${htmlPath}\`);
 
   try {
-    const res = await win.webContents.executeJavaScript(\`window.run('${effectId}', ${size})\`);
+    const pakSafe = JSON.stringify(\`${pakPath}\`);
+    const res = await win.webContents.executeJavaScript(\`window.run('${effectId}', ${size}, \${pakSafe})\`);
     if (res.ok) {
-      fs.writeFileSync('${outPath}', Buffer.from(res.b64, 'base64'));
-      console.log('[SUCCESS] Rendered ' + res.frames + ' frames via PURE CLONE to: ' + '${outPath}');
+      fs.writeFileSync(\`${outPath}\`, Buffer.from(res.b64, 'base64'));
+      console.log('[SUCCESS] Rendered ' + res.frames + ' frames via PURE CLONE to: ' + \`${outPath}\`);
     } else {
       console.error('[FAIL]', res.error);
       process.exit(1);
