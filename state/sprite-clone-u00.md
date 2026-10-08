@@ -42,6 +42,15 @@ Working directory: `/Users/indo/code/project/pixel-vfx-local`, except lock resol
 | `git diff --cached --check` | 0 | Staged whitespace check passed |
 | `git diff --cached --stat` | 0 | Ten U00 files only |
 | `git diff --cached --name-only` | 0 | Exact ten-file inventory above, unrelated work excluded |
+| `git add -- state/sprite-clone-u00.md` | 0 | Included final pre-commit validation receipt |
+| `git commit -m "Freeze clone U00 contracts, oracle values and runtime lock"` | 0 | Created b3aef6e; ten U00 files only |
+| `git log -1 --oneline` | 0 | Confirmed b3aef6e and the intended subject |
+| `git diff --cached --stat` (post-commit) | 0 | Empty index |
+| `git status --short -- clone state/sprite-clone-u00.md README.md` (post-commit) | 0 | Only pre-existing README modification shown |
+
+Post-commit receipt supplement: these five results were observed in the original U00
+execution and added afterward; they were not rerun. This supplement is uncommitted.
+No second commit or amend is authorized by the one-commit U00 instruction.
 
 Read-only JS `fetch` requests to `https://registry.npmjs.org/electron/latest`, `https://registry.npmjs.org/three/0.170.0`, `https://registry.npmjs.org/bun/1.4.0` each returned HTTP 200. They have HTTP statuses, not process exit codes. File inspection/edit tools likewise do not have shell exit codes. No package binaries or lifecycle scripts ran.
 
