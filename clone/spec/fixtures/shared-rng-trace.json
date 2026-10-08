@@ -1,0 +1,64 @@
+{
+  "status": "frozen",
+  "freezeEvidence": {
+    "verifier": "st_01a117ba, explicit muse/mimo-v2.6-flash-free, implementation-blind",
+    "method": "Independent draw-order enumeration and BigInt recurrence; all 11 checkpoints, offsets, counts, ordinals and denominator; checkpoint and ordinal corruption rejected",
+    "command": "node spec/verify-rng-trace-fixture.mjs",
+    "exit": 0,
+    "verifiedCandidateSha256": "31404d087ece62968a06bb8fd165bdc769d30a831fb26d5980f516aeac5e86e5",
+    "receipt": "evidence/fixture-rng-trace-freeze-01a1154f/",
+    "scope": "Declared two-part first-update random draw trace only, not particle values, optional branches or images"
+  },
+  "authority": "state/sprite-static-emission-addendum.md; state/sprite-static-effect-clock-addendum.md",
+  "scenario": {
+    "parts": ["A", "B"],
+    "seed": 42,
+    "materialPresent": true,
+    "loop": false,
+    "prewarm": false,
+    "delay": 0,
+    "life": 2,
+    "duration": 1,
+    "capacityPerPart": 3,
+    "burst": { "time": 0, "count": 1, "repetitions": 1 },
+    "rate": 0,
+    "shape": null,
+    "size3D": false,
+    "rot3D": false,
+    "flipRot": 0,
+    "trail": null,
+    "firstUpdate": { "dtFraction": [1, 120], "systemTimeFraction": [1, 120] }
+  },
+  "expected": {
+    "playDraws": [{ "part": "A", "site": "delay", "ordinal": 1 }, { "part": "B", "site": "delay", "ordinal": 2 }],
+    "firstUpdate": [
+      { "part": "A", "burstCountDraw": 3, "particleDrawRangeInclusive": [4, 20], "rateDraw": 21 },
+      { "part": "B", "burstCountDraw": 22, "particleDrawRangeInclusive": [23, 39], "rateDraw": 40 }
+    ],
+    "particleDrawOffsetsZeroBased": {
+      "life": 0, "speed": 1, "size": 2, "rotationZ": 3, "color": 4,
+      "storedRandoms": [5, 6, 7, 8, 9, 10, 11, 12],
+      "flipX": 13, "flipY": 14, "seed": 15, "row": 16
+    },
+    "normalizedFractionDenominator": 2147483646,
+    "stateCheckpoints": [
+      { "ordinal": 1, "state": 705894, "numerator": 705893 },
+      { "ordinal": 2, "state": 1126542223, "numerator": 1126542222 },
+      { "ordinal": 4, "state": 565444343, "numerator": 565444342 },
+      { "ordinal": 9, "state": 1139130650, "numerator": 1139130649 },
+      { "ordinal": 16, "state": 531304892, "numerator": 531304891 },
+      { "ordinal": 20, "state": 1733822410, "numerator": 1733822409 },
+      { "ordinal": 23, "state": 1582736250, "numerator": 1582736249 },
+      { "ordinal": 28, "state": 997713207, "numerator": 997713206 },
+      { "ordinal": 35, "state": 1965890610, "numerator": 1965890609 },
+      { "ordinal": 39, "state": 1339106791, "numerator": 1339106790 },
+      { "ordinal": 40, "state": 739215777, "numerator": 739215776 }
+    ],
+    "drawCountAfterPlay": 2,
+    "drawCountAfterFirstUpdate": 40,
+    "particleCountPerPart": [1, 1]
+  },
+  "derivation": "Constant curve evaluation still receives a draw. Play visits both parts before effect stepping. Each due burst draws its count then spawns with17 draws; zero rate still consumes its evaluator draw after spawning. Each part therefore consumes19 update draws. No optional shape/3D/flipRot/trail draws occur.",
+  "limitations": ["Not complete effect wire schema", "Requires independent arithmetic audit", "No particle values or images yet", "Does not cover prewarm, capacity saturation or optional draw branches"],
+  "provenance": "Coordinator static call-order derivation; checkpoints computed independently with BigInt state*16807 modulo2147483647, no production execution, not blind held-out data"
+}

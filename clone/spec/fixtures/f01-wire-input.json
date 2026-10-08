@@ -1,0 +1,33 @@
+{
+  "id": "F01-wire",
+  "status": "candidate-not-frozen",
+  "freezeBlocker": "Input-only translation lacks full capture settings and particle/image expectations; U01/U03/U05/U07/U08. Coordinator scope inspection only; independent arithmetic verification not claimed. Missing oracle data, not unfinished implementation, blocks freeze.",
+  "authority": ["state/sprite-static-curve-schema-addendum.md", "state/sprite-static-emission-addendum.md", "state/sprite-static-material-addendum.md"],
+  "purpose": "Concrete source-shaped emitter inputs for the existing F01 scheduler probe; no loaded original assets",
+  "effect": {
+    "id": "authored-f01",
+    "textures": [], "meshes": [], "roles": [null, null],
+    "emitters": [
+      {
+        "name": "first", "max": 3, "space": 0, "dur": 1, "loop": false, "prewarm": false,
+        "pos": {"x":0,"y":0,"z":0}, "rot": {"x":0,"y":0,"z":0,"w":1}, "scale": {"x":1,"y":1,"z":1},
+        "delay": {"t":"c","v":0}, "rate": {"t":"c","v":2}, "bursts": [[0,{"t":"c","v":1},1,0.01]],
+        "life": {"t":"c","v":2}, "speed": {"t":"c","v":0}, "size": {"t":"c","v":1}, "size3D": false,
+        "rotZ": {"t":"c","v":0}, "rot3D": false, "flipRot": 0, "color": {"t":"col","v":[0.25,0.5,0.75,1]},
+        "grav": {"t":"c","v":0}, "shape": null, "trail": null,
+        "render": {"mode":0,"align":0,"len":2,"vel":0,"sort":0,"fudge":0,"flip":{"x":0,"y":0},"pivot":{"x":0,"y":0,"z":0},"mat":{"shader":"SH_HunFX_simple","kw":["_USECOLOR_ON"],"tex":{},"st":{},"f":{},"c":{"_Color_tint":[1,1,1,1],"_uv":[0,0,1,1],"_Panner":[0,0]}}}
+      },
+      {
+        "name": "second", "max": 3, "space": 0, "dur": 1, "loop": false, "prewarm": false,
+        "pos": {"x":0,"y":0,"z":0}, "rot": {"x":0,"y":0,"z":0,"w":1}, "scale": {"x":1,"y":1,"z":1},
+        "delay": {"t":"c","v":0}, "rate": {"t":"c","v":4}, "bursts": [[0.5,{"t":"c","v":1},1,0.01]],
+        "life": {"t":"c","v":2}, "speed": {"t":"r","a":2,"b":6}, "size": {"t":"c","v":1}, "size3D": false,
+        "rotZ": {"t":"c","v":0}, "rot3D": false, "flipRot": 0, "color": {"t":"col","v":[0.75,0.25,0.5,1]},
+        "grav": {"t":"c","v":0}, "shape": null, "trail": null,
+        "render": {"mode":0,"align":0,"len":2,"vel":0,"sort":0,"fudge":0,"flip":{"x":0,"y":0},"pivot":{"x":0,"y":0,"z":0},"mat":{"shader":"SH_HunFX_simple","kw":["_USECOLOR_ON"],"tex":{},"st":{},"f":{},"c":{"_Color_tint":[1,1,1,1],"_uv":[0,0,1,1],"_Panner":[0,0]}}}
+      }
+    ]
+  },
+  "limitations": ["Not the separate shared-rng-trace scenario", "No execution of source or clone", "Full capture settings and particle/image expectations remain missing", "Independent static field-use review pending"],
+  "provenance": "Coordinator authored values from reviewed field contracts; no production algorithm used to generate expected output"
+}

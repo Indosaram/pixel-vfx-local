@@ -1,0 +1,11 @@
+{
+  "id": "F02",
+  "status": "candidate-not-frozen",
+  "freezeBlocker": "Bounds/trail/UV expectations do not cover declared local/world conversion, mode1/4 buffers and blending; U04/U06-U08. Coordinator scope inspection only; independent arithmetic verification not claimed. Missing oracle data, not unfinished implementation, blocks freeze.",
+  "meshBounds": {"min":[0,0,0],"max":[2,1,3]},
+  "trailProbe": {"retainedTimesAfterSamples":[[0],[0,0.5],[0,0.5],[0.5]],"derivation":"Distance sqrt(0.3^2+0.4^2)=0.5 inserts at equality. Lifetime=0.5*2=1; timestamp0 survives at time1 and expires at1.25."},
+  "uvProbe": {"indexes":[3,0,1,2,3,0],"rectangles":[[0.5,0,0.5,0.5],[0,0.5,0.5,0.5],[0.5,0.5,0.5,0.5],[0,0,0.5,0.5],[0.5,0,0.5,0.5],[0,0.5,0.5,0.5]],"derivation":"Positive wrapping maps -0.25 to0.75 and1 to0; floor(wrapped*4) gives index. Column=index%2, row=floor(index/2), UV origin=(column/2,1-(row+1)/2)."},
+  "branchCoverage":["asymmetric mesh data","trail minimum-distance equality","strict trail age expiry","whole-sheet negative UV wrapping"],
+  "unknown":["handedness rendering","mode1/4 buffers","local/world conversion","blending"],
+  "provenance":"Original data and report-addendum arithmetic, no production execution; coordinator has read production code, not a blind held-out oracle."
+}

@@ -1,0 +1,16 @@
+{
+  "status": "frozen",
+  "freezeEvidence": {"verifier":"st_01a117a8, explicit muse/mimo-v2.6-flash-free, implementation-blind arithmetic","method":"Preserved independently recomputed oracle values; coordinator execution wrapper checks all eight cases and clamps; both input and expected mutations rejected","command":"node spec/verify-timing-fixture.mjs","exit":0,"checks":15,"verifiedCandidateSha256":"83d09b026c1fea7e53b4a1c804f9b1fbc9886822091b0736bab4edbb5777b61f","receipt":"evidence/fixture-timing-freeze-01a1154f/","scope":"Paired analytic coverage/hold/marker/clamp fixtures, not RGBA capture or UI acceptance"},
+  "authority": "state/sprite-static-timing-cleanup-addendum.md",
+  "cases": [
+    { "id": "thresholds", "coverage": [0, 11, 20, 8, 7, 6, 3, 0], "fps": 20, "loop": false },
+    { "id": "fps12", "coverage": [0, 11, 20, 8, 7, 6, 3, 0], "fps": 12, "loop": false },
+    { "id": "fps11", "coverage": [0, 11, 20, 8, 7, 6, 3, 0], "fps": 11, "loop": false },
+    { "id": "loop", "coverage": [0, 11, 20, 8, 7, 6, 3, 0], "fps": 20, "loop": true },
+    { "id": "short", "coverage": [1, 2, 1], "fps": 20, "loop": false },
+    { "id": "empty-coverage", "coverage": [0, 0, 0, 0], "fps": 20, "loop": false },
+    { "id": "peak-tie", "coverage": [20, 12, 0, 20, 0, 0], "fps": 20, "loop": false },
+    { "id": "last-impact", "coverage": [0, 0, 0, 20], "fps": 20, "loop": false }
+  ],
+  "clampInputs": [0, -1, 9, 2.9, 4294967297, 2147483648]
+}

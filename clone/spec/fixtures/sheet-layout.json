@@ -1,0 +1,29 @@
+{
+  "status": "frozen",
+  "freezeEvidence": {
+    "verifier": "st_01a117a8 (muse/mimo-v2.6-flash-free), implementation-blind; returned code applied verbatim by coordinator",
+    "method": "Independent candidate-grid enumeration against reviewed layout specification; all six grids reproduced and corrupted column expectation rejected",
+    "command": "node spec/verify-sheet-layout-fixture.mjs",
+    "exit": 0,
+    "checks": 116,
+    "verifiedCandidateSha256": "e6ff8e40eee795ecd797aa121d2dc88b9c6435bf6c86d05987c7391c6aef7773",
+    "receipt": "evidence/fixture-sheet-layout-freeze-01a1154f/",
+    "scope": "Six declared sheet-layout arithmetic cases, not canvas or encoder acceptance"
+  },
+  "authority": "state/sprite-static-sheet-layout-addendum.md",
+  "cases": [
+    { "id": "exact-priority-at-aspect-two", "count": 8, "w": 1, "h": 1, "expectedColumns": 4, "expectedRows": 2 },
+    { "id": "exact-wide-tie", "count": 12, "w": 1, "h": 1, "expectedColumns": 4, "expectedRows": 3 },
+    { "id": "wide-frames", "count": 6, "w": 2, "h": 1, "expectedColumns": 2, "expectedRows": 3 },
+    { "id": "tall-frames", "count": 6, "w": 1, "h": 2, "expectedColumns": 3, "expectedRows": 2 },
+    { "id": "inexact-wide-tie", "count": 5, "w": 1, "h": 1, "expectedColumns": 3, "expectedRows": 2 },
+    { "id": "fixed-columns", "count": 5, "w": 2, "h": 3, "columns": 2, "expectedColumns": 2, "expectedRows": 3 }
+  ],
+  "derivations": [
+    "12 square frames: exact4x3 and3x4 tie at aspect4/3; wide wins.",
+    "6 frames of2x1: exact2x3 gives sheet4x3 aspect4/3;3x2 gives6x2 aspect3 and is outside exact preference. Transposing frame dimensions yields3x2 sheet3x4.",
+    "5 square frames: no exact layout has aspect<=2. The3x2 and2x3 grids score1.5+0.35=1.85; wide3x2 wins.1x5 and5x1 score5. The4x2 grid scores2+3*0.35=3.05, worse.",
+    "Explicit positive columns override automatic scoring."
+  ],
+  "provenance": "Coordinator arithmetic; no source or clone algorithm execution; independently verified by st_01a117a8, see freezeEvidence"
+}

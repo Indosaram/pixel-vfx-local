@@ -6,6 +6,12 @@
   ],
   "status": "SKELETON. Every unresolved value is null with an explicit blocked status. No hash, path, expected value or oracle origin is fabricated.",
   "manifestRequirement": "The fixture manifest must list branch coverage, seeds, cameras, settings, oracle origin and SHA256 before downstream work (plan §5). Only fixedInputs from the accepted plan are populated; unresolved fields remain null.",
+  "candidateAudit": {
+    "report": "../../state/sprite-fixture-freeze.md",
+    "payloadAudit": "../../state/sprite-fixture-payload-audit.json",
+    "directory": "fixtures/",
+    "scope": "Separate analytic helper freezes do not resolve the full fixture requirements below. F01/F02/F03/P01 candidate files contain partial authored data, not accepted whole-pipeline fixtures. H01/H02 remain blocked and withheld."
+  },
   "unresolvedConvention": "null means NOT YET AUTHORED, never 'not applicable'. A fixture is not usable while any field it needs is null.",
   "statusVocabulary": {
     "blocked-unresolved": "Inputs are selected but the remaining numeric fields, expected oracle values and hashes have not been authored; the fixture may not be used.",

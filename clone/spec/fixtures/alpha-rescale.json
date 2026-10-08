@@ -1,0 +1,21 @@
+{
+  "status": "frozen",
+  "freezeEvidence": {
+    "verifier": "st_01a117a6 (muse/mimo-v2.6-flash-free), implementation-blind",
+    "method": "Independent threshold-relative arithmetic and specification cross-check; full 10-byte vector and corruption rejection",
+    "command": "node spec/verify-fixture-freeze.mjs",
+    "exit": 0,
+    "checks": 28,
+    "verifiedCandidateSha256": "51a73716ee18c3a548916e9b0af6a614468d502428b36a7058e9b31adc363567",
+    "receipt": "evidence/fixture-alpha-freeze-01a1154f/",
+    "scope": "Declared byte-helper arithmetic only, not full image pipeline acceptance"
+  },
+  "authority": "state/sprite-static-pixel-pipeline-addendum.md; source pixel.js:183-184",
+  "thresholdByte": 30,
+  "levels": 3,
+  "inputAlphaBytes": [29, 30, 31, 85, 86, 105, 106, 180, 181, 255],
+  "expectedAlphaBytes": [0, 0, 85, 85, 85, 85, 170, 170, 255, 255],
+  "derivation": "For surviving byte alpha a, ceil((a-30)*3/225)/3 gives normalized alpha. Threshold equality is dropped; step boundaries are105 and180. Multiply by255 and assign to Uint8ClampedArray. These levels yield exact byte multiples85.",
+  "provenance": "Coordinator analytic arithmetic, not implementation execution; independently verified by st_01a117a6, see freezeEvidence",
+  "scope": "Byte-input helper equivalent formula; full source pipeline stores intermediate alpha in Float32 and receives normalized source alpha. No image parity claim."
+}

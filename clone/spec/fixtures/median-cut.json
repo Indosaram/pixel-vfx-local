@@ -1,0 +1,28 @@
+{
+  "status": "frozen",
+  "freezeEvidence": {
+    "verifier": "st_01a117ba, explicit muse/mimo-v2.6-flash-free, implementation-blind",
+    "method": "Independently recomputed every centroid in all four declared cases from RGB samples; altered centroid rejected",
+    "command": "node spec/verify-median-fixture.mjs",
+    "exit": 0,
+    "cases": 4,
+    "verifiedCandidateSha256": "4fe86e27afe97af9a1bd45682864eac405ea0f1b62ed6303e12b9b0780445d34",
+    "receipt": "evidence/fixture-median-freeze-01a1154f/",
+    "scope": "Four declared normalized RGB palette cases only"
+  },
+  "authority": "state/sprite-static-pixel-helpers-addendum.md",
+  "cases": [
+    { "id": "empty-black", "samples": [], "count": 2, "expected": [[0,0,0]] },
+    { "id": "duplicates-retained-across-split", "samples": [[0,0,0],[0,0,0],[1,1,1]], "count": 2, "expected": [[0,0,0],[0.5,0.5,0.5]] },
+    { "id": "green-range-weight", "samples": [[0,0.75,0],[1,0,0],[0.5,0.875,0],[0.5,0.25,0]], "count": 2, "expected": [[0.75,0.125,0],[0.25,0.8125,0]] },
+    { "id": "equal-red-blue-range-axis-order", "samples": [[0,0,1],[1,0,0],[0.25,0,0.75],[0.75,0,0.25]], "count": 2, "expected": [[0.125,0,0.875],[0.875,0,0.125]] }
+  ],
+  "derivation": [
+    "Empty samples yield black, not empty palette.",
+    "Three samples split at1, retaining duplicate black in the second box with white; its mean is0.5 per channel.",
+    "Red range1 loses to green weighted range0.875*1.2=1.05. Sorted green values0,0.25,0.75,0.875 split in half and yield the listed centroids.",
+    "Red and blue ranges tie at1; first axis red wins and determines palette order."
+  ],
+  "scope": "Normalized RGB samples, not RGBA byte adapter; output-order and duplicate weighting cases",
+  "provenance": "Coordinator arithmetic from reviewed specification, no algorithm execution; independent audit recorded in freezeEvidence"
+}

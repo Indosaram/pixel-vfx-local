@@ -1,0 +1,10 @@
+{
+  "id":"F03",
+  "status":"candidate-not-frozen",
+  "freezeBlocker": "Source-cell identity is not ambient or captured-output expectations; U12. Coordinator scope inspection only; independent arithmetic verification not claimed. Missing oracle data, not unfinished implementation, blocks freeze.",
+  "authoredCellPixels":[[231,17,41,255],[29,199,61,192],[53,71,211,128],[173,113,7,64]],
+  "derivation":"These are row-major source cells, not captured output. Each authored cell is one RGBA pixel; no conversion, rendering or encoder was invoked.",
+  "branchCoverage":["original four-cell source data"],
+  "unknown":["all ambient family outputs","sprite capture transforms and recoloring","seam behavior","common CaptureResult representation"],
+  "provenance":"Coordinator-authored source fixture only; no reference assets or production output."
+}

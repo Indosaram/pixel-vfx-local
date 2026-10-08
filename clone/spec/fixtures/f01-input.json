@@ -1,0 +1,26 @@
+{
+  "id": "F01",
+  "status": "candidate-not-frozen",
+  "freezeBlocker": "Missing full settings and particle/image oracles for declared cameras/fps; U01-U08. Coordinator scope inspection only; independent arithmetic verification not claimed. Missing oracle data, not unfinished implementation, blocks freeze.",
+  "authority": "state/sprite-static-emission-addendum.md",
+  "seeds": [1, 42],
+  "camerasDegrees": [0, 45, 90],
+  "fps": [15, 20, 24, 30],
+  "effect": {
+    "id": "authored-f01",
+    "duration": 1,
+    "loop": false,
+    "assets": [],
+    "placement": { "position": [0, 0, 0], "rotationDegrees": [0, 0, 0], "scale": [1, 1, 1] },
+    "emitters": [
+      { "id": "first", "max": 3, "delay": 0, "duration": 1, "loop": false, "rate": 2, "bursts": [{ "time": 0, "count": 1 }], "life": 2, "speed": 0, "size": 1, "shape": null, "renderMode": 0 },
+      { "id": "second", "max": 3, "delay": 0, "duration": 1, "loop": false, "rate": 4, "bursts": [{ "time": 0.5, "count": 1 }], "life": 2, "speed": { "type": "r", "min": 2, "max": 6 }, "size": 1, "shape": null, "renderMode": 0 }
+    ]
+  },
+  "schedulerProbe": {
+    "scope": "Emission counts in endpoint updates, with no particle deaths; not render frames or effect fixed-clock traversal",
+    "updates": [{ "dt": 0.25, "systemTime": 0.25 }, { "dt": 0.25, "systemTime": 0.5 }, { "dt": 0.25, "systemTime": 0.75 }, { "dt": 0.25, "systemTime": 1 }, { "dt": 0.25, "systemTime": 1.25 }]
+  },
+  "scalarProbe": { "curve": { "type": "r", "min": 2, "max": 6 }, "fractions": [0, 0.25, 1] },
+  "unresolved": ["full emitter wire schema and settings", "particle-state and image oracles at declared fps/cameras", "effect traversal and shared spawn draw trace", "asset/material specification"]
+}

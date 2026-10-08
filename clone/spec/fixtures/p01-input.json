@@ -1,0 +1,52 @@
+{
+  "id": "P01",
+  "status": "candidate-not-frozen",
+  "freezeBlocker": "Complete normalized pixel settings and encoded-output/decoder expectations missing; U09/U11/U14. Coordinator scope inspection only; independent arithmetic verification not claimed. Missing oracle data, not unfinished implementation, blocks freeze.",
+  "provenance": "Coordinator-authored original data; no production execution used to derive expectations",
+  "image": {
+    "w": 2,
+    "h": 2,
+    "rgba": [19, 41, 73, 29, 101, 37, 211, 30, 7, 149, 59, 31, 223, 83, 13, 255],
+    "alphaThreshold": 30,
+    "alphaLevels": 1
+  },
+  "masks": {
+    "diagonal": { "w": 2, "h": 2, "alpha": [1, 0, 0, 1] },
+    "enclosed": { "w": 3, "h": 3, "alpha": [1, 1, 1, 1, 0, 1, 1, 1, 1] },
+    "diagonalEscape": { "w": 3, "h": 3, "alpha": [0, 1, 1, 1, 0, 1, 1, 1, 1] }
+  },
+  "cleanupCases": [
+    { "mask": "diagonal", "threshold": 2, "fillHoles": false },
+    { "mask": "diagonal", "threshold": 3, "fillHoles": false },
+    { "mask": "enclosed", "threshold": 1, "fillHoles": true },
+    { "mask": "enclosed", "threshold": 2, "fillHoles": true },
+    { "mask": "diagonalEscape", "threshold": 2, "fillHoles": true }
+  ],
+  "weightedHole": {
+    "w": 5,
+    "h": 5,
+    "defaultAlpha": 1,
+    "defaultRGB": [0, 0, 0],
+    "holeIndexes": [6, 7, 11],
+    "holeAlpha": 0,
+    "expansionOrder": ["initialize all cells from defaultAlpha/defaultRGB", "set holeIndexes alpha to holeAlpha", "apply overrides by index"],
+    "overrides": [{ "index": 12, "alpha": 0.5, "rgb": [1, 0, 0] }],
+    "threshold": 4,
+    "fillHoles": true
+  },
+  "sequence": {
+    "w": 2,
+    "h": 1,
+    "fps": 12,
+    "holds": [1, 0, 3, 2],
+    "frames": [
+      [17, 33, 65, 255, 129, 9, 201, 0],
+      [21, 43, 87, 128, 173, 5, 109, 255],
+      [31, 71, 151, 255, 13, 199, 47, 64],
+      [241, 61, 11, 192, 53, 113, 229, 255]
+    ],
+    "selectedRange": [2, 4],
+    "layout": { "columns": 2 }
+  },
+  "unresolved": ["complete normalized pixel settings", "grading and dithering coefficients", "encoded output bytes and independent decoders"]
+}

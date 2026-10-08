@@ -41,6 +41,29 @@ Gate classes used below:
 
 ## 2. Missing formulas and schemas
 
+### Subsequent bounded static review
+
+The original rows below preserve the U00 baseline, not the latest status.
+G07's named shader/material formula omissions are resolved at bounded static
+scope by reviewed vertex, fragment and material addenda under state/.
+Three.js chunk/default behavior, resource decoding, implementation conformance,
+material fixtures and GPU output remain unverified; this is not a render gate.
+Reviewed addenda now supply G04 shape equations, G05 motion and G06 UV rules,
+G08 pixel equations, and G13 timing recommendations:
+`state/sprite-static-emission-addendum.md`,
+`state/sprite-static-motion-addendum.md`,
+`state/sprite-static-timing-cleanup-addendum.md`,
+`state/sprite-static-pixel-pipeline-addendum.md`, and
+`state/sprite-static-pixel-helpers-addendum.md`.
+Reviewer st_01a1170f performed bounded Astra source audits; incorporated
+corrections are recorded in those files. This resolves those named static
+omissions only, not full fixtures, runtime equivalence or implementation gates.
+G03 remains partial (cross-module RNG traversal). G11 is statically resolved:
+the emission addendum records material.js:2,5 importing sim.js:68's lin for RGB
+and preserving alpha; bounded Astra review confirmed both anchors. Shader and
+rendered-color verification remain open. All other baseline gaps remain open unless
+explicitly resolved by their own evidence.
+
 Each row is a detail the report does not specify. The report's anchors identify where the
 detail was read in the original; they are not a specification of the omitted content, and
 no value below may be guessed and claimed as fidelity (plan §2).

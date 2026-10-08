@@ -1,0 +1,16 @@
+{
+  "id": "F02",
+  "status": "candidate-not-frozen",
+  "freezeBlocker": "Missing full emitter definitions, transform/camera values and mode1/4 buffer/material oracles; U01/U04/U06-U08. Coordinator scope inspection only; independent arithmetic verification not claimed. Missing oracle data, not unfinished implementation, blocks freeze.",
+  "seed": 17,
+  "authoredMesh": { "positions": [[0,0,0],[2,0,0],[0,1,0],[0,0,3]], "triangles": [[0,2,1],[0,1,3],[0,3,2],[1,2,3]] },
+  "textures": {
+    "white": { "w": 1, "h": 1, "rgba": [255,255,255,255] },
+    "checker": { "w": 2, "h": 2, "rgba": [255,255,255,255,0,0,0,255,0,0,0,255,255,255,255,255] }
+  },
+  "transformCases": ["local", "world"],
+  "renderModes": [1, 4],
+  "trailProbe": { "minimumDistance": 0.5, "particleLife": 2, "trailLifeMultiplier": 0.5, "samples": [{"time":0,"point":[0,0,0]},{"time":0.5,"point":[0.3,0.4,0]},{"time":1,"point":[0.3,0.4,0]},{"time":1.25,"point":[0.3,0.4,0]}] },
+  "uvProbe": { "tx": 2, "ty": 2, "type": 0, "fps": 0, "cycles": 1, "start": 0, "frameValues": [-0.25, 0, 0.25, 0.5, 0.75, 1] },
+  "unresolved": ["full emitter definition", "transform matrices and camera cases", "mode1/4 buffer oracles", "material blending render oracles", "full normalized settings"]
+}

@@ -1,0 +1,47 @@
+{
+  "id": "P01",
+  "status": "candidate-not-frozen",
+  "freezeBlocker": "Declared grading, palette, Bayer, outline and encoded-output expectations remain unknown; U09/U11/U14. Coordinator scope inspection only; independent arithmetic verification not claimed. Missing oracle data, not unfinished implementation, blocks freeze.",
+  "expectations": {
+    "thresholdAlpha": {
+      "rule": "O-PIXEL-05",
+      "alpha": [0, 0, 255, 255],
+      "derivation": "29 and 30 are at or below 30; 31 and 255 survive and one alpha level makes survivors opaque."
+    },
+    "connectivity": {
+      "diagonalForegroundComponentSizes8": [2],
+      "enclosedInteriorBackgroundComponentSizes4": [1],
+      "diagonalEscapeInteriorBackgroundIndexes4": [4],
+      "diagonalEscapeInteriorBackgroundIndexes8": [],
+      "derivation": "The two diagonal foreground cells share an eight-neighbor edge. The single center background cell has four solid neighbors and no boundary connection. In diagonalEscape, center index 4 reaches boundary index 0 only diagonally: it is enclosed under four-neighbor traversal but not eight-neighbor traversal."
+    },
+    "cleanupMasks": [
+      [1, 0, 0, 1],
+      [0, 0, 0, 0],
+      [1, 1, 1, 1, 0, 1, 1, 1, 1],
+      [1, 1, 1, 1, 1, 1, 1, 1, 1],
+      [0, 1, 1, 1, 1, 1, 1, 1, 1]
+    ],
+    "cleanupDerivation": "Case order follows cleanupCases: an eight-connected pair survives equality at threshold2, but is removed at3. Threshold1 disables cleanup. A single enclosed hole fills at2; diagonal boundary contact does not make the center four-connected to the boundary.",
+    "weightedHole": {
+      "rimAdjacencies": [5, 1, 8, 12, 2, 12, 10, 16],
+      "filledIndexes": [6, 7, 11],
+      "filledAlpha": 0.875,
+      "filledRGB": [0.25, 0, 0],
+      "derivation": "The three-cell L hole is enclosed and smaller than4. Solid index12 touches two hole cells, contributing twice among8 adjacencies. Alpha sum7 gives7/8; red sum2 gives2/8. Deduplicating the rim would incorrectly yield alpha6.5/7 and red1/7. Other22 foreground cells form one surviving component."
+    },
+    "timing": {
+      "retainedOriginalIndexes": [0, 2, 3],
+      "retainedHolds": [1, 3, 2],
+      "bakedOriginalIndexes": [0, 2, 2, 2, 3, 3],
+      "durationSeconds": 0.5,
+      "selectedRetainedOriginalIndexes": [2, 3],
+      "selectedBakedOriginalIndexes": [2, 2, 2, 3, 3],
+      "selectedDurationFraction": [5, 12],
+      "derivation": "Drop hold zero at index 1. Sum holds is 6, so total is 6/12. Inclusive one-based range 2..4 selects indexes 1,2,3 before dropping index 1; remaining holds sum to 5."
+    }
+  },
+  "branchCoverage": ["alpha below/equal/above threshold", "single-level opaque survivors", "eight-connected diagonal foreground", "four-connected enclosed hole", "zero-hold removal", "hold baking", "range before hold removal"],
+  "unknown": ["grading", "palette distance", "Bayer phase", "outline colors", "sheet layout reference parity", "PNG/GIF/ZIP/Aseprite encoded bytes"],
+  "independenceLimit": "Coordinator has previously read implementation and tests. Expectations here are arithmetic derived from report rules, not blind held-out oracles. Independent Astra audit is required."
+}

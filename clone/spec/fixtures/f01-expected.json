@@ -1,0 +1,27 @@
+{
+  "id": "F01",
+  "status": "candidate-not-frozen",
+  "freezeBlocker": "Missing camera images, fixed-clock snapshots, material output and shared draw coverage; U02-U08. Coordinator scope inspection only; independent arithmetic verification not claimed. Missing oracle data, not unfinished implementation, blocks freeze.",
+  "seedRecurrence": [
+    { "seed": 1, "integerStates": [16807, 282475249], "normalizedFractions": [[16806, 2147483646], [282475248, 2147483646]] },
+    { "seed": 42, "integerStates": [705894, 1126542223], "normalizedFractions": [[705893, 2147483646], [1126542222, 2147483646]] }
+  ],
+  "schedulerProbe": {
+    "capacityPerEmitter": [3, 3],
+    "emittedPerUpdate": [[1, 1], [1, 2], [0, 0], [1, 0], [0, 0]],
+    "liveCountsPerUpdate": [[1, 1], [2, 3], [2, 3], [3, 3], [3, 3]],
+    "firstEmitterRateRemainders": [0.5, 0, 0.5, 0, 0],
+    "secondEmitterRateRemainders": [0, 0, 0, 0, 0]
+  },
+  "scalarProbeValues": [2, 3, 6],
+  "derivations": [
+    "Recurrence is previous integer times16807 modulo2147483647; normalized result subtracts1 and divides by2147483646.",
+    "First emitter burst1 fires at initial eligible endpoint. Rate2 adds0.5 each quarter second: counts0,1,0,1. Last endpoint1.25 is ineligible.",
+    "Second emitter rate4 emits1 per quarter second; at0.5 burst1 precedes rate1, reaching capacity3. Later requested emissions are capped; rate counts still leave accumulator0.",
+    "Life2 exceeds all probe endpoint ages; no deaths release capacity. The two schedules use constant counts/rates and do not establish exact shared RNG draws.",
+    "Ranged scalar is2+(6-2)*fraction, giving2,3,6."
+  ],
+  "branchCoverage": ["two emitter schedules without traversal-order verification", "fractional rate accumulation", "capacity3 saturation", "inclusive duration endpoint", "constant and ranged scalar inputs", "seeds1/42 recurrence only"],
+  "unknown": ["camera images", "fixed-clock frame snapshots", "material output", "complete shared draw trace", "burst-before-rate discrimination", "post-duration stop with available capacity", "nonzero-delay endpoint behavior", "skipped-cycle behavior"],
+  "independenceLimit": "Coordinator-derived arithmetic, not production execution; author has seen production code. Requires independent review and is not held-out data."
+}
