@@ -64,9 +64,15 @@ writeFileSync(runnerFile, electronRunner);
 
 import { existsSync } from 'node:fs';
 const isWin = process.platform === 'win32';
-const localBin = resolve(__dirname, isWin ? 'node_modules/.bin/electron.cmd' : 'node_modules/.bin/electron');
-const electronBin = existsSync(localBin) ? localBin : (isWin ? 'npx.cmd' : 'npx');
-const args = existsSync(localBin) ? [runnerFile] : ['-y', 'electron', runnerFile];
+const knownPaths = [
+  resolve(__dirname, isWin ? 'node_modules/electron/dist/electron.exe' : 'node_modules/.bin/electron'),
+  'C:\\Users\\sook\\clone-boundary-01a1154f\\node_modules\\electron\\dist\\electron.exe',
+  'C:\\Users\\sook\\clone-cap-01a1154f\\node_modules\\electron\\dist\\electron.exe'
+];
+const foundBin = knownPaths.find(p => existsSync(p));
+const electronBin = foundBin || (isWin ? 'npx.cmd' : 'npx');
+const args = foundBin ? [runnerFile] : ['-y', 'electron', runnerFile];
+console.log(`[Pure Clone Standalone] Using Electron binary: ${electronBin}`);
 
 const child = spawn(electronBin, args, {
   cwd: __dirname,
