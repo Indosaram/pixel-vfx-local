@@ -62,9 +62,12 @@ app.whenReady().then(async () => {
 const runnerFile = resolve(__dirname, '.tmp_runner.cjs');
 writeFileSync(runnerFile, electronRunner);
 
-const child = spawn('npx', ['-y', 'electron', runnerFile], {
+const isWin = process.platform === 'win32';
+const npxCmd = isWin ? 'npx.cmd' : 'npx';
+const child = spawn(npxCmd, ['-y', 'electron', runnerFile], {
   cwd: __dirname,
-  stdio: 'inherit'
+  stdio: 'inherit',
+  shell: isWin
 });
 
 child.on('exit', (code) => {
