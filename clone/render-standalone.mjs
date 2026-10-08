@@ -62,9 +62,13 @@ app.whenReady().then(async () => {
 const runnerFile = resolve(__dirname, '.tmp_runner.cjs');
 writeFileSync(runnerFile, electronRunner);
 
+import { existsSync } from 'node:fs';
 const isWin = process.platform === 'win32';
-const npxCmd = isWin ? 'npx.cmd' : 'npx';
-const child = spawn(npxCmd, ['-y', 'electron', runnerFile], {
+const localBin = resolve(__dirname, isWin ? 'node_modules/.bin/electron.cmd' : 'node_modules/.bin/electron');
+const electronBin = existsSync(localBin) ? localBin : (isWin ? 'npx.cmd' : 'npx');
+const args = existsSync(localBin) ? [runnerFile] : ['-y', 'electron', runnerFile];
+
+const child = spawn(electronBin, args, {
   cwd: __dirname,
   stdio: 'inherit',
   shell: isWin
