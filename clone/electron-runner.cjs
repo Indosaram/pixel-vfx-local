@@ -28,6 +28,17 @@ app.whenReady().then(async () => {
   const targetHtml = path.join(__dirname, 'dist', 'runner.html');
   await win.loadFile(targetHtml);
 
+  // window.run 이 준비될 때까지 최대 10초 대기
+  await win.webContents.executeJavaScript(`
+    new Promise((resolve, reject) => {
+      let tries = 0;
+      const t = setInterval(() => {
+        if (typeof window.run === 'function') { clearInterval(t); resolve(); }
+        else if (++tries > 100) { clearInterval(t); reject(new Error('Timeout waiting for window.run')); }
+      }, 100);
+    })
+  `);
+
   try {
     const pakSafe = JSON.stringify(pakPath);
     const code = `window.run('${effectId}', ${size}, ${pakSafe})`;

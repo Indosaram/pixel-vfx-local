@@ -2,11 +2,15 @@
 <html>
 <head>
   <meta charset="utf-8">
+  <script>
+    window.addEventListener('error', e => console.log('[HTML ERROR]', e.message, e.filename, e.lineno, e.error?.stack));
+    window.addEventListener('unhandledrejection', e => console.log('[PROMISE REJECTION]', e.reason?.stack || e.reason));
+  </script>
 </head>
 <body>
   <canvas id="c"></canvas>
   <script type="module">
-    import * as THREE from './node_modules/three/build/three.module.js';
+    import * as THREE from '../node_modules/three/build/three.module.js';
     import { renderEffectClone } from './standalone-bundle.js';
 
     window.run = async (effectId, size, pakPath) => {
@@ -19,7 +23,7 @@
       });
 
       const res = await renderEffectClone({
-        pakPath: pakPath || './hun0fx.pak',
+        pakPath: pakPath || '../hun0fx.pak',
         effectId,
         size,
         renderer
@@ -31,6 +35,7 @@
         frames: res.frameCount
       };
     };
+    console.log('[RUNNER READY] window.run is defined!');
   </script>
 </body>
 </html>
