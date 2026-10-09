@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Wire sample render</title>
+  <script type="importmap">
+    {"imports":{"three":"/node_modules/three/build/three.module.js"}}
+  </script>
+  <script>
+    window.wireSampleResult = new Promise((resolve, reject) => {
+      window.resolveWireSample = resolve;
+      window.rejectWireSample = reject;
+    });
+    window.addEventListener('error', event => window.rejectWireSample(new Error(event.message)));
+    window.addEventListener('unhandledrejection', event => window.rejectWireSample(event.reason));
+  </script>
+</head>
+<body>
+  <script type="module">
+    import('/qa/wire-sample-gpu.js')
+      .then(module => module.run())
+      .then(window.resolveWireSample, window.rejectWireSample);
+  </script>
+</body>
+</html>

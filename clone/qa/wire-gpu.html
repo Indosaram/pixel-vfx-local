@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Wire shader acceptance</title>
+  <script type="importmap">
+    {"imports":{"three":"/node_modules/three/build/three.module.js"}}
+  </script>
+  <script>
+    window.wireGpuResult = new Promise((resolve, reject) => {
+      window.resolveWireGpu = resolve;
+      window.rejectWireGpu = reject;
+    });
+    window.addEventListener('error', event => window.rejectWireGpu(new Error(event.message)));
+    window.addEventListener('unhandledrejection', event => window.rejectWireGpu(event.reason));
+  </script>
+</head>
+<body>
+  <script type="module">
+    import(new URLSearchParams(location.search).get('probe') === 'context'
+      ? '/qa/wire-gpu-context.js' : new URLSearchParams(location.search).get('probe') === 'capture'
+        ? '/qa/wire-capture-gpu.js' : '/qa/wire-gpu-tests.js')
+      .then(module => module.run())
+      .then(window.resolveWireGpu, window.rejectWireGpu);
+  </script>
+</body>
+</html>

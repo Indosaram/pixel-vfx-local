@@ -43,6 +43,13 @@ test-output.txt
 /examples/out/*_render.json
 /examples/out/render-summary.json
 
+# --- Vendor data pack (proprietary third-party content, never publish) -------
+# hun0fx.pak is the vendor demo.pak: 104 vendor textures, 14 meshes, 312 fx
+# definitions. PARITY.md section A and README Constraints both forbid shipping
+# it. Kept local only; the loader that reads it (clone/src/wire-pak.js) is code
+# and stays public.
+*.pak
+
 # --- Machine-specific scratch -----------------------------------------------
 .DS_Store
 Thumbs.db
