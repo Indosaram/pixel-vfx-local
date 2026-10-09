@@ -242,7 +242,19 @@ export function pixelate(cap, size, p) {
     c[0] = Math.min(1, c[0] * gain); c[1] = Math.min(1, c[1] * gain); c[2] = Math.min(1, c[2] * gain);
   }
 
-  let pal = p.paletteMode === 'custom' && p.palette && p.palette.length ? p.palette : medianCut(sample.length > 30000 ? sample.filter((_, i) => i % Math.ceil(sample.length / 30000) === 0) : sample, Math.max(2, p.colors | 0));
+  // medianCut takes a FLAT RGBA byte array (stride 4 — see its tests), while
+  // `sample` holds [r,g,b] float triples. Packing is required: passing the
+  // triples straight in made medianCut divide arrays by 255, producing NaN
+  // centroids and an all-black palette (every rendered pixel then mapped to 0).
+  const packed = sample.length > 30000 ? sample.filter((_, i) => i % Math.ceil(sample.length / 30000) === 0) : sample;
+  const flatSample = new Uint8ClampedArray(packed.length * 4);
+  for (let i = 0; i < packed.length; i++) {
+    flatSample[i * 4] = Math.round(packed[i][0] * 255);
+    flatSample[i * 4 + 1] = Math.round(packed[i][1] * 255);
+    flatSample[i * 4 + 2] = Math.round(packed[i][2] * 255);
+    flatSample[i * 4 + 3] = 255;
+  }
+  let pal = p.paletteMode === 'custom' && p.palette && p.palette.length ? p.palette : medianCut(flatSample, Math.max(2, p.colors | 0));
   let outline = null;
   if (p.outline !== 'none') {
     if (Array.isArray(p.outlineColor)) outline = p.outlineColor;

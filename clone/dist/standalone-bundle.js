@@ -20,7 +20,7 @@ var __require = /* @__PURE__ */ ((x) => typeof require !== "undefined" ? require
   throw Error('Dynamic require of "' + x + '" is not supported');
 });
 
-// ../../../../code/project/pixel-vfx-local/clone/node_modules/three/build/three.module.js
+// node_modules/three/build/three.module.js
 var REVISION = "170";
 var FrontSide = 0;
 var BackSide = 1;
@@ -12182,7 +12182,7 @@ if (typeof window !== "undefined") {
   }
 }
 
-// ../../../../code/project/pixel-vfx-local/clone/src/wire-pak.js
+// src/wire-pak.js
 var PAK_KEY = 1798369701;
 function fnv1a(s) {
   let h = 2166136261;
@@ -12257,7 +12257,7 @@ async function openPak(pakPath) {
   };
 }
 
-// ../../../../code/project/pixel-vfx-local/clone/src/wire-library-mix.js
+// src/wire-library-mix.js
 function applyWireVariant(base, patch) {
   return {
     ...base,
@@ -12303,7 +12303,7 @@ function appendWireMix(definition, source, mix) {
   return out;
 }
 
-// ../../../../code/project/pixel-vfx-local/clone/src/wire-library.js
+// src/wire-library.js
 function createWireLibrary({ readJson, loadTexture, loadMesh }) {
   let manifest = null;
   let variants = null;
@@ -12372,7 +12372,7 @@ function createWireLibrary({ readJson, loadTexture, loadMesh }) {
   return api;
 }
 
-// ../../../../code/project/pixel-vfx-local/clone/src/wire-resources.js
+// src/wire-resources.js
 function createWireResources({ textures, meshes, readJson, loadTexture: loadFile, anisotropy = 4 }) {
   const texCache = new Map;
   const geoCache = new Map;
@@ -12437,7 +12437,7 @@ function createWireResources({ textures, meshes, readJson, loadTexture: loadFile
   return { loadTexture, loadMesh, texture, srgb, geometry, white, quad, timeU, dispose };
 }
 
-// ../../../../code/project/pixel-vfx-local/clone/src/curves.js
+// src/curves.js
 var MULTIPLIER = 16807;
 var MODULUS = 2147483647;
 function makeRng(seed) {
@@ -12468,7 +12468,7 @@ function createRandomStream(seed) {
   };
 }
 
-// ../../../../code/project/pixel-vfx-local/clone/src/wire-curves.js
+// src/wire-curves.js
 function scalarWire(descriptor, time, randomFraction) {
   if (!descriptor)
     return 0;
@@ -12508,7 +12508,7 @@ function hermite(keys, time) {
   }
 }
 
-// ../../../../code/project/pixel-vfx-local/clone/src/wire-schedule.js
+// src/wire-schedule.js
 function advanceEmission(definition, state, dt, systemTime, random, spawn) {
   const dur = definition.dur;
   const elapsed = systemTime - state.delay;
@@ -12539,7 +12539,7 @@ function advanceEmission(definition, state, dt, systemTime, random, spawn) {
   }
 }
 
-// ../../../../code/project/pixel-vfx-local/clone/src/wire-color.js
+// src/wire-color.js
 function colorWire(descriptor, time, randomFraction, out) {
   if (!descriptor) {
     out[0] = out[1] = out[2] = out[3] = 1;
@@ -12608,7 +12608,7 @@ function gradientWire(payload, time, out) {
   return out;
 }
 
-// ../../../../code/project/pixel-vfx-local/clone/src/wire-shape.js
+// src/wire-shape.js
 var DEG = Math.PI / 180;
 function rotEuler(v, e) {
   let [x, y, z] = v;
@@ -12664,7 +12664,7 @@ function sampleShape(shape, random) {
   return { pos, dir };
 }
 
-// ../../../../code/project/pixel-vfx-local/clone/src/wire-spawn.js
+// src/wire-spawn.js
 function spawnParticles(definition, particles, count, localTime, random, worldMatrix = null) {
   const cap = Math.min(definition.max || 1000, 256);
   const sysN = Math.min(1, localTime / Math.max(0.0001, definition.dur));
@@ -12720,7 +12720,7 @@ function spawnParticles(definition, particles, count, localTime, random, worldMa
   }
 }
 
-// ../../../../code/project/pixel-vfx-local/clone/src/wire-motion.js
+// src/wire-motion.js
 function advanceParticles(definition, particles, dt, systemTime, trailPoint) {
   const grav = -9.81 * scalarWire(definition.grav, 0, 0);
   for (let i = particles.length - 1;i >= 0; i--) {
@@ -12828,7 +12828,7 @@ function advanceParticles(definition, particles, dt, systemTime, trailPoint) {
   }
 }
 
-// ../../../../code/project/pixel-vfx-local/clone/src/wire-emitter.js
+// src/wire-emitter.js
 function xfPoint(m, v) {
   return [
     m[0] * v[0] + m[1] * v[1] + m[2] * v[2] + m[3],
@@ -12894,7 +12894,7 @@ class WireEmitter {
   }
 }
 
-// ../../../../code/project/pixel-vfx-local/clone/src/wire-effect.js
+// src/wire-effect.js
 var STEP = 1 / 120;
 var MAX_FRAME = 0.25;
 
@@ -12966,7 +12966,7 @@ class WireEffect {
   }
 }
 
-// ../../../../code/project/pixel-vfx-local/clone/src/wire-geometry.js
+// src/wire-geometry.js
 var TRAIL_CAP = 1024;
 var ATTRS = [
   ["iPos", 3],
@@ -13062,7 +13062,7 @@ function createRenderParts(effectDefinition, simulations, resources, uniforms, m
   return parts;
 }
 
-// ../../../../code/project/pixel-vfx-local/clone/src/wire-world.js
+// src/wire-world.js
 var _M3 = new Matrix4;
 var _Mi = new Matrix4;
 function unityAffine(m, out) {
@@ -13102,7 +13102,7 @@ function syncWorld(parent, parts) {
   }
 }
 
-// ../../../../code/project/pixel-vfx-local/clone/src/wire-state.js
+// src/wire-state.js
 var lin = (x) => x <= 0.04045 ? x / 12.92 : x <= 1 ? Math.pow((x + 0.055) / 1.055, 2.4) : Math.pow(x, 2.2);
 function particleRenderState(definition, particle, out) {
   const d = definition, p = particle, t = p.age / p.life;
@@ -13181,7 +13181,7 @@ function particleRenderState(definition, particle, out) {
   return out;
 }
 
-// ../../../../code/project/pixel-vfx-local/clone/src/wire-instances.js
+// src/wire-instances.js
 var _s = new Vector3;
 var _v = new Vector3;
 var _m = new Matrix4;
@@ -13245,7 +13245,7 @@ function writeInstances(part, camera = null) {
   P.geo.instanceCount = n;
 }
 
-// ../../../../code/project/pixel-vfx-local/clone/src/wire-trails.js
+// src/wire-trails.js
 var TRAIL_CAP2 = 1024;
 var lin2 = (x) => x <= 0.04045 ? x / 12.92 : x <= 1 ? Math.pow((x + 0.055) / 1.055, 2.4) : Math.pow(x, 2.2);
 function xfPoint3(m, v) {
@@ -13305,7 +13305,7 @@ function writeTrails(part) {
   part.trail.geo.instanceCount = k;
 }
 
-// ../../../../code/project/pixel-vfx-local/clone/src/wire-scene.js
+// src/wire-scene.js
 function createWireScene(definition, resources, uniforms, makeMaterial, onFinished) {
   const parent = new Group;
   let parts = [];
@@ -13333,7 +13333,7 @@ function createWireScene(definition, resources, uniforms, makeMaterial, onFinish
   return scene;
 }
 
-// ../../../../code/project/pixel-vfx-local/clone/src/wire-material.js
+// src/wire-material.js
 var lin3 = (x) => x <= 0.04045 ? x / 12.92 : x <= 1 ? Math.pow((x + 0.055) / 1.055, 2.4) : Math.pow(x, 2.2);
 var linC = (c) => new Vector4(lin3(c[0]), lin3(c[1]), lin3(c[2]), c[3]);
 var v2 = (c, d = [0, 0]) => new Vector2(...(c || d).slice(0, 2));
@@ -13459,7 +13459,7 @@ function createWireMaterial(m, mode, opts, res, shaders) {
   });
 }
 
-// ../../../../code/project/pixel-vfx-local/clone/src/wire-shaders.js
+// src/wire-shaders.js
 var exports_wire_shaders = {};
 __export(exports_wire_shaders, {
   ADD_FS: () => ADD_FS,
@@ -13658,7 +13658,7 @@ void main() {
 #include <colorspace_fragment>
 }`;
 
-// ../../../../code/project/pixel-vfx-local/clone/src/wire-capture-driver.js
+// src/wire-capture-driver.js
 var DEG2 = Math.PI / 180;
 function createCaptureDriver(definition, resources, uniforms, renderer) {
   const scene = new Scene;
@@ -13734,7 +13734,7 @@ function createCaptureDriver(definition, resources, uniforms, renderer) {
   return { load, start, update, resize, read, setIntensity, dispose: release };
 }
 
-// ../../../../code/project/pixel-vfx-local/clone/src/wire-capture-pixels.js
+// src/wire-capture-pixels.js
 function reconstructFrame(width, height, black, white, halfBlack) {
   const data = new Uint8ClampedArray(width * height * 4);
   for (let y = 0;y < height; y++) {
@@ -13754,7 +13754,7 @@ function reconstructFrame(width, height, black, white, halfBlack) {
   return { w: width, h: height, data };
 }
 
-// ../../../../code/project/pixel-vfx-local/clone/src/wire-capture-bounds.js
+// src/wire-capture-bounds.js
 function accumulateBounds(bounds, black, white) {
   const R0 = 256;
   for (let i = 0, p = 0;p < R0 * R0; p++, i += 4) {
@@ -13816,7 +13816,7 @@ function frameBounds(bounds, options) {
   };
 }
 
-// ../../../../code/project/pixel-vfx-local/clone/src/wire-capture-camera.js
+// src/wire-capture-camera.js
 function createCaptureCamera(options, left, right, bottom, top) {
   const cam = new OrthographicCamera(left, right, top, bottom, -300, 300);
   const e = Math.max(0.01, Math.min(89.99, options.elevation)) * Math.PI / 180;
@@ -13827,7 +13827,7 @@ function createCaptureCamera(options, left, right, bottom, top) {
   return cam;
 }
 
-// ../../../../code/project/pixel-vfx-local/clone/src/wire-capture.js
+// src/wire-capture.js
 async function captureFrames(driver, options, progress = () => {}, yieldTick = () => new Promise((r) => setTimeout(r))) {
   await driver.load();
   const fps = options.fps, step = 1 / fps;
@@ -13877,7 +13877,7 @@ async function captureFrames(driver, options, progress = () => {}, yieldTick = (
   return { frames, origin: fb.origin, shape: fb.shape, k: fb.k, fps, worldPerPx: fb.worldPerPx };
 }
 
-// ../../../../code/project/pixel-vfx-local/clone/src/pixel.js
+// src/pixel.js
 function cleanupMask(alpha, colors, width, height, minimum, fillHoles = false) {
   const count = width * height;
   if (!Number.isInteger(width) || width < 1 || !Number.isInteger(height) || height < 1 || alpha.length !== count || colors.length !== count * 3) {
@@ -14095,7 +14095,15 @@ function pixelate(cap, size, p) {
     c[1] = Math.min(1, c[1] * gain);
     c[2] = Math.min(1, c[2] * gain);
   }
-  let pal = p.paletteMode === "custom" && p.palette && p.palette.length ? p.palette : medianCut(sample.length > 30000 ? sample.filter((_, i) => i % Math.ceil(sample.length / 30000) === 0) : sample, Math.max(2, p.colors | 0));
+  const packed = sample.length > 30000 ? sample.filter((_, i) => i % Math.ceil(sample.length / 30000) === 0) : sample;
+  const flatSample = new Uint8ClampedArray(packed.length * 4);
+  for (let i = 0;i < packed.length; i++) {
+    flatSample[i * 4] = Math.round(packed[i][0] * 255);
+    flatSample[i * 4 + 1] = Math.round(packed[i][1] * 255);
+    flatSample[i * 4 + 2] = Math.round(packed[i][2] * 255);
+    flatSample[i * 4 + 3] = 255;
+  }
+  let pal = p.paletteMode === "custom" && p.palette && p.palette.length ? p.palette : medianCut(flatSample, Math.max(2, p.colors | 0));
   let outline = null;
   if (p.outline !== "none") {
     if (Array.isArray(p.outlineColor))
@@ -14172,7 +14180,7 @@ function pixelate(cap, size, p) {
   return { frames: out, w: W, h: H, palette: P, outline: outline && outline.map((v) => Math.round(v * 255)), gain };
 }
 
-// ../../../../code/project/pixel-vfx-local/clone/src/export/gif-encoder.js
+// src/export/gif-encoder.js
 function lzw(indices, minCode) {
   const out = [], clear = 1 << minCode, eoi = clear + 1;
   let size = minCode + 1, next = eoi + 1, dict = new Map, cur = 0, bits = 0;
@@ -14292,7 +14300,7 @@ function encodeGif(frames, opts = {}) {
   B.push(59);
   return new Uint8Array(B);
 }
-// ../../../../code/project/pixel-vfx-local/clone/src/standalone-renderer.js
+// src/standalone-renderer.js
 async function renderEffectClone({
   pakPath,
   effectId,
