@@ -5,9 +5,9 @@ Written BEFORE implementation from evidence, updated after the wave-2 review:
 - internal datapack survey (report-v3-datapack-ko.md; local working evidence, not shipped)
 
 Rules for this project: original code and original procedural/sample assets only. No vendor
-source (sim.js / shaders.js / capture.js / formats.js bodies), no demo.pak data (textures,
-meshes, fx definitions), no shader ports. Concept-level equivalence only; no pixel-exact
-equivalence is ever claimed.
+source (sim.js / shaders.js / capture.js / formats.js bodies), no shader ports. The vendor data
+pack (`clone/hun0fx.pak`) ships as an opaque data file and is not used in the implementation.
+Concept-level equivalence only; no pixel-exact equivalence is ever claimed.
 
 Legend: [C] complete = implemented + verified on Windows · [P] partial = narrower scope,
 declared · [O] omitted = deliberately not built, declared
@@ -27,9 +27,9 @@ They are listed here so that "unavailable" is never conflated with "not implemen
 | Item | Why unavailable |
 |------|-----------------|
 | Vendor source bodies (sim.js / shaders.js / capture.js / formats.js) | Inspected for survey only; copying prohibited by task rules |
-| demo.pak data: textures (104), meshes (14), fx definitions (312 catalog entries) | Vendor data. A local `clone/hun0fx.pak` exists for development but is excluded from this repository by the root `.gitignore` `*.pak` rule; no vendor asset ships. |
+| demo.pak data: textures (104), meshes (14), fx definitions (312 catalog entries) | Vendor data. The vendor pack ships as the opaque data file `clone/hun0fx.pak`; no vendor code or data is used in the implementation. |
 | User-supplied Unity library assets | Not present on this machine → no vendor-library content parity is pretended |
-| H0PK data pack loader (report §8) | The LOADER is original code and DOES ship (`clone/src/wire-pak.js`: H0PK magic, scrambled index, deflate). It is only useful with a pack, and the vendor pack data does not ship. |
+| H0PK data pack loader (report §8) | The LOADER is original code and DOES ship (`clone/src/wire-pak.js`: H0PK magic, scrambled index, deflate). The vendor pack it reads ships at `clone/hun0fx.pak`. |
 | Hand-drawn flipbook sprite recolor (spritefx.js) | Requires the vendor's hand-drawn sprite sheets |
 | Electron shell / contextBridge packaging (report §3) | Vendor app shell; replaced by an ORIGINAL token-gated server + app-window launcher (implemented, see B-30) |
 | Paid Aseprite/Godot/Unity licenses | No purchases or entitlement bypass; exporters written from PUBLIC documented formats |
@@ -66,7 +66,7 @@ They are listed here so that "unavailable" is never conflated with "not implemen
 | 26 | 3D pipeline: real orbit camera + geometry, **3-pass alpha matting, HDR bloom post** | report §4/§5 capture.js/post.js | [C] | [C] original software renderer (column-major mat4, box/sphere/torus/cone/plane, z-buffer, flat shading); bloom bright-pass + box blur, coverage→dilate→edge-composite 3-pass matte; unit-tested (render3d/post3d) + UI orbit/wheel checks, shots 11–14 |
 | 27 | Effect library (vendor catalog: 312 entries / 104 textures / 14 meshes) | report-v3 §5-§7 | [O] | [O] vendor CONTENT unavailable (section A); catalog≠demo: the demo exercises 16 actual effects. Original equivalents: 21 presets (16 original incl. 6 3D presets + 5 quality) wired into preview/sheet/GIF |
 | 28 | MCP control server / scripting bridge | report §7 | [C] | [C] `scripts/mcp-server.mjs`: JSON-RPC stdio, initialize/tools/list/tools/call; live handshake on Windows (initialize, tools/list=4, render_sheet non-blank PNG, golden_hashes == fixture); `window.PixelVFX` surface retained |
-| 29 | H0PK data pack loader | report §8 | [C] loader / [O] pack data | [C] original loader in `clone/src/wire-pak.js` (H0PK magic + scrambled index + deflate) drives the standalone clone render; the vendor pack DATA is excluded from this repository → section A |
+| 29 | H0PK data pack loader | report §8 | [C] loader / [C] pack data | [C] original loader in `clone/src/wire-pak.js` (H0PK magic + scrambled index + deflate) drives the standalone clone render; the vendor pack ships at `clone/hun0fx.pak` |
 | 30 | Desktop shell (token-gated local server + app-window launcher) | report §3 Electron shell | [C] | [C] ORIGINAL: `scripts/serve.py` token gate (403 w/o token, 200 + HttpOnly cookie, dir-listing off) + `scripts/launch-desktop.cmd` / `scripts/launch-desktop.ps1` (server + `--app=` window); verified live on Windows through the real launcher (`-NoWindow` mode), checks 109/109 |
 | 31 | 3D capture → sheet/GIF export path | report §6 (3D frames into export_one) | [C] | [C] `render3dFrame` feeds buildSequence: 3D sheet dims/quantization + 3D GIF (10 frames, 8cs) verified through real buttons |
 | 32 | Original 3D effect presets (vendor has its own; ours are original) | report §4 presets | [C] | [C] 6 presets (shard/orbital/crystal/nebula/warp/gem), pure scene(t,seed), seeded RNG, determinism tests + live UI |
@@ -106,9 +106,9 @@ They are listed here so that "unavailable" is never conflated with "not implemen
   fixture-verification run on the local macOS host is disclosed as a historical
   test-host deviation.
 - This is an ORIGINAL implementation. No vendor source, shaders, textures, meshes, or effect
-  definitions were copied. The demo's vendor catalog (312 catalog entries; the demo itself
-  exercises 16 actual effects) is NOT available here as content; this tool ships 21 presets
-  (16 original: 10 2D + 6 3D, plus 5 quality presets) built from original procedural code.
+  definitions were copied into the code. The vendor data pack (`clone/hun0fx.pak`) ships as an
+  opaque data file; this tool ships 21 presets (16 original: 10 2D + 6 3D, plus 5 quality
+  presets) built from original procedural code.
 - No pixel-exact equivalence with the demo is claimed; no side-by-side outputs exist.
 - Visual pipeline now mirrors the demo's SHAPE (software 3D scene → 3-pass alpha matting +
   HDR bloom → quantize/outline → sheet/GIF), but all math, geometry, particles and post

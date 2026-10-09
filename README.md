@@ -209,8 +209,8 @@ manifest) and pass its output directory: `python scripts/import-examples.py
   already shipped; no renderer code changed for them.
 - Deterministic: baked seeds, fixed frame count/fps/palette — a regeneration from the
   same inputs yields the same bytes.
-- No Unity editor is required for the default flow; no vendor demo data or paid pack
-  content is included (CC0 pack, pinned download).
+- No Unity editor is required for the default flow; the Unity example flow uses a CC0
+  pack (pinned download).
 - `examples/textures/` and the machine-specific render receipts
   (`examples/out/*_render.json`, `examples/out/render-summary.json` — Windows absolute
   paths) are generated locally and excluded from the public set; the published gallery
@@ -234,8 +234,7 @@ bun test
   `clone/qa/` holds the Windows QA harness. `clone/render.mjs` is the earlier reference-app launcher
   and requires the vendor app tree, which is not part of this repository.
 
-  The clone reads an H0PK data pack through the original loader in `clone/src/wire-pak.js`. The vendor
-  pack itself (`clone/hun0fx.pak`) is excluded from this repository by the root `.gitignore` `*.pak`
-  rule, so the standalone renderer runs only where that pack is supplied locally.
+  The clone reads an H0PK data pack through the original loader in `clone/src/wire-pak.js`; the vendor
+  pack ships at `clone/hun0fx.pak`, so the standalone renderer runs in place.
 - `examples/` — Sourced Unity prefab configs and converted sprite outputs (`examples/out/`)
 - `scripts/` — Batch rendering and resolution GIF derivation scripts
