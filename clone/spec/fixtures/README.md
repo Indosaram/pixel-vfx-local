@@ -12,7 +12,9 @@ to freeze them.
 
 The current inventory is the 16 JSON files in this directory. Per-file verifier
 identity, method, command, exit, payload hashes and unresolved reasons are
-recorded in `../../../state/sprite-fixture-freeze.md` (repository path:
-`state/sprite-fixture-freeze.md`). Verification tools must not import/read clone
+recorded in `state/sprite-fixture-freeze.md`. That record is the author's local
+working evidence and is NOT part of this repository, so this path does not
+resolve in a fresh checkout; the frozen payloads it describes are the 16 JSON
+files here. Verification tools must not import/read clone
 implementation or tests, render, encode, launch the reference app or use assets.
 Metadata-only freeze annotations do not change the verified numeric payload.

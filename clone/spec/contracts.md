@@ -15,6 +15,15 @@ Anchor convention: source anchors are reproduced from the report, not re-derived
 SRC = `/Users/indo/.omo/evidence/hun0fx-pixel-studio-demo/app-code/`. Numeric ranges are
 source lines.
 
+Repository note: the authority documents (`state/sprite-clone-plan.md`,
+`state/sprite-decomposition-report.md`) and the SRC tree above are the author's local working
+evidence. They are NOT part of this repository; the anchors are provenance for the frozen
+contract, not files a reader can open in this checkout. Likewise, the `src/…`, `electron/…` and
+`app/…` module names in section 2 are the REFERENCE application's stage modules as named by the
+report. The clone's own implementation of those stages lives in `clone/src/` under the `wire-*`
+prefix (e.g. `wire-library.js`, `wire-settings.js`, `wire-curves.js`, `wire-capture.js`,
+`pixel.js`, `timing.js`), and the harness is `clone/qa/run.mjs`.
+
 These are CLONE-OWNED schemas. They are not an assertion of byte-compatible reference JSON
 (plan §3). Every name fixed here is a contract-change surface: a downstream unit may add a
 field only through coordinator integration, and may not rename or repurpose a frozen one

@@ -228,6 +228,14 @@ bun test
 ## Layout
 
 - `src/` — Core editor pipeline, procedural particle engine, 3D math and color grading
-- `clone/` — Reverse-engineered runtime, headless renderer (`clone/render.mjs`), and contract test suites
+- `clone/` — Independent runtime and contract test suites (`clone/src/`, `clone/test/`). The headless
+  renderer is `clone/render-standalone.mjs` (Electron) driving `clone/dist/runner.html` +
+  `clone/dist/standalone-bundle.js`; `clone/electron-runner.cjs` is the Electron entry point and
+  `clone/qa/` holds the Windows QA harness. `clone/render.mjs` is the earlier reference-app launcher
+  and requires the vendor app tree, which is not part of this repository.
+
+  The clone reads an H0PK data pack through the original loader in `clone/src/wire-pak.js`. The vendor
+  pack itself (`clone/hun0fx.pak`) is excluded from this repository by the root `.gitignore` `*.pak`
+  rule, so the standalone renderer runs only where that pack is supplied locally.
 - `examples/` — Sourced Unity prefab configs and converted sprite outputs (`examples/out/`)
 - `scripts/` — Batch rendering and resolution GIF derivation scripts

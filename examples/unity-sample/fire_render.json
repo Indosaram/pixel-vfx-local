@@ -1,0 +1,172 @@
+{
+ "name": "fire",
+ "source": {
+  "asset": "Kenney Particle Pack",
+  "url": "https://kenney.nl/assets/particle-pack",
+  "license": "CC0-1.0",
+  "unitypackage": "Unity samples/particlePack_samples.unitypackage",
+  "prefab": "Assets/Kenney/Particle samples/Prefabs/Fire.prefab",
+  "unitySerializedVersion": "5.6.5p2",
+  "extractedBy": "scripts/extract-unity-prefab.py",
+  "download": "https://kenney.nl/media/pages/assets/particle-pack/f8fe0f8cb8-1677578741/kenney_particle-pack.zip",
+  "kind": "source-prefab",
+  "spriteFile": "smoke_07.png",
+  "spritePackPath": "Assets/Kenney/Particle samples/Sprites/smoke_07.png",
+  "spriteSha256": "86016557bd1de779f1b31871fbcdb82630b913956ad8ac10fbe053a9a5ca5872",
+  "conversionRecord": "examples/prefabs/Fire.json",
+  "renderConfig": "examples/fire.json",
+  "renderer": "scripts/render-unity-asset.mjs (converted renderer; approximate, not Unity)",
+  "notes": "Sample prefab Fire rendered with its own material texture (Fire.mat mainTexture smoke_07.png)."
+ },
+ "prefab": {
+  "path": "Assets/Kenney/Particle samples/Prefabs/Fire.prefab",
+  "gameObject": "Fire",
+  "seed": 996060781,
+  "shape": {
+   "type": 4,
+   "typeMeaning": "Cone",
+   "radius": 0.25,
+   "angle": 10,
+   "arc": 360,
+   "length": 5,
+   "alignToDirection": false,
+   "randomDirectionAmount": 0,
+   "sphericalDirectionAmount": 0,
+   "placementMode": 0
+  },
+  "initial": {
+   "startLifetime": {
+    "state": 3,
+    "min": 0.20000000298023224,
+    "max": 2
+   },
+   "startSpeed": {
+    "state": 3,
+    "min": 4,
+    "max": 5
+   },
+   "startSize": {
+    "state": 3,
+    "min": 0.5,
+    "max": 2
+   },
+   "startRotation": {
+    "state": 3,
+    "min": 0,
+    "max": 6.283185005187988
+   },
+   "startColor": {
+    "state": 2,
+    "min": {
+     "r": 1,
+     "g": 0.268965482711792,
+     "b": 0,
+     "a": 1
+    },
+    "max": {
+     "r": 1,
+     "g": 0.682758629322052,
+     "b": 0,
+     "a": 1
+    }
+   },
+   "gravityModifier": {
+    "state": 0,
+    "min": 0,
+    "max": 0
+   },
+   "maxNumParticles": 1000,
+   "rotation3D": false,
+   "size3D": false
+  },
+  "emission": {
+   "enabled": true,
+   "rateOverTime": {
+    "state": 0,
+    "min": 10,
+    "max": 50
+   },
+   "rateOverDistance": {
+    "state": 0,
+    "min": 0,
+    "max": 0
+   },
+   "bursts": [],
+   "burstCount": 0
+  }
+ },
+ "texture": {
+  "original": "examples/src-sprites/smoke_07.png",
+  "originalSha256": "86016557bd1de779f1b31871fbcdb82630b913956ad8ac10fbe053a9a5ca5872",
+  "convertedPath": "examples/textures/fire.png",
+  "sha256Rgba": "4a65093495a55255aca4aa05c50ab9688c8934a6b2c0c2d01618bb94bca23a98",
+  "verifiedAgainstExtractor": true,
+  "dimensions": [
+   512,
+   512
+  ]
+ },
+ "conversion": {
+  "renderer": "scripts/render-unity-asset.mjs",
+  "width": 128,
+  "height": 128,
+  "frames": 25,
+  "fps": 12,
+  "delayCs": 8,
+  "loopMs": 2000,
+  "particlesPerLoop": 100,
+  "alivePerFrame": [
+   44,
+   54
+  ],
+  "pxPerUnit": 10,
+  "emitterOriginPx": [
+   64,
+   120
+  ],
+  "paletteSize": 16,
+  "dither": "bayer4",
+  "alphaThreshold": 0.28,
+  "compositing": "additive (SrcAlpha One) with luminance-weighted coverage alpha",
+  "seed": "996060781"
+ },
+ "outputs": {
+  "sheet": {
+   "path": "examples/unity-sample/fire_sheet.png",
+   "sha256": "838cbc3dab41a41b8911a3bc88c57de990f9d3a22561fef348667466949b88aa",
+   "bytes": 1639233,
+   "size": [
+    640,
+    640
+   ]
+  },
+  "gif": {
+   "path": "examples/unity-sample/fire_preview.gif",
+   "sha256": "8456ed42a0044a8508d7b507c1cd820c46dac6c598929ce955284f4cefe7a8f2",
+   "bytes": 11668,
+   "size": [
+    128,
+    128
+   ]
+  }
+ },
+ "presentation": {
+  "rootTranslationIgnored": [
+   0,
+   0,
+   0
+  ],
+  "startSizeOverride": null
+ },
+ "limitations": [
+  "no Unity Editor on this machine, so the prefab is drawn by scripts/render-unity-asset.mjs instead of the Unity particle renderer; output is an approximation, NOT pixel parity with Unity",
+  "shape emitters are re-sampled procedurally (Cone, Sphere, SphereShell); Unity's exact shape randomisation is not reproduced, and the Sphere/SphereShell direction here is radial-outward",
+  "renderer renderMode=1 (stretched billboard, used by the Sparks and Electricity sample prefabs) is drawn as a plain billboard: particles are not stretched or oriented along velocity",
+  "builtin particle shader (unity_builtin_extra object 200) cannot be named without the editor, but the material's _TintColor (0.5,0.5,0.5,0.5)/_InvFade and the shipped texture (fully opaque, black background, shape carried in RGB) only render correctly with the legacy additive particle blend, so sprites are composited additively: RGB accumulates (texRGB * startColor * lifetime alpha, clamped) and the export alpha is the luminance-weighted coverage that additive blending on a transparent target does not provide by itself",
+  "NoiseModule is approximated with a local value-noise field; Unity's exact noise is not reproducible outside the engine",
+  "loop is made exact by emitting one full cycle of particles periodically, while Unity emits stochastically (autoRandomSeed=true)",
+  "orthographic front view, pixel scale and emitter origin are view parameters chosen for a 128px cell; the prefab ships no camera",
+  "renderer sortMode=None, so particles are drawn in spawn order with no depth sort",
+  "prefab root translation is treated as sample-scene placement and ignored; the per-example origin view parameter carries framing"
+ ]
+}

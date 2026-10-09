@@ -27,9 +27,9 @@ They are listed here so that "unavailable" is never conflated with "not implemen
 | Item | Why unavailable |
 |------|-----------------|
 | Vendor source bodies (sim.js / shaders.js / capture.js / formats.js) | Inspected for survey only; copying prohibited by task rules |
-| demo.pak data: textures (104), meshes (14), fx definitions (312 catalog entries) | Vendor data, not present as usable assets; no vendor assets in deliverable |
+| demo.pak data: textures (104), meshes (14), fx definitions (312 catalog entries) | Vendor data. A local `clone/hun0fx.pak` exists for development but is excluded from this repository by the root `.gitignore` `*.pak` rule; no vendor asset ships. |
 | User-supplied Unity library assets | Not present on this machine → no vendor-library content parity is pretended |
-| H0PK data pack loader (report §8) | Loads the vendor data pack; pointless without vendor pack |
+| H0PK data pack loader (report §8) | The LOADER is original code and DOES ship (`clone/src/wire-pak.js`: H0PK magic, scrambled index, deflate). It is only useful with a pack, and the vendor pack data does not ship. |
 | Hand-drawn flipbook sprite recolor (spritefx.js) | Requires the vendor's hand-drawn sprite sheets |
 | Electron shell / contextBridge packaging (report §3) | Vendor app shell; replaced by an ORIGINAL token-gated server + app-window launcher (implemented, see B-30) |
 | Paid Aseprite/Godot/Unity licenses | No purchases or entitlement bypass; exporters written from PUBLIC documented formats |
@@ -66,8 +66,8 @@ They are listed here so that "unavailable" is never conflated with "not implemen
 | 26 | 3D pipeline: real orbit camera + geometry, **3-pass alpha matting, HDR bloom post** | report §4/§5 capture.js/post.js | [C] | [C] original software renderer (column-major mat4, box/sphere/torus/cone/plane, z-buffer, flat shading); bloom bright-pass + box blur, coverage→dilate→edge-composite 3-pass matte; unit-tested (render3d/post3d) + UI orbit/wheel checks, shots 11–14 |
 | 27 | Effect library (vendor catalog: 312 entries / 104 textures / 14 meshes) | report-v3 §5-§7 | [O] | [O] vendor CONTENT unavailable (section A); catalog≠demo: the demo exercises 16 actual effects. Original equivalents: 21 presets (16 original incl. 6 3D presets + 5 quality) wired into preview/sheet/GIF |
 | 28 | MCP control server / scripting bridge | report §7 | [C] | [C] `scripts/mcp-server.mjs`: JSON-RPC stdio, initialize/tools/list/tools/call; live handshake on Windows (initialize, tools/list=4, render_sheet non-blank PNG, golden_hashes == fixture); `window.PixelVFX` surface retained |
-| 29 | H0PK data pack loader | report §8 | [O] | [O] loads vendor pack → section A |
-| 30 | Desktop shell (token-gated local server + app-window launcher) | report §3 Electron shell | [C] | [C] ORIGINAL: `scripts/serve.py` token gate (403 w/o token, 200 + HttpOnly cookie, dir-listing off) + `launch-desktop.cmd/.ps1` (server + `--app=` window); verified live on Windows through the real launcher (`-NoWindow` mode), checks 109/109 |
+| 29 | H0PK data pack loader | report §8 | [C] loader / [O] pack data | [C] original loader in `clone/src/wire-pak.js` (H0PK magic + scrambled index + deflate) drives the standalone clone render; the vendor pack DATA is excluded from this repository → section A |
+| 30 | Desktop shell (token-gated local server + app-window launcher) | report §3 Electron shell | [C] | [C] ORIGINAL: `scripts/serve.py` token gate (403 w/o token, 200 + HttpOnly cookie, dir-listing off) + `scripts/launch-desktop.cmd` / `scripts/launch-desktop.ps1` (server + `--app=` window); verified live on Windows through the real launcher (`-NoWindow` mode), checks 109/109 |
 | 31 | 3D capture → sheet/GIF export path | report §6 (3D frames into export_one) | [C] | [C] `render3dFrame` feeds buildSequence: 3D sheet dims/quantization + 3D GIF (10 frames, 8cs) verified through real buttons |
 | 32 | Original 3D effect presets (vendor has its own; ours are original) | report §4 presets | [C] | [C] 6 presets (shard/orbital/crystal/nebula/warp/gem), pure scene(t,seed), seeded RNG, determinism tests + live UI |
 

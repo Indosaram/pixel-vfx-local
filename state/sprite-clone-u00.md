@@ -2,6 +2,8 @@
 
 Scope: accepted `state/sprite-clone-plan.md`, U00 only. Plan read in full. No pipeline modules, U01+ code, reference assets, original source copies, Astra, reference launch or Mac pipeline rendering/encoding.
 
+Repository note: `state/sprite-clone-plan.md` and the other working notes this receipt cites (`state/sprite-decomposition-report.md`, `state/sprite-static-*-addendum.md`, `state/sprite-fixture-freeze.md`) are the author's local working evidence and are NOT part of this repository. They are named here as provenance for the frozen spec, not as files a reader can open in this checkout. What ships is `clone/spec/` itself and the implementation under `clone/src/`.
+
 ## Runtime selection
 
 JavaScript ES modules/JSDoc + Electron 44.6.0 + three.js 0.170.0; Bun 1.4.0 is the test/package runner. `clone/package.json` pins direct versions; `clone/bun.lock` locks transitive packages and registry integrity hashes. Electron was the registry latest response, not an inferred reference version. Installed Electron/Chromium/Node runtime capability remains NOT RUN. Version selection is frozen, capability certification is blocked.

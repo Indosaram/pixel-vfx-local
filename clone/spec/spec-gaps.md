@@ -11,6 +11,14 @@ Anchor convention: anchors are reproduced from the report. `sim.js` =
 `app/runtime/sim.js`, `formats.js` = `app/js/formats.js`, under SRC =
 `/Users/indo/.omo/evidence/hun0fx-pixel-studio-demo/app-code/`. EVID is the parent of SRC.
 
+Repository note: the authority documents (`state/sprite-clone-plan.md`,
+`state/sprite-decomposition-report.md`) and the SRC/EVID trees above are the author's local
+working evidence and are NOT part of this repository. They are cited as provenance, not as
+files a reader can open here. Test and harness paths below (`test/*.test.js`, `qa --case …`) name
+the clone's own suites: the tests ship under `clone/test/` (the clone's own file names, e.g.
+`curves-rng.test.js`, `emission.test.js`, `pixel.test.js`) and the QA harness under `clone/qa/`
+(the capability probe is `clone/qa/capabilities.cjs`, not `qa/cases/capabilities.mjs`).
+
 Gate classes used below:
 
 - **exclusion** — the clone does not attempt the claim at all; the boundary is removed from
@@ -75,7 +83,7 @@ no value below may be guessed and claimed as fidelity (plan §2).
 | G03 | Exhaustive RNG draw-site order and consumption count | §4 `sim.js:71-76,117-180`; `effect.js:130-132` | Ordered list of every draw site with its draw count per call | `test/curves-rng.test.js` two-emitter stream case; `test/emission.test.js` | blocked |
 | G04 | Shape distribution formulas (position sampling inside sphere/hemisphere/cone/circle/box) | §5 `sim.js:79-87,117-143` | Exact sampling equations per shape code | `test/emission.test.js` shape cases | blocked |
 | G05 | Orbit/radial motion and sequential sinusoidal noise equations | §5 `sim.js:202-224` | Exact equations | `test/motion.test.js` | blocked |
-| G06 | UV wrapping and lifetime/FPS sheet-addressing equations | §5 `sim.js:240-273` | Exact addressing and wrap equations | `test/motion.test.js`, `test/instances.test.js` | blocked |
+| G06 | UV wrapping and lifetime/FPS sheet-addressing equations | §5 `sim.js:240-273` | Exact addressing and wrap equations | `clone/test/motion.test.js`, `clone/test/wire-instances.test.js` | blocked |
 | G07 | Shader vertex/fragment equations and keyword branch formulas | §6 `shaders.js:6-63,65-123,125-169` | Full shader source or equivalent equations | `qa --case shaders`, `qa --case capture` | blocked |
 | G08 | Pixel grading/distance/dither coefficients (gradient-mapping LUT, nearest-color distance metric, Bayer phase, edge-darkening strength, white-hot brightening amount) | §7 `pixel.js:23-97,99-229` | Exact coefficients | `test/pixel.test.js`, `test/palette.test.js` | blocked |
 | G09 | Ambient generator formulas: layer path equations, speeds, winds, `rngFrom` hash, depth tiers | §8 `env2d.js:12-109,110-257,56-79` | Exact formulas | `qa --case alternate` | blocked |
@@ -133,8 +141,10 @@ The task that produced these five files was scoped to `clone/spec/contracts.md`,
 `stages.json`, `oracles.json`, `fixtures.json` and this file only. The following are U00
 deliverables under the plan but are outside that edit scope and remain open:
 
-- `qa/run.mjs`, the `qa` package script and `qa/cases/capabilities.mjs` (plan §4 harness
-  contract; the capability command is recorded in `stages.json`).
+- `qa/run.mjs`, the `qa` package script and the capability probe (plan §4 harness
+  contract; the capability command is recorded in `stages.json`). The probe was subsequently
+  produced as `clone/qa/capabilities.cjs` (launched by `clone/qa/run.mjs`), not
+  `qa/cases/capabilities.mjs`.
 - The package/runtime lock and version selection are now recorded in `runtime-lock.json`
   and `../bun.lock`: Electron 44.6.0, three.js 0.170.0, Bun 1.4.0. G14 remains open only
   for capability certification, not version selection.
