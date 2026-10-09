@@ -1,16 +1,35 @@
 # pixel-vfx-local
 
-## 원본 프로그램 실제 이펙트 vs 픽셀화 변환 결과 비교 (Genuine 1:1 Comparison)
+## Clone Lab
 
-원본 3D VFX 런타임(Three.js/WebGL)에서 재생되는 부드러운 고화질 원본 애니메이션과,
-이를 픽셀화 엔진으로 변환한 64x64 및 32x32 결과물입니다.
+The resumed Three.js clone has a local editor at `/clone/`: original sample
+effects, capture controls, playback/scrubbing and GIF/PNG-sheet exports. Serve
+this repository locally and open `http://127.0.0.1:8123/clone/`. See
+[clone workflow and limits](clone/README.md). Vendor pack content is not shipped;
+exact vendor parity and physical Windows certification remain unverified.
 
-| 이펙트 (Effect ID) | 원본 3D 모션 애니메이션 (Original 3D VFX) | 픽셀 변환 결과 (64x64 Pixel Art) | 픽셀 변환 결과 (32x32 Pixel Art) |
-|---|:---:|:---:|:---:|
-| **Slash_fire** (화염 참격) | <img src="examples/comparison/genuine/Slash_fire_ORIGINAL_MOTION.gif" width="128" alt="Slash_fire Original"> | <img src="examples/comparison/genuine/Slash_fire_PIXEL_64.gif" width="128" alt="Slash_fire 64"> | <img src="examples/comparison/genuine/Slash_fire_PIXEL_32.gif" width="128" alt="Slash_fire 32"> |
-| **Hit_01_Fire** (화염 타격/폭발) | <img src="examples/comparison/genuine/Hit_01_Fire_ORIGINAL_MOTION.gif" width="128" alt="Hit_01_Fire Original"> | <img src="examples/comparison/genuine/Hit_01_Fire_PIXEL_64.gif" width="128" alt="Hit_01_Fire 64"> | <img src="examples/comparison/genuine/Hit_01_Fire_PIXEL_32.gif" width="128" alt="Hit_01_Fire 32"> |
-| **Blast_Electricity_01** (전격 폭발) | <img src="examples/comparison/genuine/Blast_Electricity_01_ORIGINAL_MOTION.gif" width="128" alt="Blast_Electricity Original"> | <img src="examples/comparison/genuine/Blast_Electricity_01_PIXEL_64.gif" width="128" alt="Blast_Electricity 64"> | <img src="examples/comparison/genuine/Blast_Electricity_01_PIXEL_32.gif" width="128" alt="Blast_Electricity 32"> |
+## Original Author Studio gallery
 
+Sixteen original particle effects built from our own emitter definitions and six analytic texture masks. No vendor-pack art is used. Each GIF is independently rendered at its stated resolution (nearest-neighbor display enlargement only). Load the editable project in [Author Studio](clone/author.html); standalone fx JSON refers to the textures listed in its project. Gallery source/assets are CC0-1.0; see [provenance](clone/gallery/README.md).
+
+| Effect | 64×64 | 32×32 | Original data |
+|---|:---:|:---:|---|
+| Ember Impact | <img src="clone/gallery/out/ember_impact_64.gif" width="128" alt="Ember Impact 64x64"> | <img src="clone/gallery/out/ember_impact_32.gif" width="128" alt="Ember Impact 32x32"> | [fx JSON](clone/gallery/fx/ember_impact.json) · [editable project](clone/gallery/projects/ember_impact.project.json) |
+| Frost Burst | <img src="clone/gallery/out/frost_burst_64.gif" width="128" alt="Frost Burst 64x64"> | <img src="clone/gallery/out/frost_burst_32.gif" width="128" alt="Frost Burst 32x32"> | [fx JSON](clone/gallery/fx/frost_burst.json) · [editable project](clone/gallery/projects/frost_burst.project.json) |
+| Arcane Nova | <img src="clone/gallery/out/arcane_nova_64.gif" width="128" alt="Arcane Nova 64x64"> | <img src="clone/gallery/out/arcane_nova_32.gif" width="128" alt="Arcane Nova 32x32"> | [fx JSON](clone/gallery/fx/arcane_nova.json) · [editable project](clone/gallery/projects/arcane_nova.project.json) |
+| Toxic Splash | <img src="clone/gallery/out/toxic_splash_64.gif" width="128" alt="Toxic Splash 64x64"> | <img src="clone/gallery/out/toxic_splash_32.gif" width="128" alt="Toxic Splash 32x32"> | [fx JSON](clone/gallery/fx/toxic_splash.json) · [editable project](clone/gallery/projects/toxic_splash.project.json) |
+| Holy Spark | <img src="clone/gallery/out/holy_spark_64.gif" width="128" alt="Holy Spark 64x64"> | <img src="clone/gallery/out/holy_spark_32.gif" width="128" alt="Holy Spark 32x32"> | [fx JSON](clone/gallery/fx/holy_spark.json) · [editable project](clone/gallery/projects/holy_spark.project.json) |
+| Void Collapse | <img src="clone/gallery/out/void_collapse_64.gif" width="128" alt="Void Collapse 64x64"> | <img src="clone/gallery/out/void_collapse_32.gif" width="128" alt="Void Collapse 32x32"> | [fx JSON](clone/gallery/fx/void_collapse.json) · [editable project](clone/gallery/projects/void_collapse.project.json) |
+| Electric Pop | <img src="clone/gallery/out/electric_pop_64.gif" width="128" alt="Electric Pop 64x64"> | <img src="clone/gallery/out/electric_pop_32.gif" width="128" alt="Electric Pop 32x32"> | [fx JSON](clone/gallery/fx/electric_pop.json) · [editable project](clone/gallery/projects/electric_pop.project.json) |
+| Dust Impact | <img src="clone/gallery/out/dust_impact_64.gif" width="128" alt="Dust Impact 64x64"> | <img src="clone/gallery/out/dust_impact_32.gif" width="128" alt="Dust Impact 32x32"> | [fx JSON](clone/gallery/fx/dust_impact.json) · [editable project](clone/gallery/projects/dust_impact.project.json) |
+| Water Ring | <img src="clone/gallery/out/water_ring_64.gif" width="128" alt="Water Ring 64x64"> | <img src="clone/gallery/out/water_ring_32.gif" width="128" alt="Water Ring 32x32"> | [fx JSON](clone/gallery/fx/water_ring.json) · [editable project](clone/gallery/projects/water_ring.project.json) |
+| Healing Wisp | <img src="clone/gallery/out/healing_wisp_64.gif" width="128" alt="Healing Wisp 64x64"> | <img src="clone/gallery/out/healing_wisp_32.gif" width="128" alt="Healing Wisp 32x32"> | [fx JSON](clone/gallery/fx/healing_wisp.json) · [editable project](clone/gallery/projects/healing_wisp.project.json) |
+| Flame Jet | <img src="clone/gallery/out/flame_jet_64.gif" width="128" alt="Flame Jet 64x64"> | <img src="clone/gallery/out/flame_jet_32.gif" width="128" alt="Flame Jet 32x32"> | [fx JSON](clone/gallery/fx/flame_jet.json) · [editable project](clone/gallery/projects/flame_jet.project.json) |
+| Snowfall | <img src="clone/gallery/out/snowfall_64.gif" width="128" alt="Snowfall 64x64"> | <img src="clone/gallery/out/snowfall_32.gif" width="128" alt="Snowfall 32x32"> | [fx JSON](clone/gallery/fx/snowfall.json) · [editable project](clone/gallery/projects/snowfall.project.json) |
+| Meteor Trail | <img src="clone/gallery/out/meteor_trail_64.gif" width="128" alt="Meteor Trail 64x64"> | <img src="clone/gallery/out/meteor_trail_32.gif" width="128" alt="Meteor Trail 32x32"> | [fx JSON](clone/gallery/fx/meteor_trail.json) · [editable project](clone/gallery/projects/meteor_trail.project.json) |
+| Petal Swirl | <img src="clone/gallery/out/petal_swirl_64.gif" width="128" alt="Petal Swirl 64x64"> | <img src="clone/gallery/out/petal_swirl_32.gif" width="128" alt="Petal Swirl 32x32"> | [fx JSON](clone/gallery/fx/petal_swirl.json) · [editable project](clone/gallery/projects/petal_swirl.project.json) |
+| Smoke Plume | <img src="clone/gallery/out/smoke_plume_64.gif" width="128" alt="Smoke Plume 64x64"> | <img src="clone/gallery/out/smoke_plume_32.gif" width="128" alt="Smoke Plume 32x32"> | [fx JSON](clone/gallery/fx/smoke_plume.json) · [editable project](clone/gallery/projects/smoke_plume.project.json) |
+| Comet Burst | <img src="clone/gallery/out/comet_burst_64.gif" width="128" alt="Comet Burst 64x64"> | <img src="clone/gallery/out/comet_burst_32.gif" width="128" alt="Comet Burst 32x32"> | [fx JSON](clone/gallery/fx/comet_burst.json) · [editable project](clone/gallery/projects/comet_burst.project.json) |
 
 ## Export fps limits (per format)
 
@@ -230,11 +249,11 @@ bun test
 - `src/` — Core editor pipeline, procedural particle engine, 3D math and color grading
 - `clone/` — Independent runtime and contract test suites (`clone/src/`, `clone/test/`). The headless
   renderer is `clone/render-standalone.mjs` (Electron) driving `clone/dist/runner.html` +
-  `clone/dist/standalone-bundle.js`; `clone/electron-runner.cjs` is the Electron entry point and
+  `clone/dist/runner-bundle.js`; `clone/electron-runner.cjs` is the Electron entry point and
   `clone/qa/` holds the Windows QA harness. `clone/render.mjs` is the earlier reference-app launcher
   and requires the vendor app tree, which is not part of this repository.
 
-  The clone reads an H0PK data pack through the original loader in `clone/src/wire-pak.js`; the vendor
-  pack ships at `clone/hun0fx.pak`, so the standalone renderer runs in place.
+  The clone reads H0PK data through `clone/src/wire-pak.js`. No vendor pack ships.
+  Use built-in original samples, your own authorized pack, or `clone/gallery/original-gallery.pak`.
 - `examples/` — Sourced Unity prefab configs and converted sprite outputs (`examples/out/`)
 - `scripts/` — Batch rendering and resolution GIF derivation scripts

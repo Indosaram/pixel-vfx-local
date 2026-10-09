@@ -1,0 +1,389 @@
+{
+  "format": "clone-author-project",
+  "version": 1,
+  "id": "holy_spark",
+  "name": "Holy Spark",
+  "capture": {
+    "size": 64,
+    "fps": 15,
+    "duration": 1.4,
+    "seed": 104,
+    "elevation": 35,
+    "facing": 0,
+    "colors": 16
+  },
+  "definition": {
+    "textures": [],
+    "meshes": [],
+    "roles": [],
+    "emitters": [
+      {
+        "name": "rays",
+        "max": 128,
+        "dur": 1,
+        "delay": {
+          "t": "c",
+          "v": 0
+        },
+        "loop": false,
+        "bursts": [
+          [
+            0,
+            {
+              "t": "c",
+              "v": 24
+            },
+            1,
+            0.01
+          ]
+        ],
+        "rate": {
+          "t": "c",
+          "v": 0
+        },
+        "life": {
+          "t": "r",
+          "a": 0.4,
+          "b": 0.8
+        },
+        "speed": {
+          "t": "r",
+          "a": 1,
+          "b": 3
+        },
+        "size": {
+          "t": "r",
+          "a": 0.15,
+          "b": 0.35
+        },
+        "rotZ": {
+          "t": "c",
+          "v": 0
+        },
+        "color": {
+          "t": "col",
+          "v": [
+            1,
+            0.85,
+            0.25,
+            1
+          ]
+        },
+        "shape": {
+          "type": 0,
+          "radius": 0.08,
+          "thick": 1,
+          "arc": 360,
+          "angle": 18,
+          "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+          },
+          "rot": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "pos": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          }
+        },
+        "render": {
+          "mat": {
+            "shader": "SH_HunFX_simple",
+            "kw": [
+              "_USECOLOR_ON"
+            ],
+            "c": {
+              "_uv": [
+                1,
+                1,
+                0,
+                0
+              ]
+            },
+            "tex": {
+              "_MainTexture": "spark"
+            }
+          },
+          "mode": 0,
+          "align": 0,
+          "len": 1
+        },
+        "pos": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "rot": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "w": 1
+        },
+        "scale": {
+          "x": 1,
+          "y": 1,
+          "z": 1
+        },
+        "sizeOL": {
+          "sep": false,
+          "x": {
+            "t": "k",
+            "s": 1,
+            "k": [
+              [
+                0,
+                0.4,
+                0,
+                0
+              ],
+              [
+                0.2,
+                1,
+                0,
+                0
+              ],
+              [
+                1,
+                0.05,
+                0,
+                0
+              ]
+            ]
+          }
+        },
+        "colorOL": {
+          "t": "grad",
+          "g": {
+            "m": 0,
+            "c": [
+              [
+                0,
+                1,
+                1,
+                1
+              ],
+              [
+                1,
+                0.5,
+                0.4,
+                0.3
+              ]
+            ],
+            "a": [
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                0
+              ]
+            ]
+          }
+        }
+      },
+      {
+        "name": "cross stars",
+        "max": 128,
+        "dur": 1,
+        "delay": {
+          "t": "c",
+          "v": 0
+        },
+        "loop": false,
+        "bursts": [
+          [
+            0,
+            {
+              "t": "c",
+              "v": 12
+            },
+            1,
+            0.01
+          ]
+        ],
+        "rate": {
+          "t": "c",
+          "v": 0
+        },
+        "life": {
+          "t": "r",
+          "a": 0.5,
+          "b": 1
+        },
+        "speed": {
+          "t": "r",
+          "a": 0.3,
+          "b": 1
+        },
+        "size": {
+          "t": "r",
+          "a": 0.2,
+          "b": 0.5
+        },
+        "rotZ": {
+          "t": "c",
+          "v": 0
+        },
+        "color": {
+          "t": "col",
+          "v": [
+            1,
+            1,
+            0.7,
+            1
+          ]
+        },
+        "shape": {
+          "type": 0,
+          "radius": 0.08,
+          "thick": 1,
+          "arc": 360,
+          "angle": 18,
+          "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+          },
+          "rot": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "pos": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          }
+        },
+        "render": {
+          "mat": {
+            "shader": "SH_HunFX_simple",
+            "kw": [
+              "_USECOLOR_ON"
+            ],
+            "c": {
+              "_uv": [
+                1,
+                1,
+                0,
+                0
+              ]
+            },
+            "tex": {
+              "_MainTexture": "star"
+            }
+          },
+          "mode": 0,
+          "align": 0,
+          "len": 1
+        },
+        "pos": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "rot": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "w": 1
+        },
+        "scale": {
+          "x": 1,
+          "y": 1,
+          "z": 1
+        },
+        "sizeOL": {
+          "sep": false,
+          "x": {
+            "t": "k",
+            "s": 1,
+            "k": [
+              [
+                0,
+                0.4,
+                0,
+                0
+              ],
+              [
+                0.2,
+                1,
+                0,
+                0
+              ],
+              [
+                1,
+                0.05,
+                0,
+                0
+              ]
+            ]
+          }
+        },
+        "colorOL": {
+          "t": "grad",
+          "g": {
+            "m": 0,
+            "c": [
+              [
+                0,
+                1,
+                1,
+                1
+              ],
+              [
+                1,
+                0.5,
+                0.4,
+                0.3
+              ]
+            ],
+            "a": [
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                0
+              ]
+            ]
+          }
+        }
+      }
+    ]
+  },
+  "assets": [
+    {
+      "path": "textures/spark.png",
+      "base64": "iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAEE0lEQVR4nOVb2Y6kMAysvnbn//92+twHsCgKO6EXpydoLFnQEUe7XD4C4fB6vfCb5ZxwjQOAE4DjuC2pdwwAPESfzlh0zCYPZgAATCCcRS/OmCoA3Ct6o/3DeE4KdTMBMO+a4WsVGAyM9Dhenw1/0u9N0goAA+HPqLyvvwHgOupt3Fq4mPHAYLgZ/0BHAJh3jqQMwgXAXwzG2pb37X9wnvA8boYf5ZhucgCzQJnAHv/CYLwpMPc4MPc2J0QPoE3SAoBSKDATDAg7H5gMV7o/MCRA9f5myQIAWDJAqwKDYPpF53uG27l3LEMkRbIZUGIBh4ICEHn8jik/qPe7YwAnQY8FWgk4B2isPzBUhDOWjRTnis3SmgEaBpoQDQD1+o3OUeO7ZQDwfyAAk+EXrDM+TTL7AM/wUh5gBrDn7RgFoQkLsquANkRrGWBtr84dvNhPZUGLHOCVw9IcAc6Yel4boC5zgHpfGRB1h8DQ/yvtIwbsog8oJcIaA0oJsOsqUEuGXi4wBkSx37QEArkMsC3ngCgMIgZE9PcmQd0yQHNArRoA5ey/yypQ6wkYBDjjNfp3mQOA9yuB3f9HKgDQJgRqlUBBAOrGN6kAduOt4lHznUoAxPSvhUBXrTDgG1/qB6IQ0PO6ngyZRPSvsQCoe98LgxRpORfIrgLdzwWAMhARGPY/IqObGG6SHQK2LRmu1QAyVgOC77VZPtEI1UohZGwtC3YRAgcsvfpOEjwF10yTtKere5VsBuibnRf8d/v86hu07x3rXTNNsgDw/uRTlI1nECBjvACCtQkQmQx40TYy3gMBWBpfAoHvtVlah0AJCI8Ba72fJq1CoGY0vweAMx6B0X0ImPElEN5Jgmo8g5AirUKADfeSIC98AuaLoNR43u8yBLzs7K3u8LzvhUDEgug+m6RFCHhhEJVABSAqhUr/rkNgbf0vhUCtH0iTTzRCWVVgF42Ql/29BGjGGwA3+ABoEuy2CnCHxmt9ohDglaCg/SgEbMvGd8uAdyrAdTw3YkApDFKkRQ4oVQD1vjKg1A80qQTZDHinAigDfqQStJwLePT3VoPDGYvCYJdVIMr+tioEmFaKl6pBt1Vgbe1nD18xfybIy+WjXNAkGX5iMlRiAAOwhgFdToaAMgvU+DOmjyJO4/nKgDUgdJcDag9BbvBfegDANyYQDIjaw5EUac0A9by35g8YADAQojzQPQO88sdUviJe5PCNOQhX+GHA5TBFshmg3j9h+eUXG2+GsPEMQo0Fm6UFAOz9aHEDAwUsDfcSotcQbZbMPoAT1B3LN7oRSMDys7kIhPSGKJMBTH2luYaGfRegc4GSaih0wwBgDkDkca4G+nZYnwh5T466B+BB+5oIdeUnK+BPfHRMNQWAw2//fP4fsL5ubws7XGAAAAAASUVORK5CYII="
+    },
+    {
+      "path": "textures/star.png",
+      "base64": "iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAFsklEQVR4nO2aTW8jRRCGH8d2Jo7jxCSGkCCIELsSQgKOcEH8do5ckGCl1UrLCgW0CUucj038HdvD4a1Sjx1HIvaMJyIuqeWZcU931VtVXdXVU4jjmKdMa3kzkDetAMibgbxpBUDeDORNKwDyZiBvWgGQNwN50wqAvBnIm548AKUlzbNpcw2BTop9F6ZlALCOhFoHYpvz+p6+20AVKAADBMIgS+aWBUDFWsHux0Brqt8W8AGwgYDqAj3+BwCUkFDVxHXMXQB2gToCaEiwlsyZy5pc65tABIzsWQu4sD671naAItBHmi9kzdwyABgDZeQCm/asiBY4B6CBANiy+zWgbe9mSmkAULRxYmb7ax9pMkJuUESA9IE/rc+HyP8ryELcSvr3zLlu/w+t79y0KAAlpNWNxFi3aJV35nuIyRISMLL+t8BH1mcPAeDAdOydXmKuCEWJst0P7f+OXc8twCK0RvDvSoK5BgLhrd13kcZ8MRxb20/037HxCta6iXk+YVL4W/t/zCRID6ZFAXDkfXX3eF9AZt0AjoEm0mgZAeCCugXsIgHHyI1G9k4dOELgJN2sg0BI8jAXLQrAGJnsGAnlfh7ZfQOZ9xvgBgntblBm0gUqNtaV9d0GvkAglBJztZHWk3PPTWksgjdI81VC7HaXKCIQGsBLpLUyUEMW4wC4/4+tTxP4jiD8CJn8iGAFbZt7IUorDL4jrAU1pH13iTJyhz3gHHhuz5MuUEeC3VifH5BbFBEgHaTtkV1f2ZwLU5p5wF8EN3Ag1lFsj5AVNJEmI2QhHjZ37HkXmX2DkBC1rPWQ4H/bXKlQ2onQMdKYZ39V5MvuEg0kQAEB5FRDApaALxGQXRurD7wHToHfgZM0Gc4iEzxBZuxhLCJYwRZyh1PgM3sGEvgK+NruXevXNt4r4FfuT4zmpsICh6O+4rt2vUVI+w7uOhLsGXCI/L2IhN6xPu/RAjhCQJwgbb8guIlvjfsEd+miNaHNnODMA0ARadJbdcavR4UkKJ4yf4WAcABJCHCCooWnuElh2wRhWzN+vT0oNZ7HBTaY1HiVIHyNAEzyOgmWZ4JDwubILWAbWcu0UC0UTUpMlvFiguWMbMz2Q4RZ1QTneMdX6yLBl5P7dteu5+st7rrAll17zc+TnWse5gJtJteDB+8LVotgRp/IRMC3KKZ/jgTfIxQ8ToFvCHn8GvAbcGD3LRRKT4A/yDAMZpEHHKJ098iutwlZXRclQs/s2nP5GrKMF8DHCJCivXtofSrAax55InRk7QCZd4S03EHCNpEVeN5/lng3Rmb+ipAKj22MHRszRtHgOC2G0wTgU6S9OgqVa8hnb5BfXwCXwPeEoqcD4GcGFWTqF0xuhnxzVSdsgVPZD6QFwD5ibpOguR5ifogAeAn8SLCIW+Afe79K2A7vAT+haFEnRIixjb1pzweksCNMA4AaEiBZqOwgAFz4N2gxLCPBb9Aa4ADUkfa9XtAAfuZuQWTI5EarxoI1gTRqgl798QpNjMLSEIW3Y8Luz098+ijmOwB7hJJYbH2vgV+YXRJLVqAWKp+nURWGUKH1PNwrw14UfU7wZ2f4kgDAPhJuzfp4Jek1sqBZRdFkPXLu47M0aoJepHQmpsviIPOOEUgxoezlPnyAhPeyuC+ITm+t/3RZ3K1hbkqjKuxZ2H0HIxtIo0Nk/gP7PSdYwDnh9Mg3NUV719PbPpNR41EcjEDYid1HEQLHK7qgTO+MINyZ9fNStwMaMTu/T+3EeBlng+7XfpAxQotjM9GnicLbiJA1evzPlJYBQPIwY2DtknAwil17hujH4wO7z5SWAYBHCD/y6jEpvNMF4fjMF8yFTn3+Cy0DAF/0/FDD9/PT1EImn/xEJtOvQyC77fA0PdqPpJYFwKOlJ18TXAGQNwN50wqAvBnIm1YA5M1A3rQCIG8G8qYVAHkzkDc9eQD+BWkd4Kw9vek3AAAAAElFTkSuQmCC"
+    }
+  ],
+  "textureMeta": {
+    "spark": {
+      "file": "textures/spark.png",
+      "srgb": true,
+      "clamp": true,
+      "w": 64,
+      "h": 64
+    },
+    "star": {
+      "file": "textures/star.png",
+      "srgb": true,
+      "clamp": true,
+      "w": 64,
+      "h": 64
+    }
+  },
+  "meshMeta": {}
+}

@@ -1,0 +1,387 @@
+{
+  "format": "clone-author-project",
+  "version": 1,
+  "id": "void_collapse",
+  "name": "Void Collapse",
+  "capture": {
+    "size": 64,
+    "fps": 15,
+    "duration": 1.4,
+    "seed": 105,
+    "elevation": 35,
+    "facing": 0,
+    "colors": 16
+  },
+  "definition": {
+    "textures": [],
+    "meshes": [],
+    "roles": [],
+    "emitters": [
+      {
+        "name": "dark stars",
+        "max": 128,
+        "dur": 1,
+        "delay": {
+          "t": "c",
+          "v": 0
+        },
+        "loop": false,
+        "bursts": [
+          [
+            0,
+            {
+              "t": "c",
+              "v": 30
+            },
+            1,
+            0.01
+          ]
+        ],
+        "rate": {
+          "t": "c",
+          "v": 0
+        },
+        "life": {
+          "t": "r",
+          "a": 0.5,
+          "b": 1
+        },
+        "speed": {
+          "t": "r",
+          "a": 1,
+          "b": 2
+        },
+        "size": {
+          "t": "r",
+          "a": 0.2,
+          "b": 0.4
+        },
+        "rotZ": {
+          "t": "c",
+          "v": 0
+        },
+        "color": {
+          "t": "col",
+          "v": [
+            0.65,
+            0.2,
+            1,
+            1
+          ]
+        },
+        "shape": {
+          "type": 0,
+          "radius": 0.08,
+          "thick": 1,
+          "arc": 360,
+          "angle": 18,
+          "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+          },
+          "rot": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "pos": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          }
+        },
+        "render": {
+          "mat": {
+            "shader": "SH_HunFX_simple",
+            "kw": [
+              "_USECOLOR_ON"
+            ],
+            "c": {
+              "_uv": [
+                1,
+                1,
+                0,
+                0
+              ]
+            },
+            "tex": {
+              "_MainTexture": "star"
+            }
+          },
+          "mode": 0,
+          "align": 0,
+          "len": 1
+        },
+        "pos": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "rot": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "w": 1
+        },
+        "scale": {
+          "x": 1,
+          "y": 1,
+          "z": 1
+        },
+        "sizeOL": {
+          "sep": false,
+          "x": {
+            "t": "k",
+            "s": 1,
+            "k": [
+              [
+                0,
+                1.5,
+                0,
+                0
+              ],
+              [
+                0.5,
+                0.9,
+                0,
+                0
+              ],
+              [
+                1,
+                0.01,
+                0,
+                0
+              ]
+            ]
+          }
+        },
+        "colorOL": {
+          "t": "grad",
+          "g": {
+            "m": 0,
+            "c": [
+              [
+                0,
+                1,
+                1,
+                1
+              ],
+              [
+                1,
+                0.5,
+                0.4,
+                0.3
+              ]
+            ],
+            "a": [
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                0
+              ]
+            ]
+          }
+        }
+      },
+      {
+        "name": "void halo",
+        "max": 128,
+        "dur": 1,
+        "delay": {
+          "t": "c",
+          "v": 0
+        },
+        "loop": false,
+        "bursts": [
+          [
+            0,
+            {
+              "t": "c",
+              "v": 1
+            },
+            1,
+            0.01
+          ]
+        ],
+        "rate": {
+          "t": "c",
+          "v": 0
+        },
+        "life": {
+          "t": "r",
+          "a": 0.6,
+          "b": 1
+        },
+        "speed": {
+          "t": "c",
+          "v": 0
+        },
+        "size": {
+          "t": "c",
+          "v": 2
+        },
+        "rotZ": {
+          "t": "c",
+          "v": 0
+        },
+        "color": {
+          "t": "col",
+          "v": [
+            0.5,
+            0.15,
+            0.8,
+            1
+          ]
+        },
+        "shape": {
+          "type": 0,
+          "radius": 0.08,
+          "thick": 1,
+          "arc": 360,
+          "angle": 18,
+          "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+          },
+          "rot": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "pos": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          }
+        },
+        "render": {
+          "mat": {
+            "shader": "SH_HunFX_simple",
+            "kw": [
+              "_USECOLOR_ON"
+            ],
+            "c": {
+              "_uv": [
+                1,
+                1,
+                0,
+                0
+              ]
+            },
+            "tex": {
+              "_MainTexture": "ring"
+            }
+          },
+          "mode": 0,
+          "align": 0,
+          "len": 1
+        },
+        "pos": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "rot": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "w": 1
+        },
+        "scale": {
+          "x": 1,
+          "y": 1,
+          "z": 1
+        },
+        "sizeOL": {
+          "sep": false,
+          "x": {
+            "t": "k",
+            "s": 1,
+            "k": [
+              [
+                0,
+                1.5,
+                0,
+                0
+              ],
+              [
+                0.5,
+                0.9,
+                0,
+                0
+              ],
+              [
+                1,
+                0.01,
+                0,
+                0
+              ]
+            ]
+          }
+        },
+        "colorOL": {
+          "t": "grad",
+          "g": {
+            "m": 0,
+            "c": [
+              [
+                0,
+                1,
+                1,
+                1
+              ],
+              [
+                1,
+                0.5,
+                0.4,
+                0.3
+              ]
+            ],
+            "a": [
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                0
+              ]
+            ]
+          }
+        }
+      }
+    ]
+  },
+  "assets": [
+    {
+      "path": "textures/star.png",
+      "base64": "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"
+    },
+    {
+      "path": "textures/ring.png",
+      "base64": "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"
+    }
+  ],
+  "textureMeta": {
+    "star": {
+      "file": "textures/star.png",
+      "srgb": true,
+      "clamp": true,
+      "w": 64,
+      "h": 64
+    },
+    "ring": {
+      "file": "textures/ring.png",
+      "srgb": true,
+      "clamp": true,
+      "w": 64,
+      "h": 64
+    }
+  },
+  "meshMeta": {}
+}

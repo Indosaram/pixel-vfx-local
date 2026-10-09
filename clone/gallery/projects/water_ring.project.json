@@ -1,0 +1,387 @@
+{
+  "format": "clone-author-project",
+  "version": 1,
+  "id": "water_ring",
+  "name": "Water Ring",
+  "capture": {
+    "size": 64,
+    "fps": 15,
+    "duration": 1.4,
+    "seed": 108,
+    "elevation": 35,
+    "facing": 0,
+    "colors": 16
+  },
+  "definition": {
+    "textures": [],
+    "meshes": [],
+    "roles": [],
+    "emitters": [
+      {
+        "name": "ripple",
+        "max": 128,
+        "dur": 1,
+        "delay": {
+          "t": "c",
+          "v": 0
+        },
+        "loop": false,
+        "bursts": [
+          [
+            0,
+            {
+              "t": "c",
+              "v": 1
+            },
+            1,
+            0.01
+          ]
+        ],
+        "rate": {
+          "t": "c",
+          "v": 0
+        },
+        "life": {
+          "t": "r",
+          "a": 0.6,
+          "b": 1
+        },
+        "speed": {
+          "t": "c",
+          "v": 0
+        },
+        "size": {
+          "t": "c",
+          "v": 2
+        },
+        "rotZ": {
+          "t": "c",
+          "v": 0
+        },
+        "color": {
+          "t": "col",
+          "v": [
+            0.2,
+            0.6,
+            1,
+            1
+          ]
+        },
+        "shape": {
+          "type": 0,
+          "radius": 0.08,
+          "thick": 1,
+          "arc": 360,
+          "angle": 18,
+          "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+          },
+          "rot": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "pos": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          }
+        },
+        "render": {
+          "mat": {
+            "shader": "SH_HunFX_simple",
+            "kw": [
+              "_USECOLOR_ON"
+            ],
+            "c": {
+              "_uv": [
+                1,
+                1,
+                0,
+                0
+              ]
+            },
+            "tex": {
+              "_MainTexture": "ring"
+            }
+          },
+          "mode": 0,
+          "align": 0,
+          "len": 1
+        },
+        "pos": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "rot": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "w": 1
+        },
+        "scale": {
+          "x": 1,
+          "y": 1,
+          "z": 1
+        },
+        "sizeOL": {
+          "sep": false,
+          "x": {
+            "t": "k",
+            "s": 1,
+            "k": [
+              [
+                0,
+                0.1,
+                0,
+                0
+              ],
+              [
+                0.3,
+                0.8,
+                0,
+                0
+              ],
+              [
+                1,
+                1.5,
+                0,
+                0
+              ]
+            ]
+          }
+        },
+        "colorOL": {
+          "t": "grad",
+          "g": {
+            "m": 0,
+            "c": [
+              [
+                0,
+                1,
+                1,
+                1
+              ],
+              [
+                1,
+                0.5,
+                0.4,
+                0.3
+              ]
+            ],
+            "a": [
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                0
+              ]
+            ]
+          }
+        }
+      },
+      {
+        "name": "water drops",
+        "max": 128,
+        "dur": 1,
+        "delay": {
+          "t": "c",
+          "v": 0
+        },
+        "loop": false,
+        "bursts": [
+          [
+            0,
+            {
+              "t": "c",
+              "v": 28
+            },
+            1,
+            0.01
+          ]
+        ],
+        "rate": {
+          "t": "c",
+          "v": 0
+        },
+        "life": {
+          "t": "r",
+          "a": 0.3,
+          "b": 0.8
+        },
+        "speed": {
+          "t": "r",
+          "a": 1,
+          "b": 2
+        },
+        "size": {
+          "t": "r",
+          "a": 0.08,
+          "b": 0.2
+        },
+        "rotZ": {
+          "t": "c",
+          "v": 0
+        },
+        "color": {
+          "t": "col",
+          "v": [
+            0.3,
+            0.8,
+            1,
+            1
+          ]
+        },
+        "shape": {
+          "type": 0,
+          "radius": 0.08,
+          "thick": 1,
+          "arc": 360,
+          "angle": 18,
+          "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+          },
+          "rot": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "pos": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          }
+        },
+        "render": {
+          "mat": {
+            "shader": "SH_HunFX_simple",
+            "kw": [
+              "_USECOLOR_ON"
+            ],
+            "c": {
+              "_uv": [
+                1,
+                1,
+                0,
+                0
+              ]
+            },
+            "tex": {
+              "_MainTexture": "glow"
+            }
+          },
+          "mode": 0,
+          "align": 0,
+          "len": 1
+        },
+        "pos": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "rot": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "w": 1
+        },
+        "scale": {
+          "x": 1,
+          "y": 1,
+          "z": 1
+        },
+        "sizeOL": {
+          "sep": false,
+          "x": {
+            "t": "k",
+            "s": 1,
+            "k": [
+              [
+                0,
+                0.4,
+                0,
+                0
+              ],
+              [
+                0.2,
+                1,
+                0,
+                0
+              ],
+              [
+                1,
+                0.05,
+                0,
+                0
+              ]
+            ]
+          }
+        },
+        "colorOL": {
+          "t": "grad",
+          "g": {
+            "m": 0,
+            "c": [
+              [
+                0,
+                1,
+                1,
+                1
+              ],
+              [
+                1,
+                0.5,
+                0.4,
+                0.3
+              ]
+            ],
+            "a": [
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                0
+              ]
+            ]
+          }
+        }
+      }
+    ]
+  },
+  "assets": [
+    {
+      "path": "textures/ring.png",
+      "base64": "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"
+    },
+    {
+      "path": "textures/glow.png",
+      "base64": "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"
+    }
+  ],
+  "textureMeta": {
+    "ring": {
+      "file": "textures/ring.png",
+      "srgb": true,
+      "clamp": true,
+      "w": 64,
+      "h": 64
+    },
+    "glow": {
+      "file": "textures/glow.png",
+      "srgb": true,
+      "clamp": true,
+      "w": 64,
+      "h": 64
+    }
+  },
+  "meshMeta": {}
+}

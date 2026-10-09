@@ -32,7 +32,7 @@ export function createWireMaterial(m, mode, opts, res, shaders) {
     if (kw.includes('_USEGASALPHA_ON')) defines.GASALPHA = '';
     Object.assign(uniforms, {
       tMain: texU(T._MainTexture), sR: { value: new THREE.Vector4(srgbFlag(T._MainTexture), 0, 0, 0) },
-      uTint: { value: linC(c._Color_tint || [1, 1, 1, 1]) }, uUVs: { value: v4(c._uv) }, uPan: { value: v2(c._Panner) },
+      uTint: { value: linC(c._Color_tint || [1, 1, 1, 1]) }, uUVs: { value: v4(c._uv, [1, 1, 0, 0]) }, uPan: { value: v2(c._Panner) },
     });
   } else if (m.shader === 'SH_HunFX_Stencil') {
     fs = STENCIL_FS;

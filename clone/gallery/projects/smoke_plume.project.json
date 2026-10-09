@@ -1,0 +1,202 @@
+{
+  "format": "clone-author-project",
+  "version": 1,
+  "id": "smoke_plume",
+  "name": "Smoke Plume",
+  "capture": {
+    "size": 64,
+    "fps": 15,
+    "duration": 1.4,
+    "seed": 114,
+    "elevation": 35,
+    "facing": 0,
+    "colors": 16
+  },
+  "definition": {
+    "textures": [],
+    "meshes": [],
+    "roles": [],
+    "emitters": [
+      {
+        "name": "plume",
+        "max": 128,
+        "dur": 1.2,
+        "delay": {
+          "t": "c",
+          "v": 0
+        },
+        "loop": false,
+        "bursts": [],
+        "rate": {
+          "t": "c",
+          "v": 35
+        },
+        "life": {
+          "t": "r",
+          "a": 0.6,
+          "b": 1.2
+        },
+        "speed": {
+          "t": "r",
+          "a": 0.5,
+          "b": 1.2
+        },
+        "size": {
+          "t": "r",
+          "a": 0.4,
+          "b": 0.9
+        },
+        "rotZ": {
+          "t": "c",
+          "v": 0
+        },
+        "color": {
+          "t": "col",
+          "v": [
+            0.6,
+            0.65,
+            0.75,
+            1
+          ]
+        },
+        "shape": {
+          "type": 4,
+          "radius": 0.08,
+          "thick": 1,
+          "arc": 360,
+          "angle": 18,
+          "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+          },
+          "rot": {
+            "x": -90,
+            "y": 0,
+            "z": 0
+          },
+          "pos": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          }
+        },
+        "render": {
+          "mat": {
+            "shader": "SH_HunFX_simple",
+            "kw": [
+              "_USECOLOR_ON"
+            ],
+            "c": {
+              "_uv": [
+                1,
+                1,
+                0,
+                0
+              ]
+            },
+            "tex": {
+              "_MainTexture": "smoke"
+            }
+          },
+          "mode": 0,
+          "align": 0,
+          "len": 1
+        },
+        "pos": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "rot": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "w": 1
+        },
+        "scale": {
+          "x": 1,
+          "y": 1,
+          "z": 1
+        },
+        "sizeOL": {
+          "sep": false,
+          "x": {
+            "t": "k",
+            "s": 1,
+            "k": [
+              [
+                0,
+                0.5,
+                0,
+                0
+              ],
+              [
+                0.5,
+                1.5,
+                0,
+                0
+              ],
+              [
+                1,
+                2,
+                0,
+                0
+              ]
+            ]
+          }
+        },
+        "colorOL": {
+          "t": "grad",
+          "g": {
+            "m": 0,
+            "c": [
+              [
+                0,
+                1,
+                1,
+                1
+              ],
+              [
+                1,
+                0.5,
+                0.4,
+                0.3
+              ]
+            ],
+            "a": [
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                0
+              ]
+            ]
+          }
+        },
+        "grav": {
+          "t": "c",
+          "v": -0.1
+        }
+      }
+    ]
+  },
+  "assets": [
+    {
+      "path": "textures/smoke.png",
+      "base64": "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"
+    }
+  ],
+  "textureMeta": {
+    "smoke": {
+      "file": "textures/smoke.png",
+      "srgb": true,
+      "clamp": true,
+      "w": 64,
+      "h": 64
+    }
+  },
+  "meshMeta": {}
+}

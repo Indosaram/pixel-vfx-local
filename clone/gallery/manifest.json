@@ -1,0 +1,135 @@
+{
+  "format": "original-author-gallery",
+  "license": "CC0-1.0",
+  "textureOrigin": "Original analytic masks generated for this project",
+  "effects": [
+    {
+      "id": "ember_impact",
+      "name": "Ember Impact",
+      "project": "projects/ember_impact.project.json",
+      "json": "fx/ember_impact.json",
+      "seed": 100,
+      "duration": 1.4
+    },
+    {
+      "id": "frost_burst",
+      "name": "Frost Burst",
+      "project": "projects/frost_burst.project.json",
+      "json": "fx/frost_burst.json",
+      "seed": 101,
+      "duration": 1.4
+    },
+    {
+      "id": "arcane_nova",
+      "name": "Arcane Nova",
+      "project": "projects/arcane_nova.project.json",
+      "json": "fx/arcane_nova.json",
+      "seed": 102,
+      "duration": 1.4
+    },
+    {
+      "id": "toxic_splash",
+      "name": "Toxic Splash",
+      "project": "projects/toxic_splash.project.json",
+      "json": "fx/toxic_splash.json",
+      "seed": 103,
+      "duration": 1.4
+    },
+    {
+      "id": "holy_spark",
+      "name": "Holy Spark",
+      "project": "projects/holy_spark.project.json",
+      "json": "fx/holy_spark.json",
+      "seed": 104,
+      "duration": 1.4
+    },
+    {
+      "id": "void_collapse",
+      "name": "Void Collapse",
+      "project": "projects/void_collapse.project.json",
+      "json": "fx/void_collapse.json",
+      "seed": 105,
+      "duration": 1.4
+    },
+    {
+      "id": "electric_pop",
+      "name": "Electric Pop",
+      "project": "projects/electric_pop.project.json",
+      "json": "fx/electric_pop.json",
+      "seed": 106,
+      "duration": 1.4
+    },
+    {
+      "id": "dust_impact",
+      "name": "Dust Impact",
+      "project": "projects/dust_impact.project.json",
+      "json": "fx/dust_impact.json",
+      "seed": 107,
+      "duration": 1.4
+    },
+    {
+      "id": "water_ring",
+      "name": "Water Ring",
+      "project": "projects/water_ring.project.json",
+      "json": "fx/water_ring.json",
+      "seed": 108,
+      "duration": 1.4
+    },
+    {
+      "id": "healing_wisp",
+      "name": "Healing Wisp",
+      "project": "projects/healing_wisp.project.json",
+      "json": "fx/healing_wisp.json",
+      "seed": 109,
+      "duration": 1.4
+    },
+    {
+      "id": "flame_jet",
+      "name": "Flame Jet",
+      "project": "projects/flame_jet.project.json",
+      "json": "fx/flame_jet.json",
+      "seed": 110,
+      "duration": 1.4
+    },
+    {
+      "id": "snowfall",
+      "name": "Snowfall",
+      "project": "projects/snowfall.project.json",
+      "json": "fx/snowfall.json",
+      "seed": 111,
+      "duration": 1.4
+    },
+    {
+      "id": "meteor_trail",
+      "name": "Meteor Trail",
+      "project": "projects/meteor_trail.project.json",
+      "json": "fx/meteor_trail.json",
+      "seed": 112,
+      "duration": 1.4
+    },
+    {
+      "id": "petal_swirl",
+      "name": "Petal Swirl",
+      "project": "projects/petal_swirl.project.json",
+      "json": "fx/petal_swirl.json",
+      "seed": 113,
+      "duration": 1.4
+    },
+    {
+      "id": "smoke_plume",
+      "name": "Smoke Plume",
+      "project": "projects/smoke_plume.project.json",
+      "json": "fx/smoke_plume.json",
+      "seed": 114,
+      "duration": 1.4
+    },
+    {
+      "id": "comet_burst",
+      "name": "Comet Burst",
+      "project": "projects/comet_burst.project.json",
+      "json": "fx/comet_burst.json",
+      "seed": 115,
+      "duration": 1.4
+    }
+  ]
+}

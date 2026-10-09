@@ -50,3 +50,11 @@ desktop.ini
 *.tmp
 *.swp
 *~
+
+# Clone QA local evidence
+/clone/evidence/
+
+# Never commit third-party vendor packs or derived comparison art
+/clone/hun0fx.pak
+/clone/out/
+/examples/comparison/genuine/

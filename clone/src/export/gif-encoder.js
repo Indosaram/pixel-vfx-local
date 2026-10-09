@@ -20,6 +20,8 @@ function lzw(indices, minCode) {
 
 /** frames: ImageData[] (same size). opts: {fps, holds, scale, background, loop} */
 export function encodeGif(frames, opts = {}) {
+  if (!Array.isArray(frames) || !frames.length) throw new Error('GIF: no frames');
+  if (frames.some(f => f.width !== frames[0].width || f.height !== frames[0].height || f.data?.length !== f.width*f.height*4)) throw new Error('GIF: inconsistent frames');
   const S = Math.max(1, opts.scale | 0 || 1), W = frames[0].width * S, H = frames[0].height * S;
   const bg = opts.background;
   const colors = new Map(); const table = [];
@@ -51,7 +53,7 @@ export function encodeGif(frames, opts = {}) {
     acc += (100 * hold) / fps;
     const delay = Math.round(acc);
     acc -= delay;
-    B.push(0x21, 0xf9, 4, bg ? 0 : 1);
+    B.push(0x21, 0xf9, 4, bg ? 0 : 9);
     u16(Math.max(1, delay));
     B.push(bg ? 0 : 0, 0);
     B.push(0x2c); u16(0); u16(0); u16(W); u16(H); B.push(0);

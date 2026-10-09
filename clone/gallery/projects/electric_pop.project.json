@@ -1,0 +1,387 @@
+{
+  "format": "clone-author-project",
+  "version": 1,
+  "id": "electric_pop",
+  "name": "Electric Pop",
+  "capture": {
+    "size": 64,
+    "fps": 15,
+    "duration": 1.4,
+    "seed": 106,
+    "elevation": 35,
+    "facing": 0,
+    "colors": 16
+  },
+  "definition": {
+    "textures": [],
+    "meshes": [],
+    "roles": [],
+    "emitters": [
+      {
+        "name": "electric sparks",
+        "max": 128,
+        "dur": 1,
+        "delay": {
+          "t": "c",
+          "v": 0
+        },
+        "loop": false,
+        "bursts": [
+          [
+            0,
+            {
+              "t": "c",
+              "v": 45
+            },
+            1,
+            0.01
+          ]
+        ],
+        "rate": {
+          "t": "c",
+          "v": 0
+        },
+        "life": {
+          "t": "r",
+          "a": 0.2,
+          "b": 0.6
+        },
+        "speed": {
+          "t": "r",
+          "a": 1,
+          "b": 4
+        },
+        "size": {
+          "t": "r",
+          "a": 0.1,
+          "b": 0.25
+        },
+        "rotZ": {
+          "t": "c",
+          "v": 0
+        },
+        "color": {
+          "t": "col",
+          "v": [
+            0.15,
+            1,
+            1,
+            1
+          ]
+        },
+        "shape": {
+          "type": 0,
+          "radius": 0.08,
+          "thick": 1,
+          "arc": 360,
+          "angle": 18,
+          "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+          },
+          "rot": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "pos": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          }
+        },
+        "render": {
+          "mat": {
+            "shader": "SH_HunFX_simple",
+            "kw": [
+              "_USECOLOR_ON"
+            ],
+            "c": {
+              "_uv": [
+                1,
+                1,
+                0,
+                0
+              ]
+            },
+            "tex": {
+              "_MainTexture": "spark"
+            }
+          },
+          "mode": 0,
+          "align": 0,
+          "len": 1
+        },
+        "pos": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "rot": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "w": 1
+        },
+        "scale": {
+          "x": 1,
+          "y": 1,
+          "z": 1
+        },
+        "sizeOL": {
+          "sep": false,
+          "x": {
+            "t": "k",
+            "s": 1,
+            "k": [
+              [
+                0,
+                0.4,
+                0,
+                0
+              ],
+              [
+                0.2,
+                1,
+                0,
+                0
+              ],
+              [
+                1,
+                0.05,
+                0,
+                0
+              ]
+            ]
+          }
+        },
+        "colorOL": {
+          "t": "grad",
+          "g": {
+            "m": 0,
+            "c": [
+              [
+                0,
+                1,
+                1,
+                1
+              ],
+              [
+                1,
+                0.5,
+                0.4,
+                0.3
+              ]
+            ],
+            "a": [
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                0
+              ]
+            ]
+          }
+        }
+      },
+      {
+        "name": "ion glow",
+        "max": 128,
+        "dur": 1,
+        "delay": {
+          "t": "c",
+          "v": 0
+        },
+        "loop": false,
+        "bursts": [
+          [
+            0,
+            {
+              "t": "c",
+              "v": 1
+            },
+            1,
+            0.01
+          ]
+        ],
+        "rate": {
+          "t": "c",
+          "v": 0
+        },
+        "life": {
+          "t": "r",
+          "a": 0.2,
+          "b": 0.35
+        },
+        "speed": {
+          "t": "c",
+          "v": 0
+        },
+        "size": {
+          "t": "c",
+          "v": 1
+        },
+        "rotZ": {
+          "t": "c",
+          "v": 0
+        },
+        "color": {
+          "t": "col",
+          "v": [
+            0.15,
+            0.55,
+            1,
+            1
+          ]
+        },
+        "shape": {
+          "type": 0,
+          "radius": 0.08,
+          "thick": 1,
+          "arc": 360,
+          "angle": 18,
+          "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+          },
+          "rot": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "pos": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          }
+        },
+        "render": {
+          "mat": {
+            "shader": "SH_HunFX_simple",
+            "kw": [
+              "_USECOLOR_ON"
+            ],
+            "c": {
+              "_uv": [
+                1,
+                1,
+                0,
+                0
+              ]
+            },
+            "tex": {
+              "_MainTexture": "glow"
+            }
+          },
+          "mode": 0,
+          "align": 0,
+          "len": 1
+        },
+        "pos": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "rot": {
+          "x": 0,
+          "y": 0,
+          "z": 0,
+          "w": 1
+        },
+        "scale": {
+          "x": 1,
+          "y": 1,
+          "z": 1
+        },
+        "sizeOL": {
+          "sep": false,
+          "x": {
+            "t": "k",
+            "s": 1,
+            "k": [
+              [
+                0,
+                0.4,
+                0,
+                0
+              ],
+              [
+                0.2,
+                1,
+                0,
+                0
+              ],
+              [
+                1,
+                0.05,
+                0,
+                0
+              ]
+            ]
+          }
+        },
+        "colorOL": {
+          "t": "grad",
+          "g": {
+            "m": 0,
+            "c": [
+              [
+                0,
+                1,
+                1,
+                1
+              ],
+              [
+                1,
+                0.5,
+                0.4,
+                0.3
+              ]
+            ],
+            "a": [
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                0
+              ]
+            ]
+          }
+        }
+      }
+    ]
+  },
+  "assets": [
+    {
+      "path": "textures/spark.png",
+      "base64": "iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAEE0lEQVR4nOVb2Y6kMAysvnbn//92+twHsCgKO6EXpydoLFnQEUe7XD4C4fB6vfCb5ZxwjQOAE4DjuC2pdwwAPESfzlh0zCYPZgAATCCcRS/OmCoA3Ct6o/3DeE4KdTMBMO+a4WsVGAyM9Dhenw1/0u9N0goAA+HPqLyvvwHgOupt3Fq4mPHAYLgZ/0BHAJh3jqQMwgXAXwzG2pb37X9wnvA8boYf5ZhucgCzQJnAHv/CYLwpMPc4MPc2J0QPoE3SAoBSKDATDAg7H5gMV7o/MCRA9f5myQIAWDJAqwKDYPpF53uG27l3LEMkRbIZUGIBh4ICEHn8jik/qPe7YwAnQY8FWgk4B2isPzBUhDOWjRTnis3SmgEaBpoQDQD1+o3OUeO7ZQDwfyAAk+EXrDM+TTL7AM/wUh5gBrDn7RgFoQkLsquANkRrGWBtr84dvNhPZUGLHOCVw9IcAc6Yel4boC5zgHpfGRB1h8DQ/yvtIwbsog8oJcIaA0oJsOsqUEuGXi4wBkSx37QEArkMsC3ngCgMIgZE9PcmQd0yQHNArRoA5ey/yypQ6wkYBDjjNfp3mQOA9yuB3f9HKgDQJgRqlUBBAOrGN6kAduOt4lHznUoAxPSvhUBXrTDgG1/qB6IQ0PO6ngyZRPSvsQCoe98LgxRpORfIrgLdzwWAMhARGPY/IqObGG6SHQK2LRmu1QAyVgOC77VZPtEI1UohZGwtC3YRAgcsvfpOEjwF10yTtKere5VsBuibnRf8d/v86hu07x3rXTNNsgDw/uRTlI1nECBjvACCtQkQmQx40TYy3gMBWBpfAoHvtVlah0AJCI8Ba72fJq1CoGY0vweAMx6B0X0ImPElEN5Jgmo8g5AirUKADfeSIC98AuaLoNR43u8yBLzs7K3u8LzvhUDEgug+m6RFCHhhEJVABSAqhUr/rkNgbf0vhUCtH0iTTzRCWVVgF42Ql/29BGjGGwA3+ABoEuy2CnCHxmt9ohDglaCg/SgEbMvGd8uAdyrAdTw3YkApDFKkRQ4oVQD1vjKg1A80qQTZDHinAigDfqQStJwLePT3VoPDGYvCYJdVIMr+tioEmFaKl6pBt1Vgbe1nD18xfybIy+WjXNAkGX5iMlRiAAOwhgFdToaAMgvU+DOmjyJO4/nKgDUgdJcDag9BbvBfegDANyYQDIjaw5EUac0A9by35g8YADAQojzQPQO88sdUviJe5PCNOQhX+GHA5TBFshmg3j9h+eUXG2+GsPEMQo0Fm6UFAOz9aHEDAwUsDfcSotcQbZbMPoAT1B3LN7oRSMDys7kIhPSGKJMBTH2luYaGfRegc4GSaih0wwBgDkDkca4G+nZYnwh5T466B+BB+5oIdeUnK+BPfHRMNQWAw2//fP4fsL5ubws7XGAAAAAASUVORK5CYII="
+    },
+    {
+      "path": "textures/glow.png",
+      "base64": "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"
+    }
+  ],
+  "textureMeta": {
+    "spark": {
+      "file": "textures/spark.png",
+      "srgb": true,
+      "clamp": true,
+      "w": 64,
+      "h": 64
+    },
+    "glow": {
+      "file": "textures/glow.png",
+      "srgb": true,
+      "clamp": true,
+      "w": 64,
+      "h": 64
+    }
+  },
+  "meshMeta": {}
+}

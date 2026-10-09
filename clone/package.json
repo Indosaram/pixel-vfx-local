@@ -5,12 +5,20 @@
   "type": "module",
   "packageManager": "bun@1.4.0",
   "scripts": {
-    "qa": "bun qa/run.mjs"
+    "qa": "bun qa/run.mjs",
+    "test": "bun test",
+    "coverage": "bun test --coverage",
+    "build": "bun build src/runner-entry.js --target browser --minify --outfile dist/runner-bundle.js && bun build src/app-entry.js --target browser --minify --outfile dist/app-bundle.js && bun build src/author-entry.js --target browser --minify --outfile dist/author-bundle.js && node qa/normalize-bundles.mjs",
+    "render": "node render-standalone.mjs",
+    "start": "python3 -m http.server 8123 --bind 127.0.0.1 --directory ..",
+    "smoke": "node qa/app-smoke.mjs",
+    "author-smoke": "node qa/author-smoke.mjs"
   },
   "dependencies": {
     "three": "0.170.0"
   },
   "devDependencies": {
-    "electron": "44.6.0"
+    "electron": "44.6.0",
+    "playwright-core": "1.64.0"
   }
 }

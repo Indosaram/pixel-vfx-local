@@ -107,3 +107,5 @@ test('legacy common suppresses modern keywords and overrides distortion and Fres
   expect(legacy.uniforms.uDistI.value).toBe(0);
   expect(legacy.uniforms.uFresPow.value).toBe(5);
 });
+
+test("simple texture default samples the full image", () => { const s=setup(); const m=createWireMaterial({shader:"SH_HunFX_simple"},0,s.opts,s.res,shaders); expect(m.uniforms.uUVs.value.toArray()).toEqual([1,1,0,0]); });

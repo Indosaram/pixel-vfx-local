@@ -1,0 +1,200 @@
+{
+  "renderer": "clone",
+  "host": "Linux Chrome software WebGL",
+  "fps": 15,
+  "duration": 1.4,
+  "results": [
+    {
+      "id": "ember_impact",
+      "size": "64",
+      "frames": 21,
+      "colored": 991
+    },
+    {
+      "id": "ember_impact",
+      "size": "32",
+      "frames": 21,
+      "colored": 232
+    },
+    {
+      "id": "frost_burst",
+      "size": "64",
+      "frames": 21,
+      "colored": 2643
+    },
+    {
+      "id": "frost_burst",
+      "size": "32",
+      "frames": 21,
+      "colored": 646
+    },
+    {
+      "id": "arcane_nova",
+      "size": "64",
+      "frames": 21,
+      "colored": 1006
+    },
+    {
+      "id": "arcane_nova",
+      "size": "32",
+      "frames": 21,
+      "colored": 244
+    },
+    {
+      "id": "toxic_splash",
+      "size": "64",
+      "frames": 21,
+      "colored": 1930
+    },
+    {
+      "id": "toxic_splash",
+      "size": "32",
+      "frames": 21,
+      "colored": 478
+    },
+    {
+      "id": "holy_spark",
+      "size": "64",
+      "frames": 21,
+      "colored": 1739
+    },
+    {
+      "id": "holy_spark",
+      "size": "32",
+      "frames": 21,
+      "colored": 417
+    },
+    {
+      "id": "void_collapse",
+      "size": "64",
+      "frames": 21,
+      "colored": 3227
+    },
+    {
+      "id": "void_collapse",
+      "size": "32",
+      "frames": 21,
+      "colored": 784
+    },
+    {
+      "id": "electric_pop",
+      "size": "64",
+      "frames": 21,
+      "colored": 1075
+    },
+    {
+      "id": "electric_pop",
+      "size": "32",
+      "frames": 21,
+      "colored": 257
+    },
+    {
+      "id": "dust_impact",
+      "size": "64",
+      "frames": 21,
+      "colored": 3760
+    },
+    {
+      "id": "dust_impact",
+      "size": "32",
+      "frames": 21,
+      "colored": 939
+    },
+    {
+      "id": "water_ring",
+      "size": "64",
+      "frames": 21,
+      "colored": 1322
+    },
+    {
+      "id": "water_ring",
+      "size": "32",
+      "frames": 21,
+      "colored": 337
+    },
+    {
+      "id": "healing_wisp",
+      "size": "64",
+      "frames": 21,
+      "colored": 3891
+    },
+    {
+      "id": "healing_wisp",
+      "size": "32",
+      "frames": 21,
+      "colored": 963
+    },
+    {
+      "id": "flame_jet",
+      "size": "64",
+      "frames": 21,
+      "colored": 10634
+    },
+    {
+      "id": "flame_jet",
+      "size": "32",
+      "frames": 21,
+      "colored": 2659
+    },
+    {
+      "id": "snowfall",
+      "size": "64",
+      "frames": 21,
+      "colored": 1003
+    },
+    {
+      "id": "snowfall",
+      "size": "32",
+      "frames": 21,
+      "colored": 194
+    },
+    {
+      "id": "meteor_trail",
+      "size": "64",
+      "frames": 21,
+      "colored": 6988
+    },
+    {
+      "id": "meteor_trail",
+      "size": "32",
+      "frames": 21,
+      "colored": 1758
+    },
+    {
+      "id": "petal_swirl",
+      "size": "64",
+      "frames": 21,
+      "colored": 2221
+    },
+    {
+      "id": "petal_swirl",
+      "size": "32",
+      "frames": 21,
+      "colored": 531
+    },
+    {
+      "id": "smoke_plume",
+      "size": "64",
+      "frames": 21,
+      "colored": 11550
+    },
+    {
+      "id": "smoke_plume",
+      "size": "32",
+      "frames": 21,
+      "colored": 2904
+    },
+    {
+      "id": "comet_burst",
+      "size": "64",
+      "frames": 21,
+      "colored": 700
+    },
+    {
+      "id": "comet_burst",
+      "size": "32",
+      "frames": 21,
+      "colored": 148
+    }
+  ]
+}
